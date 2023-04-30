@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/jupyter-manager",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "UI and CLI to manage your Jupyter stack.",
   "keywords": [
     "jupyter",

@@ -14,6 +14,10 @@ The below image shows `Jupyter Manager` deployed as a service on any JupyterHub.
   <img alt="Jupyter Manager" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-manager-1.png" />
 </div>
 
+## Background
+
+- [Make Hub Admin UI a configurable Service](https://github.com/jupyterhub/jupyterhub/issues/3427)
+
 ## Contribute
 
 [Setup of your environment](https://jupyter-manager.datalayer.tech/docs/welcome/develop) and start developing.
