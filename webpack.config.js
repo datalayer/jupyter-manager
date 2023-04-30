@@ -46,7 +46,7 @@ module.exports = {
   },
   output: {
     publicPath: "http://localhost:3063/",
-    filename: '[name].[contenthash].jupyterAws.js',
+    filename: '[name].[contenthash].jupyterManager.js',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
