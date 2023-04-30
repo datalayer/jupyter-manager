@@ -1,0 +1,182 @@
+---
+description: Develop Jupyter Manager.
+---
+
+# Develop
+
+Follow the below steps to develop `Jupyter Manager`.
+
+## Environment
+
+First, you need [Miniconda](https://docs.conda.io/en/latest/miniconda.html) up-and-running on your machine.
+
+:::caution
+
+You need to develop on macOS or Linux. Windows is not supported as development platform for the time-being.
+
+:::
+
+Clone the `jupyter-manager` repository.
+
+```bash
+git clone https://github.com/datalayer/jupyter-manager.git && \
+  cd jupyter-manager
+```
+
+If you already have created a conda environment, please remove it.
+
+```bash
+conda deactivate && \
+  make env-rm
+```
+
+Create a new conda environment.
+
+```bash
+make env && \
+  conda activate datalayer
+```
+
+:::caution
+
+JupyterLab has migrated to Yarn v3 which is not friendly with resolutions, especially for non final (alpha, beta, rc) releases. Ensure Yarn v1 for resolutions and Visual Studio Code completions.
+
+```bash
+curl https://raw.githubusercontent.com/jupyterlab/jupyterlab/v4.0.0a36/jupyterlab/staging/yarn.js \
+ -o $( dirname "$(which jupyter)" )/../lib/python3.11/site-packages/jupyterlab/staging/yarn.js
+jlpm --version # Should be 1.22.19.
+```
+
+:::
+
+## Install and Build
+
+Install the JavaScript dependencies.
+
+```bash
+yarn
+```
+
+Build the JavaScript code.
+
+```bash
+yarn build
+```
+
+Install the Python package.
+
+```bash
+pip install -e .[test]
+# Double check
+pip list | grep manager
+# jupyter_manager ...
+```
+
+Double check the jlpm version, as the pip command may have changed that.
+
+```bash
+# Should be 1.22.19.
+jlpm --version
+```
+
+If it is not `1.22.19`, run again the following command.
+
+```bash
+curl https://raw.githubusercontent.com/jupyterlab/jupyterlab/v4.0.0a36/jupyterlab/staging/yarn.js \
+ -o $( dirname "$(which jupyter)" )/../lib/python3.11/site-packages/jupyterlab/staging/yarn.js
+jlpm --version # Should be 1.22.19.
+```
+
+Link the JupyterLab extension for development.
+
+```bash
+jupyter labextension develop . --overwrite
+# Installing: .../jupyter_manager/labextension -> @datalayer/jupyter-manager
+# Removing: .../labextensions/@datalayer/jupyter-manager
+# Symlinking: .../labextensions/@datalayer/jupyter-manager -> .../jupyter_manager/labextension
+```
+
+Check the availability of your Jupyter extension.
+
+```bash
+jupyter labextension list
+# JupyterLab v4.0.0b1
+# .../share/jupyter/labextensions
+#        jupyterlab_pygments v0.2.2 enabled  X (python, jupyterlab_pygments)
+#        @datalayer/jupyter-manager v0.0.2 enabled  X
+jupyter server extension list
+# Package jupyter_manager took 0.0015s to import
+#      jupyter_manager 0.0.2 OK
+```
+
+## Web Application
+
+Start the Webpack and Jupyter servers.
+
+```bash
+echo open http://localhost:3063
+echo open http://localhost:8686/api/jupyter?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+yarn start
+```
+
+## JupyterLab
+
+Start JupyterLab and watch the sources.
+
+```bash
+echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+yarn jupyterlab
+```
+
+Alternatively, you can use 2 terminals. First start JupyterLab in terminal 1.
+
+```bash
+echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+jupyter lab --port 8686
+```
+
+Then, in terminal 2, watch for changes.
+
+```bash
+yarn watch
+```
+
+## JupyterHub
+
+Start JupyterHub and the separated webapp.
+
+```bash
+yarn jupyterhub
+```
+
+Check that JupyterHub is working fine by launching a server.
+
+1. Browse http://localhost:8000 and login with username ($USER being you operating system user) and any password.
+2. This will launch a JupyterLab server, you can view the Jupyter Manager extension.
+3. You can view the adminstration page on http://localhost:8000/hub/admin
+
+While JupyterHub and your server is running, you can run Jupyter Manager is a separated application on http://localhost:3063.
+
+In another terminal, you can connect to the JupyterHub local SQLite database an run queries.
+
+```bash
+# .schema
+# .tables
+# .schema api_tokens
+# select * from api_tokens;
+make sqlite
+```
+
+## Clean
+
+Kill any remaining ghost processes.
+
+```bash
+yarn kill
+```
+
+To restart JupyterHub from zero, remove the SQLite database.
+
+```bash
+rm jupyterhub.sqlite
+```

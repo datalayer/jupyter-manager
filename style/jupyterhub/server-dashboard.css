@@ -1,0 +1,38 @@
+.server-dashboard-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.server-dashboard-container .add-users-button {
+  border: 1px solid #ddd;
+}
+
+.server-dashboard-container tbody {
+  color: #626262;
+}
+
+.admin-table-head {
+  user-select: none;
+}
+
+.sort-icon {
+  display: inline-block;
+  top: 0.125em;
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+}
+
+tr.noborder > td {
+  border: none !important;
+}
+
+.server-dashboard-row-list-item {
+  display: inline-block;
+  padding: 0 5px;
+  margin: 2px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
