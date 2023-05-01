@@ -47,7 +47,6 @@ env: warning ## env
 	@exec echo "You can now populate the datalayer environment."
 	@exec echo "-------------------------------------------------------"
 	@exec echo "conda activate datalayer"
-	@exec echo "make env-dev"
 	@exec echo "-------------------------------------------------------"
 
 define init_ext
