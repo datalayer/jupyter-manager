@@ -7,7 +7,7 @@ export const initialState = {
   limit: 10 || 100,
 };
 
-export const reducers = (state = initialState, action) => {
+export const reducers = (state = initialState, action: any) => {
   switch (action.type) {
     // Updates the client user model data and stores the page
     case "USER_OFFSET":
