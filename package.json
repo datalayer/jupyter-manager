@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@datalayer/icons": "0.0.10",
+    "@datalayer-icons/react": "0.0.2",
     "@datalayer/rjsf-primer": "0.0.7",
     "@jupyterlab/application": "4.0.0-beta.1",
     "@jupyterlab/coreutils": "6.0.0-beta.1",
