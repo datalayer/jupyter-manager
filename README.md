@@ -20,6 +20,6 @@ The below image shows `Jupyter Manager` deployed as a service on any JupyterHub.
 
 ## Contribute
 
-[Setup of your environment](https://jupyter-manager.datalayer.tech/docs/welcome/develop) and start developing.
+[Setup your environment](https://jupyter-manager.datalayer.tech/docs/welcome/develop) and start developing.
 
 In case of question or trouble, engage via [issues](https://github.com/datalayer/jupyter-manager/issues) or [pull requests](https://github.com/datalayer/jupyter-manager/pulls).
