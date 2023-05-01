@@ -34,6 +34,15 @@ env-rm: warning ## env-rm
 		conda deactivate && \
 		conda remove -y --name ${ENV_NAME} --all || true )
 
+build-docker:
+	rm -fr ./dist/* && \
+		yarn build:webpack && \
+		docker build -t datalayer/jupyter-manager:0.0.1 .
+
+start-jupyterhub:
+	rm -fr ./dist/*
+	yarn build
+
 sqlite:
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \
 		sqlite3 ./jupyterhub.sqlite )

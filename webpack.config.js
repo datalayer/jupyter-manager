@@ -26,12 +26,6 @@ module.exports = {
         secure: false,
         changeOrigin: true,
       },
-      '/plotly.js': {
-        target: JUPYTER_HOST + '/api/jupyter/pool/react',
-        ws: false,
-        secure: false,
-        changeOrigin: true,
-      },
     },
   },
   watchOptions: {
@@ -46,7 +40,8 @@ module.exports = {
   },
   output: {
     publicPath: "http://localhost:3063/",
-    filename: '[name].[contenthash].jupyterManager.js',
+//    filename: '[name].[contenthash].jupyterManager.js',
+    filename: '[name].jupyterManager.js',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
