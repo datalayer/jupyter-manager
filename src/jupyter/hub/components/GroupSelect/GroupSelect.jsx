@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import "./../../../../../style/jupyterhub/group-select.css";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import './../../../../../style/jupyterhub/group-select.css';
 
-const GroupSelect = (props) => {
+const GroupSelect = props => {
   var { onChange, validateUser, users } = props;
 
   var [selected, setSelected] = useState(users);
-  var [username, setUsername] = useState("");
+  var [username, setUsername] = useState('');
   var [error, setError] = useState(null);
 
-  if (!users) return null;
+  if (!users) {
+    return null;
+  }
 
   return (
     <div className="row">
-      {error != null ? (
+      {error !== null ? (
         <div className="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-left">
           <div className="alert alert-danger">{error}</div>
         </div>
@@ -29,7 +31,7 @@ const GroupSelect = (props) => {
             className="form-control"
             placeholder="Add by username"
             value={username}
-            onChange={(e) => {
+            onChange={e => {
               setUsername(e.target.value);
             }}
           />
@@ -40,13 +42,15 @@ const GroupSelect = (props) => {
               className="btn btn-default"
               type="button"
               onClick={() => {
-                validateUser(username).then((exists) => {
+                validateUser(username).then(exists => {
                   if (exists && !selected.includes(username)) {
                     let updated_selection = selected.concat([username]);
                     onChange(updated_selection, users);
-                    setUsername("");
+                    setUsername('');
                     setSelected(updated_selection);
-                    if (error != null) setError(null);
+                    if (error !== null) {
+                      setError(null);
+                    }
                   } else if (!exists) {
                     setError(`"${username}" is not a valid JupyterHub user.`);
                   }
@@ -64,7 +68,7 @@ const GroupSelect = (props) => {
           <div>
             {selected.map((e, i) => (
               <div
-                key={"selected" + i}
+                key={'selected' + i}
                 className="item selected"
                 onClick={() => {
                   let updated_selection = selected
@@ -80,7 +84,7 @@ const GroupSelect = (props) => {
             {users.map((e, i) =>
               selected.includes(e) ? undefined : (
                 <div
-                  key={"unselected" + i}
+                  key={'unselected' + i}
                   className="item unselected"
                   onClick={() => {
                     let updated_selection = selected.concat([e]);
@@ -90,7 +94,7 @@ const GroupSelect = (props) => {
                 >
                   {e}
                 </div>
-              ),
+              )
             )}
           </div>
         </div>
@@ -104,7 +108,7 @@ const GroupSelect = (props) => {
 GroupSelect.propTypes = {
   onChange: PropTypes.func,
   validateUser: PropTypes.func,
-  users: PropTypes.array,
+  users: PropTypes.array
 };
 
 export default GroupSelect;

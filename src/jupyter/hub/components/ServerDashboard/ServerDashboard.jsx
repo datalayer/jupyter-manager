@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { debounce } from "lodash";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
 
 import {
   Button,
@@ -10,20 +10,20 @@ import {
   FormControl,
   Card,
   CardGroup,
-  Collapse,
-} from "react-bootstrap";
-import ReactObjectTableViewer from "../ReactObjectTableViewer/ReactObjectTableViewer";
+  Collapse
+} from 'react-bootstrap';
+import ReactObjectTableViewer from '../ReactObjectTableViewer/ReactObjectTableViewer';
 
-import { useNavigate, Link } from "react-router-dom";
-import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import { useNavigate, Link } from 'react-router-dom';
+import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
-import { timeSince } from "../../util/timeSince";
-import PaginationFooter from "../PaginationFooter/PaginationFooter";
+import { timeSince } from '../../util/timeSince';
+import PaginationFooter from '../PaginationFooter/PaginationFooter';
 
-import "./../../../../../style/jupyterhub/server-dashboard.css";
+import './../../../../../style/jupyterhub/server-dashboard.css';
 
 const AccessServerButton = ({ url }) => (
-  <a href={url || ""}>
+  <a href={url || ''}>
     <button className="btn btn-primary btn-xs" style={{ marginRight: 20 }}>
       Access Server
     </button>
@@ -34,37 +34,37 @@ const RowListItem = ({ text }) => (
   <span className="server-dashboard-row-list-item">{text}</span>
 );
 RowListItem.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string
 };
 
-const ServerDashboard = (props) => {
+const ServerDashboard = props => {
   const navigate = useNavigate();
 
-  let base_url = window.base_url || "/";
+  let base_url = window.base_url || '/';
   // sort methods
-  const usernameDesc = (e) => e.sort((a, b) => (a.name > b.name ? 1 : -1)),
-    usernameAsc = (e) => e.sort((a, b) => (a.name < b.name ? 1 : -1)),
-    adminDesc = (e) => e.sort((a) => (a.admin ? -1 : 1)),
-    adminAsc = (e) => e.sort((a) => (a.admin ? 1 : -1)),
-    dateDesc = (e) =>
+  const usernameDesc = e => e.sort((a, b) => (a.name > b.name ? 1 : -1)),
+    usernameAsc = e => e.sort((a, b) => (a.name < b.name ? 1 : -1)),
+    adminDesc = e => e.sort(a => (a.admin ? -1 : 1)),
+    adminAsc = e => e.sort(a => (a.admin ? 1 : -1)),
+    dateDesc = e =>
       e.sort((a, b) =>
-        new Date(a.last_activity) - new Date(b.last_activity) > 0 ? -1 : 1,
+        new Date(a.last_activity) - new Date(b.last_activity) > 0 ? -1 : 1
       ),
-    dateAsc = (e) =>
+    dateAsc = e =>
       e.sort((a, b) =>
-        new Date(a.last_activity) - new Date(b.last_activity) > 0 ? 1 : -1,
+        new Date(a.last_activity) - new Date(b.last_activity) > 0 ? 1 : -1
       ),
-    runningAsc = (e) => e.sort((a) => (a.server == null ? -1 : 1)),
-    runningDesc = (e) => e.sort((a) => (a.server == null ? 1 : -1));
+    runningAsc = e => e.sort(a => (a.server === null ? -1 : 1)),
+    runningDesc = e => e.sort(a => (a.server === null ? 1 : -1));
 
   const [errorAlert, setErrorAlert] = useState(null);
   const [sortMethod, setSortMethod] = useState(null);
   const [disabledButtons, setDisabledButtons] = useState({});
   const [collapseStates, setCollapseStates] = useState({});
 
-  const user_data = useSelector((state) => state.user_data);
-  const user_page = useSelector((state) => state.user_page);
-  const name_filter = useSelector((state) => state.name_filter);
+  let user_data = useSelector(state => state.user_data);
+  const user_page = useSelector(state => state.user_page);
+  const name_filter = useSelector(state => state.name_filter);
 
   const offset = user_page ? user_page.offset : 0;
   const limit = user_page ? user_page.limit : 10;
@@ -79,41 +79,41 @@ const ServerDashboard = (props) => {
     stopServer,
     startAll,
     stopAll,
-    history,
+    history
   } = props;
 
   const dispatchPageUpdate = (data, page) => {
     dispatch({
-      type: "USER_PAGE",
+      type: 'USER_PAGE',
       value: {
         data: data,
-        page: page,
-      },
+        page: page
+      }
     });
   };
 
-  const setOffset = (newOffset) => {
+  const setOffset = newOffset => {
     dispatch({
-      type: "USER_OFFSET",
+      type: 'USER_OFFSET',
       value: {
-        offset: newOffset,
-      },
+        offset: newOffset
+      }
     });
   };
 
-  const setNameFilter = (name_filter) => {
+  const setNameFilter = name_filter => {
     dispatch({
-      type: "USER_NAME_FILTER",
+      type: 'USER_NAME_FILTER',
       value: {
-        name_filter: name_filter,
-      },
+        name_filter: name_filter
+      }
     });
   };
 
   useEffect(() => {
     updateUsers(offset, limit, name_filter)
-      .then((data) => dispatchPageUpdate(data.items, data._pagination))
-      .catch((err) => setErrorAlert("Failed to update user list."));
+      .then(data => dispatchPageUpdate(data.items, data._pagination))
+      .catch(err => setErrorAlert('Failed to update user list.'));
   }, [offset, limit, name_filter]);
 
   if (!user_data || !user_page) {
@@ -122,11 +122,11 @@ const ServerDashboard = (props) => {
 
   const slice = [offset, limit, name_filter];
 
-  const handleSearch = debounce(async (event) => {
+  const handleSearch = debounce(async event => {
     setNameFilter(event.target.value);
   }, 300);
 
-  if (sortMethod != null) {
+  if (sortMethod !== null) {
     user_data = sortMethod(user_data);
   }
 
@@ -139,28 +139,28 @@ const ServerDashboard = (props) => {
         onClick={() => {
           setIsDisabled(true);
           stopServer(userName, serverName)
-            .then((res) => {
+            .then(res => {
               if (res.status < 300) {
                 updateUsers(...slice)
-                  .then((data) => {
+                  .then(data => {
                     dispatchPageUpdate(
                       data.items,
                       data._pagination,
-                      name_filter,
+                      name_filter
                     );
                   })
                   .catch(() => {
                     setIsDisabled(false);
-                    setErrorAlert(`Failed to update users list.`);
+                    setErrorAlert('Failed to update users list.');
                   });
               } else {
-                setErrorAlert(`Failed to stop server.`);
+                setErrorAlert('Failed to stop server.');
                 setIsDisabled(false);
               }
               return res;
             })
             .catch(() => {
-              setErrorAlert(`Failed to stop server.`);
+              setErrorAlert('Failed to stop server.');
               setIsDisabled(false);
             });
         }}
@@ -179,28 +179,28 @@ const ServerDashboard = (props) => {
         onClick={() => {
           setIsDisabled(true);
           startServer(userName, serverName)
-            .then((res) => {
+            .then(res => {
               if (res.status < 300) {
                 updateUsers(...slice)
-                  .then((data) => {
+                  .then(data => {
                     dispatchPageUpdate(
                       data.items,
                       data._pagination,
-                      name_filter,
+                      name_filter
                     );
                   })
                   .catch(() => {
-                    setErrorAlert(`Failed to update users list.`);
+                    setErrorAlert('Failed to update users list.');
                     setIsDisabled(false);
                   });
               } else {
-                setErrorAlert(`Failed to start server.`);
+                setErrorAlert('Failed to start server.');
                 setIsDisabled(false);
               }
               return res;
             })
             .catch(() => {
-              setErrorAlert(`Failed to start server.`);
+              setErrorAlert('Failed to start server.');
               setIsDisabled(false);
             });
         }}
@@ -217,11 +217,11 @@ const ServerDashboard = (props) => {
           className="btn btn-primary btn-xs"
           style={{ marginRight: 20 }}
           onClick={() =>
-            navigate("/edit-user", {
+            navigate('/edit-user', {
               state: {
                 username: user.name,
-                has_admin: user.admin,
-              },
+                has_admin: user.admin
+              }
             })
           }
         >
@@ -234,12 +234,12 @@ const ServerDashboard = (props) => {
   const ServerRowTable = ({ data }) => {
     const sortedData = Object.keys(data)
       .sort()
-      .reduce(function (result, key) {
+      .reduce((result, key) => {
         let value = data[key];
         switch (key) {
-          case "last_activity":
-          case "created":
-          case "started":
+          case 'last_activity':
+          case 'created':
+          case 'started':
             // format timestamps
             value = value ? timeSince(value) : value;
             break;
@@ -247,7 +247,7 @@ const ServerDashboard = (props) => {
         if (Array.isArray(value)) {
           value = (
             <Fragment>
-              {value.sort().flatMap((v) => (
+              {value.sort().flatMap(v => (
                 <RowListItem text={v} />
               ))}
             </Fragment>
@@ -260,14 +260,14 @@ const ServerDashboard = (props) => {
       <ReactObjectTableViewer
         className="table-striped table-bordered"
         style={{
-          padding: "3px 6px",
-          margin: "auto",
+          padding: '3px 6px',
+          margin: 'auto'
         }}
         keyStyle={{
-          padding: "4px",
+          padding: '4px'
         }}
         valueStyle={{
-          padding: "4px",
+          padding: '4px'
         }}
         data={sortedData}
       />
@@ -276,7 +276,7 @@ const ServerDashboard = (props) => {
 
   const serverRow = (user, server) => {
     const { servers, ...userNoServers } = user;
-    const serverNameDash = server.name ? `-${server.name}` : "";
+    const serverNameDash = server.name ? `-${server.name}` : '';
     const userServerName = user.name + serverNameDash;
     const open = collapseStates[userServerName] || false;
     return [
@@ -287,29 +287,29 @@ const ServerDashboard = (props) => {
               onClick={() =>
                 setCollapseStates({
                   ...collapseStates,
-                  [userServerName]: !open,
+                  [userServerName]: !open
                 })
               }
               aria-controls={`${userServerName}-collapse`}
               aria-expanded={open}
               data-testid={`${userServerName}-collapse-button`}
-              variant={open ? "secondary" : "primary"}
+              variant={open ? 'secondary' : 'primary'}
               size="sm"
             >
               <span className="caret"></span>
-            </Button>{" "}
+            </Button>{' '}
           </span>
           <span data-testid={`user-name-div-${userServerName}`}>
             {user.name}
           </span>
         </td>
-        <td data-testid="user-row-admin">{user.admin ? "admin" : ""}</td>
+        <td data-testid="user-row-admin">{user.admin ? 'admin' : ''}</td>
 
         <td data-testid="user-row-server">
           <p className="text-secondary">{server.name}</p>
         </td>
         <td data-testid="user-row-last-activity">
-          {server.last_activity ? timeSince(server.last_activity) : "Never"}
+          {server.last_activity ? timeSince(server.last_activity) : 'Never'}
         </td>
         <td data-testid="user-row-server-activity">
           {server.ready ? (
@@ -328,7 +328,7 @@ const ServerDashboard = (props) => {
               />
               <a
                 href={`${base_url}spawn/${user.name}${
-                  server.name ? "/" + server.name : ""
+                  server.name ? '/' + server.name : ''
                 }`}
               >
                 <button
@@ -352,34 +352,34 @@ const ServerDashboard = (props) => {
           <Collapse in={open} data-testid={`${userServerName}-collapse`}>
             <CardGroup
               id={`${userServerName}-card-group`}
-              style={{ width: "100%", margin: "0 auto", float: "none" }}
+              style={{ width: '100%', margin: '0 auto', float: 'none' }}
             >
-              <Card style={{ width: "100%", padding: 3, margin: "0 auto" }}>
+              <Card style={{ width: '100%', padding: 3, margin: '0 auto' }}>
                 <Card.Title>User</Card.Title>
                 <ServerRowTable data={userNoServers} />
               </Card>
-              <Card style={{ width: "100%", padding: 3, margin: "0 auto" }}>
+              <Card style={{ width: '100%', padding: 3, margin: '0 auto' }}>
                 <Card.Title>Server</Card.Title>
                 <ServerRowTable data={server} />
               </Card>
             </CardGroup>
           </Collapse>
         </td>
-      </tr>,
+      </tr>
     ];
   };
 
-  let servers = user_data.flatMap((user) => {
+  let servers = user_data.flatMap(user => {
     let userServers = Object.values({
-      "": user.server || {},
-      ...(user.servers || {}),
+      '': user.server || {},
+      ...(user.servers || {})
     });
-    return userServers.map((server) => [user, server]);
+    return userServers.map(server => [user, server]);
   });
 
   return (
     <div className="container" data-testid="container">
-      {errorAlert != null ? (
+      {errorAlert !== null ? (
         <div className="row">
           <div className="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <div className="alert alert-danger">
@@ -410,50 +410,50 @@ const ServerDashboard = (props) => {
             />
           </Col>
 
-          <Col md="auto" style={{ float: "right", margin: 15 }}>
-            <Link to="/groups">{"> Manage Groups"}</Link>
+          <Col md="auto" style={{ float: 'right', margin: 15 }}>
+            <Link to="/groups">{'> Manage Groups'}</Link>
           </Col>
         </Row>
         <table className="table table-bordered table-hover">
           <thead className="admin-table-head">
             <tr>
               <th id="user-header">
-                User{" "}
+                User{' '}
                 <SortHandler
                   sorts={{ asc: usernameAsc, desc: usernameDesc }}
-                  callback={(method) => setSortMethod(() => method)}
+                  callback={method => setSortMethod(() => method)}
                   testid="user-sort"
                 />
               </th>
               <th id="admin-header">
-                Admin{" "}
+                Admin{' '}
                 <SortHandler
                   sorts={{ asc: adminAsc, desc: adminDesc }}
-                  callback={(method) => setSortMethod(() => method)}
+                  callback={method => setSortMethod(() => method)}
                   testid="admin-sort"
                 />
               </th>
               <th id="server-header">
-                Server{" "}
+                Server{' '}
                 <SortHandler
                   sorts={{ asc: usernameAsc, desc: usernameDesc }}
-                  callback={(method) => setSortMethod(() => method)}
+                  callback={method => setSortMethod(() => method)}
                   testid="server-sort"
                 />
               </th>
               <th id="last-activity-header">
-                Last Activity{" "}
+                Last Activity{' '}
                 <SortHandler
                   sorts={{ asc: dateAsc, desc: dateDesc }}
-                  callback={(method) => setSortMethod(() => method)}
+                  callback={method => setSortMethod(() => method)}
                   testid="last-activity-sort"
                 />
               </th>
               <th id="running-status-header">
-                Running{" "}
+                Running{' '}
                 <SortHandler
                   sorts={{ asc: runningAsc, desc: runningDesc }}
-                  callback={(method) => setSortMethod(() => method)}
+                  callback={method => setSortMethod(() => method)}
                   testid="running-status-sort"
                 />
               </th>
@@ -476,35 +476,35 @@ const ServerDashboard = (props) => {
                   className="start-all"
                   data-testid="start-all"
                   onClick={() => {
-                    Promise.all(startAll(user_data.map((e) => e.name)))
-                      .then((res) => {
-                        let failedServers = res.filter((e) => !e.ok);
+                    Promise.all(startAll(user_data.map(e => e.name)))
+                      .then(res => {
+                        let failedServers = res.filter(e => !e.ok);
                         if (failedServers.length > 0) {
                           setErrorAlert(
                             `Failed to start ${failedServers.length} ${
-                              failedServers.length > 1 ? "servers" : "server"
+                              failedServers.length > 1 ? 'servers' : 'server'
                             }. ${
-                              failedServers.length > 1 ? "Are they " : "Is it "
-                            } already running?`,
+                              failedServers.length > 1 ? 'Are they ' : 'Is it '
+                            } already running?`
                           );
                         }
                         return res;
                       })
-                      .then((res) => {
+                      .then(res => {
                         updateUsers(...slice)
-                          .then((data) => {
+                          .then(data => {
                             dispatchPageUpdate(
                               data.items,
                               data._pagination,
-                              name_filter,
+                              name_filter
                             );
                           })
                           .catch(() =>
-                            setErrorAlert(`Failed to update users list.`),
+                            setErrorAlert('Failed to update users list.')
                           );
                         return res;
                       })
-                      .catch(() => setErrorAlert(`Failed to start servers.`));
+                      .catch(() => setErrorAlert('Failed to start servers.'));
                   }}
                 >
                   Start All
@@ -516,35 +516,35 @@ const ServerDashboard = (props) => {
                   className="stop-all"
                   data-testid="stop-all"
                   onClick={() => {
-                    Promise.all(stopAll(user_data.map((e) => e.name)))
-                      .then((res) => {
-                        let failedServers = res.filter((e) => !e.ok);
+                    Promise.all(stopAll(user_data.map(e => e.name)))
+                      .then(res => {
+                        let failedServers = res.filter(e => !e.ok);
                         if (failedServers.length > 0) {
                           setErrorAlert(
                             `Failed to stop ${failedServers.length} ${
-                              failedServers.length > 1 ? "servers" : "server"
+                              failedServers.length > 1 ? 'servers' : 'server'
                             }. ${
-                              failedServers.length > 1 ? "Are they " : "Is it "
-                            } already stopped?`,
+                              failedServers.length > 1 ? 'Are they ' : 'Is it '
+                            } already stopped?`
                           );
                         }
                         return res;
                       })
-                      .then((res) => {
+                      .then(res => {
                         updateUsers(...slice)
-                          .then((data) => {
+                          .then(data => {
                             dispatchPageUpdate(
                               data.items,
                               data._pagination,
-                              name_filter,
+                              name_filter
                             );
                           })
                           .catch(() =>
-                            setErrorAlert(`Failed to update users list.`),
+                            setErrorAlert('Failed to update users list.')
                           );
                         return res;
                       })
-                      .catch(() => setErrorAlert(`Failed to stop servers.`));
+                      .catch(() => setErrorAlert('Failed to stop servers.'));
                   }}
                 >
                   Stop All
@@ -588,14 +588,14 @@ ServerDashboard.propTypes = {
   stopAll: PropTypes.func,
   dispatch: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func,
+    push: PropTypes.func
   }),
   location: PropTypes.shape({
-    search: PropTypes.string,
-  }),
+    search: PropTypes.string
+  })
 };
 
-const SortHandler = (props) => {
+const SortHandler = props => {
   const { sorts, callback, testid } = props;
 
   const [direction, setDirection] = useState(undefined);
@@ -607,19 +607,19 @@ const SortHandler = (props) => {
       onClick={() => {
         if (!direction) {
           callback(sorts.desc);
-          setDirection("desc");
-        } else if (direction == "asc") {
+          setDirection('desc');
+        } else if (direction === 'asc') {
           callback(sorts.desc);
-          setDirection("desc");
+          setDirection('desc');
         } else {
           callback(sorts.asc);
-          setDirection("asc");
+          setDirection('asc');
         }
       }}
     >
       {!direction ? (
         <FaSort />
-      ) : direction == "asc" ? (
+      ) : direction === 'asc' ? (
         <FaSortDown />
       ) : (
         <FaSortUp />
@@ -631,7 +631,7 @@ const SortHandler = (props) => {
 SortHandler.propTypes = {
   sorts: PropTypes.object,
   callback: PropTypes.func,
-  testid: PropTypes.string,
+  testid: PropTypes.string
 };
 
 export default ServerDashboard;

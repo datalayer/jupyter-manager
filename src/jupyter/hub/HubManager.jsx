@@ -1,21 +1,20 @@
-import React from "react";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { compose } from "recompose";
-import { initialState, reducers } from "./Store";
-import withAPI from "./util/withAPI";
-import { HashRouter, Routes, Route } from "react-router-dom";
-import ServerDashboard from "./components/ServerDashboard/ServerDashboard";
-import Groups from "./components/Groups/Groups";
-import GroupEdit from "./components/GroupEdit/GroupEdit";
-import CreateGroup from "./components/CreateGroup/CreateGroup";
-import AddUser from "./components/AddUser/AddUser";
-import EditUser from "./components/EditUser/EditUser";
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { compose } from 'recompose';
+import { initialState, reducers } from './Store';
+import withAPI from './util/withAPI';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import ServerDashboard from './components/ServerDashboard/ServerDashboard';
+import Groups from './components/Groups/Groups';
+import GroupEdit from './components/GroupEdit/GroupEdit';
+import CreateGroup from './components/CreateGroup/CreateGroup';
+import AddUser from './components/AddUser/AddUser';
+import EditUser from './components/EditUser/EditUser';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
-import "./../../../style/jupyterhub/root.css";
+import './../../../style/jupyterhub/root.css';
 
 const store = createStore(reducers, initialState);
 
@@ -32,35 +31,16 @@ const HubManager = () => {
       <Provider store={store}>
         <HashRouter>
           <Routes>
-            <Route
-              exact
-              path="/"
-              element={<ServerDashboardCompose/>}
-            />
-            <Route 
-              exact 
-              path="/groups" 
-              element={<GroupsCompose/>} />
-            <Route
-              exact
-              path="/group-edit"
-              element={<GroupEditCompose/>}
-            />
+            <Route exact path="/" element={<ServerDashboardCompose />} />
+            <Route exact path="/groups" element={<GroupsCompose />} />
+            <Route exact path="/group-edit" element={<GroupEditCompose />} />
             <Route
               exact
               path="/create-group"
-              element={<CreateGroupCompose/>}
+              element={<CreateGroupCompose />}
             />
-            <Route
-              exact
-              path="/add-users"
-              element={<AddUserCompose/>}
-            />
-            <Route
-              exact
-              path="/edit-user"
-              element={<EditUserCompose/>}
-            />
+            <Route exact path="/add-users" element={<AddUserCompose />} />
+            <Route exact path="/edit-user" element={<EditUserCompose />} />
           </Routes>
         </HashRouter>
       </Provider>

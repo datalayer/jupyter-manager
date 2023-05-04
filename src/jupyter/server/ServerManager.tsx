@@ -9,8 +9,8 @@ const schema: RJSFSchema = {
   properties: {
     title: { type: 'string', title: 'Title', default: 'A new task' },
     hello: { type: 'string', title: 'Hello', default: 'How are you?' },
-    done: { type: 'boolean', title: 'Done?', default: false },
-  },
+    done: { type: 'boolean', title: 'Done?', default: false }
+  }
 };
 
 const FormExample = () => {
@@ -20,7 +20,7 @@ const FormExample = () => {
 const ServerManager = (): JSX.Element => {
   return (
     <>
-     <FormExample/>
+      <FormExample />
     </>
   );
 };

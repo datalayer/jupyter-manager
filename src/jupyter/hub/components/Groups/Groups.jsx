@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import PropTypes from "prop-types";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { useNavigate, Link } from "react-router-dom";
-import PaginationFooter from "../PaginationFooter/PaginationFooter";
+import { useNavigate, Link } from 'react-router-dom';
+import PaginationFooter from '../PaginationFooter/PaginationFooter';
 
-const Groups = (props) => {
+const Groups = props => {
   const navigate = useNavigate();
 
-  var groups_data = useSelector((state) => state.groups_data),
-    groups_page = useSelector((state) => state.groups_page),
+  var groups_data = useSelector(state => state.groups_data),
+    groups_page = useSelector(state => state.groups_page),
     dispatch = useDispatch();
 
   var offset = groups_page ? groups_page.offset : 0;
 
-  const setOffset = (offset) => {
+  const setOffset = offset => {
     dispatch({
-      type: "GROUPS_OFFSET",
+      type: 'GROUPS_OFFSET',
       value: {
-        offset: offset,
-      },
+        offset: offset
+      }
     });
   };
   var limit = groups_page ? groups_page.limit : 10;
@@ -29,17 +29,17 @@ const Groups = (props) => {
 
   const dispatchPageUpdate = (data, page) => {
     dispatch({
-      type: "GROUPS_PAGE",
+      type: 'GROUPS_PAGE',
       value: {
         data: data,
-        page: page,
-      },
+        page: page
+      }
     });
   };
 
   useEffect(() => {
-    updateGroups(offset, limit).then((data) =>
-      dispatchPageUpdate(data.items, data._pagination),
+    updateGroups(offset, limit).then(data =>
+      dispatchPageUpdate(data.items, data._pagination)
     );
   }, [offset, limit]);
 
@@ -59,14 +59,11 @@ const Groups = (props) => {
               <ul className="list-group">
                 {groups_data.length > 0 ? (
                   groups_data.map((e, i) => (
-                    <li className="list-group-item" key={"group-item" + i}>
+                    <li className="list-group-item" key={'group-item' + i}>
                       <span className="badge badge-pill badge-success">
-                        {e.users.length + " users"}
+                        {e.users.length + ' users'}
                       </span>
-                      <Link
-                        to="/group-edit"
-                        state={{group_data: e}}
-                      >
+                      <Link to="/group-edit" state={{ group_data: e }}>
                         {e.name}
                       </Link>
                     </li>
@@ -93,7 +90,7 @@ const Groups = (props) => {
               <button
                 className="btn btn-primary adjacent-span-spacing"
                 onClick={() => {
-                  navigate("/create-group");
+                  navigate('/create-group');
                 }}
               >
                 New Group
@@ -110,11 +107,11 @@ Groups.propTypes = {
   updateUsers: PropTypes.func,
   updateGroups: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func,
+    push: PropTypes.func
   }),
   location: PropTypes.shape({
-    search: PropTypes.string,
-  }),
+    search: PropTypes.string
+  })
 };
 
 export default Groups;

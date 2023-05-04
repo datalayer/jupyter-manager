@@ -1,4 +1,7 @@
-import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
+import {
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from '@jupyterlab/application';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { MainAreaWidget, ICommandPalette } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
@@ -48,18 +51,26 @@ const plugin: JupyterFrontEndPlugin<void> = {
       launcher.add({
         command,
         category: 'Datalayer',
-        rank: -1,
+        rank: -1
       });
     }
-    console.log('JupyterLab extension @datalayer/jupyter-manager is activated!');
+    console.log(
+      'JupyterLab extension @datalayer/jupyter-manager is activated!'
+    );
     if (settingRegistry) {
       settingRegistry
         .load(plugin.id)
         .then(settings => {
-          console.log('@datalayer/jupyter-manager settings loaded:', settings.composite);
+          console.log(
+            '@datalayer/jupyter-manager settings loaded:',
+            settings.composite
+          );
         })
         .catch(reason => {
-          console.error('Failed to load settings for @datalayer/jupyter-manager.', reason);
+          console.error(
+            'Failed to load settings for @datalayer/jupyter-manager.',
+            reason
+          );
         });
     }
   }
