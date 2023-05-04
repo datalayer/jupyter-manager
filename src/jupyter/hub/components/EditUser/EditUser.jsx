@@ -1,43 +1,43 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-const EditUser = (props) => {
+const EditUser = props => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  var limit = useSelector((state) => state.limit),
+  var limit = useSelector(state => state.limit),
     [errorAlert, setErrorAlert] = useState(null);
 
   var dispatch = useDispatch();
 
   var dispatchPageChange = (data, page) => {
     dispatch({
-      type: "USER_PAGE",
+      type: 'USER_PAGE',
       value: {
         data: data,
-        page: page,
-      },
+        page: page
+      }
     });
   };
 
   var { editUser, deleteUser, noChangeEvent, updateUsers } = props;
 
-  if (location.state == undefined) {
-    navigate("/");
+  if (location.state === undefined) {
+    navigate('/');
     return <></>;
   }
 
   var { username, has_admin } = location.state;
 
-  var [updatedUsername, setUpdatedUsername] = useState(""),
+  var [updatedUsername, setUpdatedUsername] = useState(''),
     [admin, setAdmin] = useState(has_admin);
 
   return (
     <>
       <div className="container" data-testid="container">
-        {errorAlert != null ? (
+        {errorAlert !== null ? (
           <div className="row">
             <div className="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
               <div className="alert alert-danger">
@@ -70,7 +70,7 @@ const EditUser = (props) => {
                       id="exampleFormControlTextarea1"
                       rows="3"
                       placeholder="updated username"
-                      onBlur={(e) => {
+                      onBlur={e => {
                         setUpdatedUsername(e.target.value);
                       }}
                     ></textarea>
@@ -89,23 +89,23 @@ const EditUser = (props) => {
                       id="delete-user"
                       data-testid="delete-user"
                       className="btn btn-danger btn-sm"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.preventDefault();
                         deleteUser(username)
-                          .then((data) => {
+                          .then(data => {
                             data.status < 300
                               ? updateUsers(0, limit)
-                                  .then((data) => dispatchPageChange(data, 0))
-                                  .then(() => navigate("/"))
+                                  .then(data => dispatchPageChange(data, 0))
+                                  .then(() => navigate('/'))
                                   .catch(() =>
                                     setErrorAlert(
-                                      `Could not update users list.`,
-                                    ),
+                                      'Could not update users list.'
+                                    )
                                   )
-                              : setErrorAlert(`Failed to edit user.`);
+                              : setErrorAlert('Failed to edit user.');
                           })
                           .catch(() => {
-                            setErrorAlert(`Failed to edit user.`);
+                            setErrorAlert('Failed to edit user.');
                           });
                       }}
                     >
@@ -123,29 +123,29 @@ const EditUser = (props) => {
                   id="submit"
                   data-testid="submit"
                   className="btn btn-primary"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
-                    if (updatedUsername == "" && admin == has_admin) {
+                    if (updatedUsername === '' && admin === has_admin) {
                       noChangeEvent();
                       return;
                     } else {
                       editUser(
                         username,
-                        updatedUsername != "" ? updatedUsername : username,
-                        admin,
+                        updatedUsername !== '' ? updatedUsername : username,
+                        admin
                       )
-                        .then((data) => {
+                        .then(data => {
                           data.status < 300
                             ? updateUsers(0, limit)
-                                .then((data) => dispatchPageChange(data, 0))
-                                .then(() => navigate("/"))
+                                .then(data => dispatchPageChange(data, 0))
+                                .then(() => navigate('/'))
                                 .catch(() =>
-                                  setErrorAlert(`Could not update users list.`),
+                                  setErrorAlert('Could not update users list.')
                                 )
-                            : setErrorAlert(`Failed to edit user.`);
+                            : setErrorAlert('Failed to edit user.');
                         })
                         .catch(() => {
-                          setErrorAlert(`Failed to edit user.`);
+                          setErrorAlert('Failed to edit user.');
                         });
                     }
                   }}
@@ -165,16 +165,16 @@ EditUser.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
       username: PropTypes.string,
-      has_admin: PropTypes.bool,
-    }),
+      has_admin: PropTypes.bool
+    })
   }),
   history: PropTypes.shape({
-    push: PropTypes.func,
+    push: PropTypes.func
   }),
   editUser: PropTypes.func,
   deleteUser: PropTypes.func,
   noChangeEvent: PropTypes.func,
-  updateUsers: PropTypes.func,
+  updateUsers: PropTypes.func
 };
 
 export default EditUser;

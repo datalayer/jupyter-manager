@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const AddUser = (props) => {
-
+const AddUser = props => {
   const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
   const [admin, setAdmin] = useState(false);
   const [errorAlert, setErrorAlert] = useState(null);
 
-  const limit = useSelector((state) => state.limit);
+  const limit = useSelector(state => state.limit);
 
   var dispatch = useDispatch();
 
   var dispatchPageChange = (data, page) => {
     dispatch({
-      type: "USER_PAGE",
+      type: 'USER_PAGE',
       value: {
         data: data,
-        page: page,
-      },
+        page: page
+      }
     });
   };
 
@@ -30,7 +29,7 @@ const AddUser = (props) => {
   return (
     <>
       <div className="container" data-testid="container">
-        {errorAlert != null ? (
+        {errorAlert !== null ? (
           <div className="row">
             <div className="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
               <div className="alert alert-danger">
@@ -63,11 +62,11 @@ const AddUser = (props) => {
                       rows="3"
                       placeholder="usernames separated by line"
                       data-testid="user-textarea"
-                      onBlur={(e) => {
+                      onBlur={e => {
                         let split_users = e.target.value
-                          .split("\n")
-                          .map((u) => u.trim())
-                          .filter((u) => u.length > 0);
+                          .split('\n')
+                          .map(u => u.trim())
+                          .filter(u => u.length > 0);
                         setUsers(split_users);
                       }}
                     ></textarea>
@@ -96,21 +95,23 @@ const AddUser = (props) => {
                   className="btn btn-primary"
                   onClick={() => {
                     addUsers(users, admin)
-                      .then((data) =>
+                      .then(data =>
                         data.status < 300
                           ? updateUsers(0, limit)
-                              .then((data) => dispatchPageChange(data, 0))
-                              .then(() => navigate("/"))
+                              .then(data => dispatchPageChange(data, 0))
+                              .then(() => navigate('/'))
                               .catch(() =>
-                                setErrorAlert(`Failed to update users.`),
+                                setErrorAlert('Failed to update users.')
                               )
                           : setErrorAlert(
                               `Failed to create user. ${
-                                data.status == 409 ? "User already exists." : ""
-                              }`,
-                            ),
+                                data.status === 409
+                                  ? 'User already exists.'
+                                  : ''
+                              }`
+                            )
                       )
-                      .catch(() => setErrorAlert(`Failed to create user.`));
+                      .catch(() => setErrorAlert('Failed to create user.'));
                   }}
                 >
                   Add Users
@@ -128,8 +129,8 @@ AddUser.propTypes = {
   addUsers: PropTypes.func,
   updateUsers: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
+    push: PropTypes.func
+  })
 };
 
 export default AddUser;

@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const CreateGroup = (props) => {
+const CreateGroup = props => {
   const navigate = useNavigate();
-  var [groupName, setGroupName] = useState(""),
+  var [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState(null),
-    limit = useSelector((state) => state.limit);
+    limit = useSelector(state => state.limit);
 
   var dispatch = useDispatch();
 
   var dispatchPageUpdate = (data, page) => {
     dispatch({
-      type: "GROUPS_PAGE",
+      type: 'GROUPS_PAGE',
       value: {
         data: data,
-        page: page,
-      },
+        page: page
+      }
     });
   };
 
@@ -26,7 +26,7 @@ const CreateGroup = (props) => {
   return (
     <>
       <div className="container" data-testid="container">
-        {errorAlert != null ? (
+        {errorAlert !== null ? (
           <div className="row">
             <div className="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
               <div className="alert alert-danger">
@@ -59,7 +59,7 @@ const CreateGroup = (props) => {
                     id="group-name"
                     value={groupName}
                     placeholder="group name..."
-                    onChange={(e) => {
+                    onChange={e => {
                       setGroupName(e.target.value.trim());
                     }}
                   ></input>
@@ -76,23 +76,23 @@ const CreateGroup = (props) => {
                   className="btn btn-primary"
                   onClick={() => {
                     createGroup(groupName)
-                      .then((data) => {
+                      .then(data => {
                         return data.status < 300
                           ? updateGroups(0, limit)
-                              .then((data) => dispatchPageUpdate(data, 0))
-                              .then(() => naviate("/groups"))
+                              .then(data => dispatchPageUpdate(data, 0))
+                              .then(() => navigate('/groups'))
                               .catch(() =>
-                                setErrorAlert(`Could not update groups list.`),
+                                setErrorAlert('Could not update groups list.')
                               )
                           : setErrorAlert(
                               `Failed to create group. ${
-                                data.status == 409
-                                  ? "Group already exists."
-                                  : ""
-                              }`,
+                                data.status === 409
+                                  ? 'Group already exists.'
+                                  : ''
+                              }`
                             );
                       })
-                      .catch(() => setErrorAlert(`Failed to create group.`));
+                      .catch(() => setErrorAlert('Failed to create group.'));
                   }}
                 >
                   Create
@@ -110,8 +110,8 @@ CreateGroup.propTypes = {
   createGroup: PropTypes.func,
   updateGroups: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
+    push: PropTypes.func
+  })
 };
 
 export default CreateGroup;

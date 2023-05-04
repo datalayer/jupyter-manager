@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import "./../../../../../style/jupyterhub/pagination-footer.css";
+import './../../../../../style/jupyterhub/pagination-footer.css';
 
-const PaginationFooter = (props) => {
+const PaginationFooter = props => {
   let { offset, limit, visible, total, next, prev } = props;
   return (
     <div className="pagination-footer">
@@ -51,7 +51,7 @@ PaginationFooter.propTypes = {
   page: PropTypes.number,
   limit: PropTypes.number,
   numOffset: PropTypes.number,
-  numElements: PropTypes.number,
+  numElements: PropTypes.number
 };
 
 export default PaginationFooter;

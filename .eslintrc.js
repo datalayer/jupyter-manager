@@ -35,5 +35,9 @@ module.exports = {
     curly: ['error', 'all'],
     eqeqeq: 'error',
     'prefer-arrow-callback': 'error'
-  }
+  },
+  env: {
+    browser: true,
+    node: true,
+  },
 };
