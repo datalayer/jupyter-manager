@@ -1,6 +1,14 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
-import { GearIcon, CpuIcon, AppsIcon, EyeIcon, ServerIcon, FileDirectoryIcon, TableIcon } from '@primer/octicons-react';
+import {
+  GearIcon,
+  CpuIcon,
+  AppsIcon,
+  EyeIcon,
+  ServerIcon,
+  FileDirectoryIcon,
+  TableIcon
+} from '@primer/octicons-react';
 import { UnderlineNav } from '@primer/react/drafts';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from './Config';
 import { requestAPI } from './api/handler';
@@ -13,8 +21,8 @@ import EventsManager from './events/EventsManager';
 import SettingsManager from './settings/SettingsManager';
 
 type ManagerProps = {
-  loadDatalayerConfigFromPage: boolean,
-}
+  loadDatalayerConfigFromPage: boolean;
+};
 
 const Manager = (props: ManagerProps): JSX.Element => {
   const { loadDatalayerConfigFromPage: loadDatalayerConfigFromPage } = props;
@@ -43,47 +51,90 @@ const Manager = (props: ManagerProps): JSX.Element => {
           <Box>
             <Box mb={3}>
               <UnderlineNav>
-                <UnderlineNav.Item aria-current="page" icon={AppsIcon} onSelect={e => {e.preventDefault(); setTab('hub');}}>
+                <UnderlineNav.Item
+                  aria-current="page"
+                  icon={AppsIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('hub');
+                  }}
+                >
                   Hub
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={CpuIcon} onSelect={e => {e.preventDefault(); setTab('editor');}}>
+                <UnderlineNav.Item
+                  icon={CpuIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('editor');
+                  }}
+                >
                   Editor
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={ServerIcon} onSelect={e => {e.preventDefault(); setTab('server');}}>
+                <UnderlineNav.Item
+                  icon={ServerIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('server');
+                  }}
+                >
                   Server
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={FileDirectoryIcon} onSelect={e => {e.preventDefault(); setTab('volumes');}}>
+                <UnderlineNav.Item
+                  icon={FileDirectoryIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('volumes');
+                  }}
+                >
                   Volumes
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={TableIcon} onSelect={e => {e.preventDefault(); setTab('kernels');}}>
+                <UnderlineNav.Item
+                  icon={TableIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('kernels');
+                  }}
+                >
                   Kernels
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={EyeIcon} onSelect={e => {e.preventDefault(); setTab('events');}}>
+                <UnderlineNav.Item
+                  icon={EyeIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('events');
+                  }}
+                >
                   Events
                 </UnderlineNav.Item>
-                <UnderlineNav.Item icon={GearIcon} onSelect={e => {e.preventDefault(); setTab('settings');}}>
+                <UnderlineNav.Item
+                  icon={GearIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('settings');
+                  }}
+                >
                   Settings
                 </UnderlineNav.Item>
               </UnderlineNav>
             </Box>
             <Box>
-              {(tab === 'hub') && showHub && <HubManager/>}
-              {(tab === 'editor') && <EditorManager/>}
-              {(tab === 'server') && <ServerManager/>}
-              {(tab === 'volumes') && <VolumesManager/>}
-              {(tab === 'kernels') && <KernelsManager/>}
-              {(tab === 'events') && <EventsManager/>}
-              {(tab === 'settings') && <SettingsManager/>}
+              {tab === 'hub' && showHub && <HubManager />}
+              {tab === 'editor' && <EditorManager />}
+              {tab === 'server' && <ServerManager />}
+              {tab === 'volumes' && <VolumesManager />}
+              {tab === 'kernels' && <KernelsManager />}
+              {tab === 'events' && <EventsManager />}
+              {tab === 'settings' && <SettingsManager />}
             </Box>
           </Box>
         </BaseStyles>
       </ThemeProvider>
     </>
-  )
+  );
 };
 
 Manager.defaultProps = {
-  loadDatalayerConfigFromPage: true,
+  loadDatalayerConfigFromPage: true
 } as Partial<ManagerProps>;
 
 export default Manager;
