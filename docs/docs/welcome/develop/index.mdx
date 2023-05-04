@@ -109,38 +109,6 @@ jupyter server extension list
 #      jupyter_manager 0.0.2 OK
 ```
 
-## Web Application
-
-Start the Webpack and Jupyter servers.
-
-```bash
-echo open http://localhost:3063
-echo open http://localhost:8686/api/jupyter?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
-yarn start
-```
-
-## JupyterLab
-
-Start JupyterLab and watch the sources.
-
-```bash
-echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
-yarn jupyterlab
-```
-
-Alternatively, you can use 2 terminals. First start JupyterLab in terminal 1.
-
-```bash
-echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
-jupyter lab --port 8686
-```
-
-Then, in terminal 2, watch for changes.
-
-```bash
-yarn watch
-```
-
 ## JupyterHub
 
 Start JupyterHub and the separated webapp.
@@ -165,6 +133,38 @@ In another terminal, you can connect to the JupyterHub local SQLite database an 
 # .schema api_tokens
 # select * from api_tokens;
 make sqlite
+```
+
+## JupyterLab
+
+Start JupyterLab and watch the sources.
+
+```bash
+echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+yarn jupyterlab
+```
+
+Alternatively, you can use 2 terminals. First start JupyterLab in terminal 1.
+
+```bash
+echo open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+jupyter lab --port 8686
+```
+
+Then, in terminal 2, watch for changes.
+
+```bash
+yarn watch
+```
+
+## Web Application
+
+Start the Webpack and Jupyter servers.
+
+```bash
+echo open http://localhost:3063
+echo open http://localhost:8686/api/jupyter?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+yarn start
 ```
 
 ## Clean
