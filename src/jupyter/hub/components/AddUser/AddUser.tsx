@@ -84,7 +84,7 @@ const AddUser = (props: {
           <Breadcrumbs>
             <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
             <Breadcrumbs.Item href="/#/add-users" selected>
-              Add users
+              Add Users
             </Breadcrumbs.Item>
           </Breadcrumbs>
         </PageLayout.Header>
@@ -122,7 +122,11 @@ const AddUser = (props: {
             <FormControl.Label>Give Admin Privileges</FormControl.Label>
           </FormControl>
           <PageLayout.Footer divider="line">
-            <Button variant="primary" onClick={onAddUsers}>
+            <Button
+              variant="primary"
+              onClick={onAddUsers}
+              disabled={!newUsers.length}
+            >
               Add Users
             </Button>
           </PageLayout.Footer>
