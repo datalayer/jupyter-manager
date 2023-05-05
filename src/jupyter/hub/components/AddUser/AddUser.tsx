@@ -45,14 +45,18 @@ const AddUser = (props: {
   const onNewUserRemove = (newUserId: string | number) => {
     setNewUsers(newUsers.filter(newUser => newUser.id !== Number(newUserId)));
   };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrUser(event.target.value);
+    if (event.target.value.includes(' ')) {
       const len = newUsers.length;
-      setNewUsers(prevUsers => [
-        ...prevUsers,
-        { text: currUser, id: len ? newUsers[len - 1].id + 1 : 0 }
-      ]);
+      const split_users = event.target.value
+        .split(' ')
+        .map((u, i) => ({
+          text: u.trim(),
+          id: len ? newUsers[len - 1].id + 1 + i : i
+        }))
+        .filter(u => u.text.length > 0);
+      setNewUsers(prevUsers => [...prevUsers, ...split_users]);
       setCurrUser('');
     }
   };
@@ -109,11 +113,10 @@ const AddUser = (props: {
               block
               tokens={newUsers}
               onTokenRemove={onNewUserRemove}
-              onKeyDown={handleKeyDown}
               value={currUser}
-              onChange={e => setCurrUser(e.target.value)}
+              onChange={handleChange}
               placeholder={
-                !newUsers.length ? 'Press enter to add a user' : undefined
+                !newUsers.length ? 'Press space to add a user' : undefined
               }
             />
           </FormControl>
