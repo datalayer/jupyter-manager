@@ -12,6 +12,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PeopleIcon } from '@primer/octicons-react';
+import { HubState } from './../../Store';
 
 const CreateGroup = (props: {
   createGroup: any;
@@ -21,7 +22,7 @@ const CreateGroup = (props: {
   const navigate = useNavigate();
   const [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState<string | null>(null),
-    limit = useSelector(state => state.limit);
+    limit = useSelector<HubState>(state => state.limit);
 
   const dispatch = useDispatch();
 

@@ -4,11 +4,15 @@ export const initialState = {
   name_filter: '',
   groups_data: undefined,
   groups_page: { offset: 0, limit: 10 || 100 },
-  limit: 10 || 100
+  limit: 10,
 };
 
+export type HubState = typeof initialState;
+
 export const reducers = (state = initialState, action: any) => {
+
   switch (action.type) {
+
     // Updates the client user model data and stores the page
     case 'USER_OFFSET':
       return Object.assign({}, state, {

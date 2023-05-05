@@ -14,6 +14,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
+import { HubState } from './../../Store';
 
 const EditUser = (props: {
   location: any;
@@ -26,7 +27,7 @@ const EditUser = (props: {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const limit = useSelector(state => state.limit),
+  const limit = useSelector<HubState>(state => state.limit),
     [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   const dispatch = useDispatch();

@@ -1,5 +1,4 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { createStore } from 'redux';
 import { compose } from 'recompose';
 import { initialState, reducers } from './Store';
@@ -28,22 +27,21 @@ const EditUserCompose = compose(withAPI)(EditUser);
 const HubManager = () => {
   return (
     <div>
-      <Provider store={store}>
+      <ReduxProvider store={store}>
         <HashRouter>
           <Routes>
-            <Route exact path="/" element={<ServerDashboardCompose />} />
-            <Route exact path="/groups" element={<GroupsCompose />} />
-            <Route exact path="/group-edit" element={<GroupEditCompose />} />
+            <Route path="/" element={<ServerDashboardCompose />} />
+            <Route path="/groups" element={<GroupsCompose />} />
+            <Route path="/group-edit" element={<GroupEditCompose />} />
             <Route
-              exact
               path="/create-group"
               element={<CreateGroupCompose />}
             />
-            <Route exact path="/add-users" element={<AddUserCompose />} />
-            <Route exact path="/edit-user" element={<EditUserCompose />} />
+            <Route path="/add-users" element={<AddUserCompose />} />
+            <Route path="/edit-user" element={<EditUserCompose />} />
           </Routes>
         </HashRouter>
-      </Provider>
+      </ReduxProvider>
     </div>
   );
 };
