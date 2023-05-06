@@ -62,6 +62,17 @@ const AddUser = (props: {
     }
   };
 
+  const handleBlur = () => {
+    if (currUser) {
+      const len = newUsers.length;
+      setNewUsers(prevUsers => [
+        ...prevUsers,
+        { text: currUser, id: len ? newUsers[len - 1].id + 1 : 0 }
+      ]);
+      setCurrUser('');
+    }
+  };
+
   const { addUsers, updateUsers } = props;
 
   const onAddUsers = () => {
@@ -116,6 +127,7 @@ const AddUser = (props: {
               onTokenRemove={onNewUserRemove}
               value={currUser}
               onChange={handleChange}
+              onBlur={handleBlur}
               placeholder={
                 !newUsers.length ? 'Press space to add a user' : undefined
               }
