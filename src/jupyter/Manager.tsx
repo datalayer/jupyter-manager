@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
-import {
-  GearIcon,
-  CpuIcon,
-  AppsIcon,
-  EyeIcon,
-  ServerIcon,
-  FileDirectoryIcon,
-  TableIcon
-} from '@primer/octicons-react';
+import { GearIcon, CpuIcon, AppsIcon, EyeIcon, ServerIcon, FileDirectoryIcon, TableIcon } from '@primer/octicons-react';
+import { DatalayerIcon } from '@datalayer-icons/react/solid';
 import { UnderlineNav } from '@primer/react/drafts';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from './Config';
 import { requestAPI } from './api/handler';
@@ -19,6 +12,7 @@ import KernelsManager from './kernels/KernelsManager';
 import VolumesManager from './volumes/VolumesManager';
 import EventsManager from './events/EventsManager';
 import SettingsManager from './settings/SettingsManager';
+import AboutManager from './about/AboutManager';
 
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
@@ -115,6 +109,15 @@ const Manager = (props: ManagerProps): JSX.Element => {
                 >
                   Settings
                 </UnderlineNav.Item>
+                <UnderlineNav.Item
+                  icon={DatalayerIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('about');
+                  }}
+                >
+                  About
+                </UnderlineNav.Item>
               </UnderlineNav>
             </Box>
             <Box>
@@ -125,6 +128,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
               {tab === 'kernels' && <KernelsManager />}
               {tab === 'events' && <EventsManager />}
               {tab === 'settings' && <SettingsManager />}
+              {tab === 'about' && <AboutManager />}
             </Box>
           </Box>
         </BaseStyles>

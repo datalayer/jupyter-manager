@@ -3,7 +3,7 @@
 // const path = require('path');
 
 module.exports = {
-  title: '🪐 💁 Jupyter Manager',
+  title: '🪐 ✅ Jupyter Manager',
   tagline: 'UI and CLI to manage your Jupyter stack.',
   url: 'https://jupyter-manager.datalayer.tech',
   baseUrl: '/',
