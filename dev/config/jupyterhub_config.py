@@ -41,7 +41,7 @@ c.JupyterHub.authenticator_class = DummyAuthenticator
 # c.PAMAuthenticator.open_sessions = False
 
 # --- Spawner ---
-c.JupyterHub.spawner_class = 'jupyterhub.spawner.LocalProcessSpawner'
+c.JupyterHub.spawner_class = 'jupyterhub.spawner.SimpleLocalProcessSpawner'
 c.Spawner.default_url = '/lab'
 c.LocalProcessSpawner.default_url = '/lab'
 # c.Spawner.notebook_dir = '~/notebooks'
