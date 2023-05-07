@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
 import { GearIcon, CpuIcon, AppsIcon, EyeIcon, ServerIcon, FileDirectoryIcon, TableIcon } from '@primer/octicons-react';
-import { DatalayerIcon } from '@datalayer-icons/react/solid';
+import { DatalayerGreenIcon } from '@datalayer-icons/react/solid';
 import { UnderlineNav } from '@primer/react/drafts';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from './Config';
 import { requestAPI } from './api/handler';
@@ -17,6 +17,8 @@ import AboutManager from './about/AboutManager';
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
 };
+
+const DatalayerIcon = () => <DatalayerGreenIcon colored/>
 
 const Manager = (props: ManagerProps): JSX.Element => {
   const { loadDatalayerConfigFromPage: loadDatalayerConfigFromPage } = props;

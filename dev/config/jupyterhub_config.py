@@ -8,6 +8,9 @@ c.JupyterHub.confirm_no_ssl = False
 c.JupyterHub.log_level = 'DEBUG'
 c.JupyterHub.admin_access = False
 
+# --- ConfigurableHTTPProxy ---
+c.ConfigurableHTTPProxy.auth_token = '0bc02bede919e99a26de1e2a7a5aadfaf6228de836ec39a05a6c6942831d8fe5'
+
 # --- Tornado CORS ---
 c.JupyterHub.tornado_settings = {
   "headers": {

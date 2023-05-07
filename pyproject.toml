@@ -43,6 +43,12 @@ test = [
 [tool.hatch.version]
 source = "nodejs"
 
+[tool.hatch.build]
+artifacts = [
+  "jupyter_manager/static",
+  "jupyter_manager/templates"
+]
+
 [tool.hatch.build.hooks.custom]
 
 [tool.hatch.metadata.hooks.nodejs]
