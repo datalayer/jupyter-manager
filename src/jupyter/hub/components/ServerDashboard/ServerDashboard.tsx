@@ -254,7 +254,11 @@ const ServerDashboard = (props: {
       serverURL: server[1].ready ? server[1].url : '',
       lastActivity: server[1].last_activity
         ? Date.parse(server[1].last_activity)
-        : null
+        : null,
+      state: {
+        user: server[0],
+        server: server[1]
+      }
     };
   });
   return (
@@ -391,8 +395,8 @@ const ServerDashboard = (props: {
                         onClick={() =>
                           navigate('/edit-user', {
                             state: {
-                              username: row.name,
-                              has_admin: row.admin
+                              user: servers[row.id][0],
+                              server: servers[row.id][1]
                             }
                           })
                         }
