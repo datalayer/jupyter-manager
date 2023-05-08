@@ -4,17 +4,49 @@ import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Breadcrumbs,
+  Box,
   Button,
-  ButtonGroup,
   Checkbox,
   Flash,
   PageLayout,
   FormControl,
-  TextInput
+  TextInput,
+  Label,
+  RelativeTime
 } from '@primer/react';
-import { PageHeader } from '@primer/react/drafts';
+import { PageHeader, Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import { HubState } from './../../Store';
+
+type Server = {
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  progress_url: string;
+  ready: boolean;
+  started: boolean | null;
+  state: any;
+  stopped: boolean;
+  url: string;
+  user_options: any;
+};
+
+type User = {
+  admin: boolean;
+  auth_state: any;
+  created: string;
+  groups: any[];
+  kind: string;
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  roles: string[];
+  server: Server | null;
+  servers: Server[];
+};
+
+type UserKey = keyof User;
+type ServerKey = keyof Server;
 
 const EditUser = (props: {
   location: any;
@@ -88,11 +120,31 @@ const EditUser = (props: {
     return <></>;
   }
 
-  const { username, has_admin } = location.state;
+  const {
+    user,
+    server
+  }: {
+    user: User;
+    server: Server;
+  } = location.state;
+  const { name: username, admin: has_admin } = user;
 
   const [updatedUsername, setUpdatedUsername] = useState(''),
     [admin, setAdmin] = useState(has_admin);
 
+  const userTableData = Object.entries(user)
+    .map(([key, value], index) => {
+      if (key === 'servers') {
+        return null;
+      }
+      return { id: index, key: key as UserKey };
+    })
+    .filter(Boolean) as { id: number; key: keyof User }[];
+  const serverTableData = Object.entries(server).map(([key, value], index) => {
+    return { id: index, key: key as ServerKey };
+  });
+
+  console.log(user, server);
   return (
     <>
       <PageLayout>
@@ -105,6 +157,108 @@ const EditUser = (props: {
           </Breadcrumbs>
         </PageLayout.Header>
         <PageLayout.Content>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <Table.Container>
+                <Table.Title as="h2" id="repositories">
+                  Server Data
+                </Table.Title>
+                <DataTable
+                  aria-labelledby="repositories"
+                  aria-describedby="repositories-subtitle"
+                  data={serverTableData}
+                  columns={[
+                    {
+                      header: 'Property',
+                      field: 'key',
+                      renderCell: row => {
+                        return <b>{row.key}</b>;
+                      },
+                      width: '100px'
+                    },
+                    {
+                      header: 'Value',
+                      field: 'id',
+                      renderCell: row => {
+                        const key = row.key;
+                        const value = server[key];
+                        let valueElement;
+                        if (key === 'last_activity') {
+                          valueElement = value ? (
+                            <RelativeTime date={new Date(value)} />
+                          ) : (
+                            <>never</>
+                          );
+                        } else if (key === 'state') {
+                          valueElement = <></>;
+                        } else {
+                          valueElement = <>{value}</>;
+                        }
+                        return valueElement;
+                      },
+                      width: 'grow'
+                    }
+                  ]}
+                />
+              </Table.Container>
+            </Box>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <Table.Container>
+                <Table.Title as="h2" id="repositories">
+                  User Data
+                </Table.Title>
+                <DataTable
+                  aria-labelledby="repositories"
+                  aria-describedby="repositories-subtitle"
+                  data={userTableData}
+                  columns={[
+                    {
+                      header: 'Property',
+                      field: 'key',
+                      renderCell: row => {
+                        return <b>{row.key}</b>;
+                      },
+                      width: '100px'
+                    },
+                    {
+                      header: 'Value',
+                      field: 'id',
+                      renderCell: row => {
+                        const key = row.key;
+                        const value = user[key];
+                        let valueElement;
+                        if (key === 'created' || key === 'last_activity') {
+                          valueElement = value ? (
+                            <RelativeTime date={new Date(value)} />
+                          ) : (
+                            <>never</>
+                          );
+                        } else if (key === 'roles') {
+                          valueElement = (
+                            <>
+                              {value.map((value: string, index: number) => (
+                                <Label sx={{ mr: 1 }} key={index}>
+                                  {value}
+                                </Label>
+                              ))}
+                            </>
+                          );
+                        } else if (key === 'servers') {
+                          valueElement = <>{'value'}</>;
+                        } else {
+                          valueElement = <>{value}</>;
+                        }
+                        return valueElement;
+                      },
+                      width: 'grow'
+                    }
+                  ]}
+                />
+              </Table.Container>
+            </Box>
+          </Box>
+        </PageLayout.Content>
+        <PageLayout.Pane>
           <PageHeader>
             <PageHeader.TitleArea>
               <PageHeader.LeadingVisual>
@@ -118,9 +272,10 @@ const EditUser = (props: {
               {errorAlert}
             </Flash>
           )}
-          <FormControl sx={{ mt: 4 }}>
+          <FormControl sx={{ mt: 3 }}>
             <FormControl.Label>New Username</FormControl.Label>
             <TextInput
+              block
               placeholder="Updated username"
               value={updatedUsername}
               onChange={e => {
@@ -128,28 +283,26 @@ const EditUser = (props: {
               }}
             />
           </FormControl>
-          <FormControl sx={{ mt: 3 }}>
+          <FormControl sx={{ my: 3 }}>
             <Checkbox checked={admin} onChange={() => setAdmin(!admin)} />
             <FormControl.Label>Give Admin Privileges</FormControl.Label>
           </FormControl>
-          <PageLayout.Footer divider="line">
-            <ButtonGroup>
-              <Button variant="danger" onClick={onDeleteUser}>
-                Delete User
-              </Button>
-              <Button
-                variant="primary"
-                onClick={onApplyChanges}
-                disabled={
-                  (updatedUsername === '' || username === updatedUsername) &&
-                  admin === has_admin
-                }
-              >
-                Apply Changes
-              </Button>
-            </ButtonGroup>
-          </PageLayout.Footer>
-        </PageLayout.Content>
+          <Button
+            block
+            variant="primary"
+            onClick={onApplyChanges}
+            disabled={
+              (updatedUsername === '' || username === updatedUsername) &&
+              admin === has_admin
+            }
+          >
+            Apply Changes
+          </Button>
+          <hr />
+          <Button block variant="danger" onClick={onDeleteUser}>
+            Delete User
+          </Button>
+        </PageLayout.Pane>
       </PageLayout>
     </>
   );

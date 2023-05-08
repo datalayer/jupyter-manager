@@ -29,7 +29,7 @@ const AddUser = (props: {
   const [admin, setAdmin] = useState(false);
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const limit = useSelector<HubState>(state => state.limit);
+  const limit = useSelector<HubState, number>(state => state.limit);
 
   const dispatch = useDispatch();
 
@@ -98,8 +98,8 @@ const AddUser = (props: {
       <PageLayout>
         <PageLayout.Header divider="line">
           <Breadcrumbs>
-            <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/#/add-users" selected>
+            <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/add-users" selected>
               Add Users
             </Breadcrumbs.Item>
           </Breadcrumbs>
