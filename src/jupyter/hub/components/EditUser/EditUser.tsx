@@ -10,13 +10,12 @@ import {
   Flash,
   PageLayout,
   FormControl,
-  TextInput,
-  Label,
-  RelativeTime
+  TextInput
 } from '@primer/react';
-import { PageHeader, Table, DataTable } from '@primer/react/drafts';
+import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import { HubState } from './../../Store';
+import ObjectTableViewer from '../ObjectTableViewer/ObjectTableViewer';
 
 type Server = {
   last_activity: string | null;
@@ -44,9 +43,6 @@ type User = {
   server: Server | null;
   servers: Server[];
 };
-
-type UserKey = keyof User;
-type ServerKey = keyof Server;
 
 const EditUser = (props: {
   location: any;
@@ -127,24 +123,13 @@ const EditUser = (props: {
     user: User;
     server: Server;
   } = location.state;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { servers, ...filteredUser } = user;
   const { name: username, admin: has_admin } = user;
 
   const [updatedUsername, setUpdatedUsername] = useState(''),
     [admin, setAdmin] = useState(has_admin);
 
-  const userTableData = Object.entries(user)
-    .map(([key, value], index) => {
-      if (key === 'servers') {
-        return null;
-      }
-      return { id: index, key: key as UserKey };
-    })
-    .filter(Boolean) as { id: number; key: keyof User }[];
-  const serverTableData = Object.entries(server).map(([key, value], index) => {
-    return { id: index, key: key as ServerKey };
-  });
-
-  console.log(user, server);
   return (
     <>
       <PageLayout>
@@ -159,102 +144,10 @@ const EditUser = (props: {
         <PageLayout.Content>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexGrow: 1, p: 3 }}>
-              <Table.Container>
-                <Table.Title as="h2" id="repositories">
-                  Server Data
-                </Table.Title>
-                <DataTable
-                  aria-labelledby="repositories"
-                  aria-describedby="repositories-subtitle"
-                  data={serverTableData}
-                  columns={[
-                    {
-                      header: 'Property',
-                      field: 'key',
-                      renderCell: row => {
-                        return <b>{row.key}</b>;
-                      },
-                      width: '100px'
-                    },
-                    {
-                      header: 'Value',
-                      field: 'id',
-                      renderCell: row => {
-                        const key = row.key;
-                        const value = server[key];
-                        let valueElement;
-                        if (key === 'last_activity') {
-                          valueElement = value ? (
-                            <RelativeTime date={new Date(value)} />
-                          ) : (
-                            <>never</>
-                          );
-                        } else if (key === 'state') {
-                          valueElement = <></>;
-                        } else {
-                          valueElement = <>{value}</>;
-                        }
-                        return valueElement;
-                      },
-                      width: 'grow'
-                    }
-                  ]}
-                />
-              </Table.Container>
+              <ObjectTableViewer data={server} title={'Server Data'} />
             </Box>
             <Box sx={{ flexGrow: 1, p: 3 }}>
-              <Table.Container>
-                <Table.Title as="h2" id="repositories">
-                  User Data
-                </Table.Title>
-                <DataTable
-                  aria-labelledby="repositories"
-                  aria-describedby="repositories-subtitle"
-                  data={userTableData}
-                  columns={[
-                    {
-                      header: 'Property',
-                      field: 'key',
-                      renderCell: row => {
-                        return <b>{row.key}</b>;
-                      },
-                      width: '100px'
-                    },
-                    {
-                      header: 'Value',
-                      field: 'id',
-                      renderCell: row => {
-                        const key = row.key;
-                        const value = user[key];
-                        let valueElement;
-                        if (key === 'created' || key === 'last_activity') {
-                          valueElement = value ? (
-                            <RelativeTime date={new Date(value)} />
-                          ) : (
-                            <>never</>
-                          );
-                        } else if (key === 'roles') {
-                          valueElement = (
-                            <>
-                              {value.map((value: string, index: number) => (
-                                <Label sx={{ mr: 1 }} key={index}>
-                                  {value}
-                                </Label>
-                              ))}
-                            </>
-                          );
-                        } else if (key === 'servers') {
-                          valueElement = <>{'value'}</>;
-                        } else {
-                          valueElement = <>{value}</>;
-                        }
-                        return valueElement;
-                      },
-                      width: 'grow'
-                    }
-                  ]}
-                />
-              </Table.Container>
+              <ObjectTableViewer data={filteredUser} title={'User Data'} />
             </Box>
           </Box>
         </PageLayout.Content>
