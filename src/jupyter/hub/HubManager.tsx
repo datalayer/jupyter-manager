@@ -4,7 +4,7 @@ import { compose } from 'react-recompose';
 import { initialState, reducers } from './Store';
 import withAPI from './util/withAPI';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import ServerDashboard from './components/ServerDashboard';
+import HubDashboard from './components/HubDashboard';
 import Groups from './components/group/Groups';
 import GroupEdit from './components/group/GroupEdit';
 import CreateGroup from './components/group/CreateGroup';
@@ -15,7 +15,7 @@ import './../../../style/jupyterhub/root.css';
 
 const store = createStore(reducers, initialState);
 
-const ServerDashboardCompose = compose(withAPI)(ServerDashboard);
+const HubDashboardCompose = compose(withAPI)(HubDashboard);
 const GroupsCompose = compose(withAPI)(Groups);
 const GroupEditCompose = compose(withAPI)(GroupEdit);
 const CreateGroupCompose = compose(withAPI)(CreateGroup);
@@ -28,7 +28,7 @@ const HubManager = (): JSX.Element => {
       <ReduxProvider store={store}>
         <HashRouter>
           <Routes>
-            <Route path="/" element={<ServerDashboardCompose />} />
+            <Route path="/" element={<HubDashboardCompose />} />
             <Route path="/groups" element={<GroupsCompose />} />
             <Route path="/group-edit" element={<GroupEditCompose />} />
             <Route path="/create-group" element={<CreateGroupCompose />} />

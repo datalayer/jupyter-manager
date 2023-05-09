@@ -20,7 +20,7 @@ import { HubState } from '../Store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
 
-const ServerDashboard = (props: {
+const HubDashboard = (props: {
   updateUsers: any;
   shutdownHub: any;
   startServer: any;
@@ -456,7 +456,7 @@ const ServerDashboard = (props: {
   );
 };
 
-ServerDashboard.propTypes = {
+HubDashboard.propTypes = {
   user_data: PropTypes.array,
   updateUsers: PropTypes.func,
   shutdownHub: PropTypes.func,
@@ -473,4 +473,4 @@ ServerDashboard.propTypes = {
   })
 };
 
-export default ServerDashboard;
+export default HubDashboard;

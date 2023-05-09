@@ -9,7 +9,7 @@ import { createStore } from 'redux';
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
 
-import ServerDashboard from '../ServerDashboard';
+import HubDashboard from '../HubDashboard';
 import { initialState, reducers } from '../../Store';
 import * as sinon from 'sinon';
 
@@ -20,11 +20,11 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn()
 }));
 
-var serverDashboardJsx = spy => (
+var HubDashboardJsx = spy => (
   <Provider store={createStore(mockReducers, mockAppState())}>
     <HashRouter>
       <Switch>
-        <ServerDashboard
+        <HubDashboard
           updateUsers={spy}
           shutdownHub={spy}
           startServer={spy}
@@ -135,7 +135,7 @@ test('Renders', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   expect(screen.getByTestId('container')).toBeVisible();
@@ -145,7 +145,7 @@ test('Renders users from props.user_data into table', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let foo = screen.getByTestId('user-name-div-foo');
@@ -159,7 +159,7 @@ test('Renders correctly the status of a single-user server', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let start = screen.getByText('Start Server');
@@ -173,7 +173,7 @@ test('Renders spawn page link', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let link = screen.getByText('Spawn Page').closest('a');
@@ -185,7 +185,7 @@ test('Invokes the startServer event on button click', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let start = screen.getByText('Start Server');
@@ -201,7 +201,7 @@ test('Invokes the stopServer event on button click', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let stop = screen.getByText('Stop Server');
@@ -217,7 +217,7 @@ test('Invokes the shutdownHub event on button click', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let shutdown = screen.getByText('Shutdown Hub');
@@ -233,7 +233,7 @@ test('Sorts according to username', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let handler = screen.getByTestId('user-sort');
@@ -252,7 +252,7 @@ test('Sorts according to admin', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let handler = screen.getByTestId('admin-sort');
@@ -271,7 +271,7 @@ test('Sorts according to last activity', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let handler = screen.getByTestId('last-activity-sort');
@@ -290,7 +290,7 @@ test('Sorts according to server status (running/not running)', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let handler = screen.getByTestId('running-status-sort');
@@ -309,7 +309,7 @@ test('Shows server details with button click', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
   let button = screen.getByTestId('foo-collapse-button');
   let collapse = screen.getByTestId('foo-collapse');
@@ -354,7 +354,7 @@ test('Renders nothing if required data is not available', async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   let noShow = screen.getByTestId('no-show');
@@ -371,7 +371,7 @@ test('Shows a UI error dialogue when start all servers fails', async () => {
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={spy}
@@ -405,7 +405,7 @@ test('Shows a UI error dialogue when stop all servers fails', async () => {
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={spy}
@@ -439,7 +439,7 @@ test('Shows a UI error dialogue when start user server fails', async () => {
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={rejectSpy}
@@ -473,7 +473,7 @@ test('Shows a UI error dialogue when start user server returns an improper statu
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={rejectSpy}
@@ -507,7 +507,7 @@ test('Shows a UI error dialogue when stop user servers fails', async () => {
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={spy}
@@ -541,7 +541,7 @@ test('Shows a UI error dialogue when stop user server returns an improper status
       <Provider store={createStore(() => {}, {})}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={spy}
               shutdownHub={spy}
               startServer={spy}
@@ -587,7 +587,7 @@ test('Search for user calls updateUsers with name filter', async () => {
       <Provider store={createStore(mockReducers, mockAppState())}>
         <HashRouter>
           <Switch>
-            <ServerDashboard
+            <HubDashboard
               updateUsers={mockUpdateUsers}
               shutdownHub={spy}
               startServer={spy}
@@ -628,7 +628,7 @@ test('Interacting with PaginationFooter causes state update and refresh via useE
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(serverDashboardJsx(callbackSpy));
+    render(HubDashboardJsx(callbackSpy));
   });
 
   expect(callbackSpy).toBeCalledWith(0, 2, '');
