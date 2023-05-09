@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import DynamicTable from '../common/DynamicTable';
 import GroupSelect from '../group/GroupSelect';
-import DynamicTable from '../utils/DynamicTable';
 
 const GroupEdit = props => {
   const navigate = useNavigate();

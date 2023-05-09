@@ -17,7 +17,6 @@ const ObjectTableViewer = (props: {
   const tableData = Object.entries(data).map(([key, value], index) => {
     return { id: index, key: key as DataKey };
   });
-  console.log(data, tableData);
 
   return (
     <Table.Container>

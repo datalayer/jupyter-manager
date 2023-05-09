@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
-import PaginationFooter from '../utils/PaginationFooter';
+import PaginationFooter from '../common/PaginationFooter';
 
 const Groups = props => {
   const navigate = useNavigate();

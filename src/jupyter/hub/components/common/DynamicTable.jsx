@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import './../../../../../style/jupyterhub/table-select.css';
 
 const DynamicTable = props => {
-  var [message, setMessage] = useState(''),
-    [message2, setMessage2] = useState('');
   var { current_propobject } = props;
+  const [message, setMessage] = useState('');
+  const  [message2, setMessage2] = useState('');
 
   var propobject = current_propobject;
 
