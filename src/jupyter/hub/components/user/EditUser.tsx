@@ -14,8 +14,8 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
-import { HubState } from './../../Store';
-import ObjectTableViewer from '../ObjectTableViewer/ObjectTableViewer';
+import { HubState } from '../../Store';
+import ObjectTableViewer from '../utils/ObjectTableViewer';
 
 type Server = {
   last_activity: string | null;

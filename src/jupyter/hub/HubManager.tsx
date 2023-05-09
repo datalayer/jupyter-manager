@@ -4,12 +4,12 @@ import { compose } from 'react-recompose';
 import { initialState, reducers } from './Store';
 import withAPI from './util/withAPI';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import ServerDashboard from './components/ServerDashboard/ServerDashboard';
-import Groups from './components/Groups/Groups';
-import GroupEdit from './components/GroupEdit/GroupEdit';
-import CreateGroup from './components/CreateGroup/CreateGroup';
-import AddUser from './components/AddUser/AddUser';
-import EditUser from './components/EditUser/EditUser';
+import ServerDashboard from './components/ServerDashboard';
+import Groups from './components/group/Groups';
+import GroupEdit from './components/group/GroupEdit';
+import CreateGroup from './components/group/CreateGroup';
+import AddUser from './components/user/AddUser';
+import EditUser from './components/user/EditUser';
 
 import './../../../style/jupyterhub/root.css';
 

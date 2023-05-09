@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
-
 import { useNavigate } from 'react-router-dom';
 import {
   Breadcrumbs,
@@ -16,10 +15,10 @@ import {
   TextInput
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
-import { HubState } from './../../Store';
-
-import './../../../../../style/jupyterhub/server-dashboard.css';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
+import { HubState } from '../Store';
+
+import './../../../../style/jupyterhub/server-dashboard.css';
 
 const ServerDashboard = (props: {
   updateUsers: any;

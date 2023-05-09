@@ -8,7 +8,7 @@ import { createStore } from "redux";
 import { HashRouter } from "react-router-dom";
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
-import CreateGroup from "./CreateGroup";
+import CreateGroup from "../group/CreateGroup";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),

@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { useNavigate, Link } from 'react-router-dom';
-import PaginationFooter from '../PaginationFooter/PaginationFooter';
+import PaginationFooter from '../utils/PaginationFooter';
 
 const Groups = props => {
   const navigate = useNavigate();
 
-  var groups_data = useSelector(state => state.groups_data),
-    groups_page = useSelector(state => state.groups_page),
-    dispatch = useDispatch();
+  const groups_data = useSelector(state => state.groups_data);
+  const groups_page = useSelector(state => state.groups_page);
+  const dispatch = useDispatch();
 
   var offset = groups_page ? groups_page.offset : 0;
 

@@ -8,7 +8,7 @@ import { HashRouter } from "react-router-dom";
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
 
-import EditUser from "./EditUser";
+import EditUser from "../user/EditUser";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),

@@ -12,7 +12,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PeopleIcon } from '@primer/octicons-react';
-import { HubState } from './../../Store';
+import { HubState } from '../../Store';
 
 const CreateGroup = (props: {
   createGroup: any;
