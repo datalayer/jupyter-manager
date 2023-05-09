@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Breadcrumbs,
+  Box,
   Button,
-  ButtonGroup,
   Checkbox,
   Flash,
   PageLayout,
@@ -15,6 +15,34 @@ import {
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import { HubState } from './../../Store';
+import ObjectTableViewer from '../ObjectTableViewer/ObjectTableViewer';
+
+type Server = {
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  progress_url: string;
+  ready: boolean;
+  started: boolean | null;
+  state: any;
+  stopped: boolean;
+  url: string;
+  user_options: any;
+};
+
+type User = {
+  admin: boolean;
+  auth_state: any;
+  created: string;
+  groups: any[];
+  kind: string;
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  roles: string[];
+  server: Server | null;
+  servers: Server[];
+};
 
 const EditUser = (props: {
   location: any;
@@ -88,7 +116,16 @@ const EditUser = (props: {
     return <></>;
   }
 
-  const { username, has_admin } = location.state;
+  const {
+    user,
+    server
+  }: {
+    user: User;
+    server: Server;
+  } = location.state;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { servers, ...filteredUser } = user;
+  const { name: username, admin: has_admin } = user;
 
   const [updatedUsername, setUpdatedUsername] = useState(''),
     [admin, setAdmin] = useState(has_admin);
@@ -105,6 +142,16 @@ const EditUser = (props: {
           </Breadcrumbs>
         </PageLayout.Header>
         <PageLayout.Content>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <ObjectTableViewer data={server} title={'Server Data'} />
+            </Box>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <ObjectTableViewer data={filteredUser} title={'User Data'} />
+            </Box>
+          </Box>
+        </PageLayout.Content>
+        <PageLayout.Pane>
           <PageHeader>
             <PageHeader.TitleArea>
               <PageHeader.LeadingVisual>
@@ -118,9 +165,10 @@ const EditUser = (props: {
               {errorAlert}
             </Flash>
           )}
-          <FormControl sx={{ mt: 4 }}>
+          <FormControl sx={{ mt: 3 }}>
             <FormControl.Label>New Username</FormControl.Label>
             <TextInput
+              block
               placeholder="Updated username"
               value={updatedUsername}
               onChange={e => {
@@ -128,28 +176,26 @@ const EditUser = (props: {
               }}
             />
           </FormControl>
-          <FormControl sx={{ mt: 3 }}>
+          <FormControl sx={{ my: 3 }}>
             <Checkbox checked={admin} onChange={() => setAdmin(!admin)} />
             <FormControl.Label>Give Admin Privileges</FormControl.Label>
           </FormControl>
-          <PageLayout.Footer divider="line">
-            <ButtonGroup>
-              <Button variant="danger" onClick={onDeleteUser}>
-                Delete User
-              </Button>
-              <Button
-                variant="primary"
-                onClick={onApplyChanges}
-                disabled={
-                  (updatedUsername === '' || username === updatedUsername) &&
-                  admin === has_admin
-                }
-              >
-                Apply Changes
-              </Button>
-            </ButtonGroup>
-          </PageLayout.Footer>
-        </PageLayout.Content>
+          <Button
+            block
+            variant="primary"
+            onClick={onApplyChanges}
+            disabled={
+              (updatedUsername === '' || username === updatedUsername) &&
+              admin === has_admin
+            }
+          >
+            Apply Changes
+          </Button>
+          <hr />
+          <Button block variant="danger" onClick={onDeleteUser}>
+            Delete User
+          </Button>
+        </PageLayout.Pane>
       </PageLayout>
     </>
   );

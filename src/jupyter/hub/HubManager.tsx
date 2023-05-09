@@ -24,7 +24,7 @@ const CreateGroupCompose = compose(withAPI)(CreateGroup);
 const AddUserCompose = compose(withAPI)(AddUser);
 const EditUserCompose = compose(withAPI)(EditUser);
 
-const HubManager = () => {
+const HubManager = (): JSX.Element => {
   return (
     <div>
       <ReduxProvider store={store}>
@@ -33,10 +33,7 @@ const HubManager = () => {
             <Route path="/" element={<ServerDashboardCompose />} />
             <Route path="/groups" element={<GroupsCompose />} />
             <Route path="/group-edit" element={<GroupEditCompose />} />
-            <Route
-              path="/create-group"
-              element={<CreateGroupCompose />}
-            />
+            <Route path="/create-group" element={<CreateGroupCompose />} />
             <Route path="/add-users" element={<AddUserCompose />} />
             <Route path="/edit-user" element={<EditUserCompose />} />
           </Routes>
