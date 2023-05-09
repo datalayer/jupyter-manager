@@ -1,6 +1,6 @@
 import { Provider as ReduxProvider } from 'react-redux';
 import { createStore } from 'redux';
-import { compose } from 'recompose';
+import { compose } from 'react-recompose';
 import { initialState, reducers } from './Store';
 import withAPI from './util/withAPI';
 import { HashRouter, Routes, Route } from 'react-router-dom';
@@ -10,8 +10,6 @@ import GroupEdit from './components/GroupEdit/GroupEdit';
 import CreateGroup from './components/CreateGroup/CreateGroup';
 import AddUser from './components/AddUser/AddUser';
 import EditUser from './components/EditUser/EditUser';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './../../../style/jupyterhub/root.css';
 

@@ -1,6 +1,6 @@
 /// <reference types="react" />
 
-declare module 'recompose';
+declare module 'react-recompose';
 
 declare module "*.jpg" {
     const value: any;
