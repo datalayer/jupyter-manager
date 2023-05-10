@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
-  Breadcrumbs,
   Button,
   Flash,
   PageLayout,
@@ -11,22 +8,24 @@ import {
   TextInput
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
-import { PeopleIcon } from '@primer/octicons-react';
+import { PlusIcon } from '@primer/octicons-react';
 import { HubState } from '../../Store';
 
 const GroupCreate = (props: {
-  GroupCreate: any;
+  createGroup: any;
   updateGroups: any;
-  history: any;
 }): JSX.Element => {
-  const navigate = useNavigate();
   const [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState<string | null>(null),
+    [successMessage, setSuccessMessage] = useState<string | null>(null),
     limit = useSelector<HubState>(state => state.limit);
 
   const dispatch = useDispatch();
 
-  const dispatchPageUpdate = (data: any, page: number) => {
+  const dispatchPageUpdate = (
+    data: HubState['groups_data'],
+    page: HubState['groups_page']
+  ) => {
     dispatch({
       type: 'GROUPS_PAGE',
       value: {
@@ -36,15 +35,23 @@ const GroupCreate = (props: {
     });
   };
 
-  const { GroupCreate, updateGroups } = props;
+  const { createGroup, updateGroups } = props;
 
-  const onGroupCreate = () => {
-    GroupCreate(groupName)
+  const onCreateGroup = () => {
+    createGroup(groupName)
       .then((data: { status: number }) => {
         return data.status < 300
           ? updateGroups(0, limit)
-              .then((data: any) => dispatchPageUpdate(data, 0))
-              .then(() => navigate('/groups'))
+              .then((data: any) =>
+                dispatchPageUpdate(data.items, data._pagination)
+              )
+              .then(() => {
+                setGroupName('');
+                setSuccessMessage('Group added successfully!');
+                setTimeout(() => {
+                  setSuccessMessage(null);
+                }, 2000);
+              })
               .catch(() => setErrorAlert('Could not update groups list.'))
           : setErrorAlert(
               `Failed to create group. ${
@@ -57,60 +64,59 @@ const GroupCreate = (props: {
 
   return (
     <>
-      <PageLayout>
-        <PageLayout.Header divider="line">
-          <Breadcrumbs>
-            <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/#/group-create" selected>
-              Create Group
-            </Breadcrumbs.Item>
-          </Breadcrumbs>
-        </PageLayout.Header>
-        <PageLayout.Content>
-          <PageHeader>
-            <PageHeader.TitleArea>
-              <PageHeader.LeadingVisual>
-                <PeopleIcon />
-              </PageHeader.LeadingVisual>
-              <PageHeader.Title>Create Group</PageHeader.Title>
-            </PageHeader.TitleArea>
-          </PageHeader>
-          {errorAlert && (
-            <Flash sx={{ mt: 4 }} variant="danger">
-              {errorAlert}
-            </Flash>
-          )}
-          <FormControl sx={{ mt: 4 }}>
-            <FormControl.Label>Name</FormControl.Label>
-            <TextInput
-              placeholder="Name of the group"
-              value={groupName}
-              onChange={e => {
-                setGroupName(e.target.value.trim());
-              }}
-            />
-          </FormControl>
-          <PageLayout.Footer divider="line">
-            <Button
-              variant="primary"
-              onClick={onGroupCreate}
-              disabled={!groupName}
-            >
-              Create Group
-            </Button>
-          </PageLayout.Footer>
-        </PageLayout.Content>
-      </PageLayout>
+      <PageLayout.Pane
+        divider={{
+          narrow: 'line',
+          regular: 'line',
+          wide: 'line'
+        }}
+        position={{
+          narrow: 'start',
+          regular: 'start',
+          wide: 'start'
+        }}
+      >
+        <PageHeader>
+          <PageHeader.TitleArea sx={{ mt: 3 }}>
+            <PageHeader.LeadingVisual>
+              <PlusIcon />
+            </PageHeader.LeadingVisual>
+            <PageHeader.Title>Create Group</PageHeader.Title>
+          </PageHeader.TitleArea>
+        </PageHeader>
+        {errorAlert && (
+          <Flash sx={{ mt: 4 }} variant="danger">
+            {errorAlert}
+          </Flash>
+        )}
+        {successMessage && (
+          <Flash sx={{ mt: 4 }} variant="success">
+            {successMessage}
+          </Flash>
+        )}
+        <FormControl sx={{ mt: 4 }}>
+          <FormControl.Label>Name</FormControl.Label>
+          <TextInput
+            block
+            placeholder="Name of the group"
+            value={groupName}
+            onChange={e => {
+              setGroupName(e.target.value.trim());
+            }}
+          />
+        </FormControl>
+        <PageLayout.Footer divider="line">
+          <Button
+            variant="primary"
+            onClick={onCreateGroup}
+            disabled={!groupName}
+          >
+            Create Group
+          </Button>
+        </PageLayout.Footer>
+      </PageLayout.Pane>
     </>
   );
-};
-
-GroupCreate.propTypes = {
-  GroupCreate: PropTypes.func,
-  updateGroups: PropTypes.func,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  })
 };
 
 export default GroupCreate;
