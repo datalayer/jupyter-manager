@@ -3,7 +3,7 @@ import { RJSFSchema } from '@rjsf/utils';
 import validator from '@rjsf/validator-ajv6';
 
 const schema: RJSFSchema = {
-  title: 'Jupyter Server',
+  title: 'Server',
   type: 'object',
   required: ['title'],
   properties: {

@@ -14,8 +14,8 @@ import { PageHeader } from '@primer/react/drafts';
 import { PeopleIcon } from '@primer/octicons-react';
 import { HubState } from '../../Store';
 
-const CreateGroup = (props: {
-  createGroup: any;
+const GroupCreate = (props: {
+  GroupCreate: any;
   updateGroups: any;
   history: any;
 }): JSX.Element => {
@@ -36,10 +36,10 @@ const CreateGroup = (props: {
     });
   };
 
-  const { createGroup, updateGroups } = props;
+  const { GroupCreate, updateGroups } = props;
 
-  const onCreateGroup = () => {
-    createGroup(groupName)
+  const onGroupCreate = () => {
+    GroupCreate(groupName)
       .then((data: { status: number }) => {
         return data.status < 300
           ? updateGroups(0, limit)
@@ -61,7 +61,7 @@ const CreateGroup = (props: {
         <PageLayout.Header divider="line">
           <Breadcrumbs>
             <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/#/create-group" selected>
+            <Breadcrumbs.Item href="/#/group-create" selected>
               Create Group
             </Breadcrumbs.Item>
           </Breadcrumbs>
@@ -93,7 +93,7 @@ const CreateGroup = (props: {
           <PageLayout.Footer divider="line">
             <Button
               variant="primary"
-              onClick={onCreateGroup}
+              onClick={onGroupCreate}
               disabled={!groupName}
             >
               Create Group
@@ -105,12 +105,12 @@ const CreateGroup = (props: {
   );
 };
 
-CreateGroup.propTypes = {
-  createGroup: PropTypes.func,
+GroupCreate.propTypes = {
+  GroupCreate: PropTypes.func,
   updateGroups: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func
   })
 };
 
-export default CreateGroup;
+export default GroupCreate;

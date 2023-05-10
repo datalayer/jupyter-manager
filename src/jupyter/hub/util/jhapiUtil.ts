@@ -1,8 +1,6 @@
-const jhdata = window.jhdata || {};
-const base_url = jhdata.base_url || '/';
-const xsrfToken = jhdata.xsrf_token;
+const xsrfToken = '';
 
-export const jhapiRequest = (endpoint, method, data) => {
+export const jhapiRequest = (endpoint: string, method: string, data: string) => {
   //  let api_url = `${base_url}hub/api`;
   let api_url = 'http://localhost:8000/hub/api';
   let suffix = '';
@@ -13,13 +11,12 @@ export const jhapiRequest = (endpoint, method, data) => {
   }
   return fetch(api_url + endpoint + suffix, {
     method: method,
-    json: true,
     mode: 'cors',
     //    credentials: 'include',
     cache: 'no-cache',
     headers: {
       Authorization:
-        'token 9280326a088d3a4a058823ce1c607029e7c11be15af2cb69f32cf507a85c27e5',
+      'token 9280326a088d3a4a058823ce1c607029e7c11be15af2cb69f32cf507a85c27e5',
       'Content-Type': 'application/json',
       Accept: 'application/jupyterhub-pagination+json'
     },

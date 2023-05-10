@@ -20,7 +20,7 @@ import { HubState } from '../Store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
 
-const HubDashboard = (props: {
+const HubManager = (props: {
   updateUsers: any;
   shutdownHub: any;
   startServer: any;
@@ -278,7 +278,7 @@ const HubDashboard = (props: {
         <PageLayout.Content>
           <Table.Container>
             <Table.Title as="h2" id="repositories">
-              Server Dashboard
+              JupyterHub
             </Table.Title>
             <Table.Actions>
               <TextInput
@@ -392,7 +392,7 @@ const HubDashboard = (props: {
                         icon={PencilIcon}
                         variant="invisible"
                         onClick={() =>
-                          navigate('/edit-user', {
+                          navigate('/user-edit', {
                             state: {
                               user: servers[row.id][0],
                               server: servers[row.id][1]
@@ -413,7 +413,7 @@ const HubDashboard = (props: {
             block
             sx={{ mb: 3 }}
             variant="primary"
-            onClick={() => navigate('/add-users')}
+            onClick={() => navigate('/users-add')}
           >
             Add Users
           </Button>
@@ -456,7 +456,7 @@ const HubDashboard = (props: {
   );
 };
 
-HubDashboard.propTypes = {
+HubManager.propTypes = {
   user_data: PropTypes.array,
   updateUsers: PropTypes.func,
   shutdownHub: PropTypes.func,
@@ -473,4 +473,4 @@ HubDashboard.propTypes = {
   })
 };
 
-export default HubDashboard;
+export default HubManager;

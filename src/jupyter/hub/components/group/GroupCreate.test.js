@@ -8,7 +8,7 @@ import { createStore } from "redux";
 import { HashRouter } from "react-router-dom";
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
-import CreateGroup from "../group/CreateGroup";
+import GroupCreate from "./GroupCreate";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
@@ -22,11 +22,11 @@ var mockAsync = (result) =>
 var mockAsyncRejection = () =>
   jest.fn().mockImplementation(() => Promise.reject());
 
-var createGroupJsx = (callbackSpy) => (
+var GroupCreateJsx = (callbackSpy) => (
   <Provider store={createStore(() => {}, {})}>
     <HashRouter>
-      <CreateGroup
-        createGroup={callbackSpy}
+      <GroupCreate
+        GroupCreate={callbackSpy}
         updateGroups={callbackSpy}
         history={{ push: () => {} }}
       />
@@ -53,16 +53,16 @@ afterEach(() => {
 
 test("Renders", async () => {
   await act(async () => {
-    render(createGroupJsx());
+    render(GroupCreateJsx());
   });
   expect(screen.getByTestId("container")).toBeVisible();
 });
 
-test("Calls createGroup on submit", async () => {
+test("Calls GroupCreate on submit", async () => {
   let callbackSpy = mockAsync({ status: 200 });
 
   await act(async () => {
-    render(createGroupJsx(callbackSpy));
+    render(GroupCreateJsx(callbackSpy));
   });
 
   let input = screen.getByTestId("group-input");
@@ -78,7 +78,7 @@ test("Shows a UI error dialogue when group creation fails", async () => {
   let callbackSpy = mockAsyncRejection();
 
   await act(async () => {
-    render(createGroupJsx(callbackSpy));
+    render(GroupCreateJsx(callbackSpy));
   });
 
   let submit = screen.getByTestId("submit");
@@ -97,7 +97,7 @@ test("Shows a more specific UI error dialogue when user creation returns an impr
   let callbackSpy = mockAsync({ status: 409 });
 
   await act(async () => {
-    render(createGroupJsx(callbackSpy));
+    render(GroupCreateJsx(callbackSpy));
   });
 
   let submit = screen.getByTestId("submit");

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Breadcrumbs,
@@ -14,6 +13,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
+import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
 import { HubState } from '../../Store';
 
@@ -44,9 +44,9 @@ type User = {
   servers: Server[];
 };
 
-const EditUser = (props: {
+const UserEdit = (props: {
   location: any;
-  editUser: any;
+  UserEdit: any;
   deleteUser: any;
   updateUsers: any;
   noChangeEvent: any;
@@ -55,8 +55,8 @@ const EditUser = (props: {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const limit = useSelector<HubState>(state => state.limit),
-    [errorAlert, setErrorAlert] = useState<string | null>(null);
+  const limit = useSelector<HubState>(state => state.limit);
+  const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
@@ -70,7 +70,7 @@ const EditUser = (props: {
     });
   };
 
-  const { editUser, deleteUser, noChangeEvent, updateUsers } = props;
+  const { UserEdit, deleteUser, noChangeEvent, updateUsers } = props;
 
   const onDeleteUser = () => {
     deleteUser(username)
@@ -92,7 +92,7 @@ const EditUser = (props: {
       noChangeEvent();
       return;
     } else {
-      editUser(
+      UserEdit(
         username,
         updatedUsername !== '' ? updatedUsername : username,
         admin
@@ -123,12 +123,12 @@ const EditUser = (props: {
     user: User;
     server: Server;
   } = location.state;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const { servers, ...filteredUser } = user;
   const { name: username, admin: has_admin } = user;
 
-  const [updatedUsername, setUpdatedUsername] = useState(''),
-    [admin, setAdmin] = useState(has_admin);
+  const [updatedUsername, setUpdatedUsername] = useState('');
+  const [admin, setAdmin] = useState(has_admin);
 
   return (
     <>
@@ -136,22 +136,23 @@ const EditUser = (props: {
         <PageLayout.Header divider="line">
           <Breadcrumbs>
             <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/#/edit-user" selected>
+            <Breadcrumbs.Item href="/#/user-edit" selected>
               Edit User
             </Breadcrumbs.Item>
           </Breadcrumbs>
         </PageLayout.Header>
-        <PageLayout.Content>
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-              <ObjectTableViewer data={server} title={'Server Data'} />
-            </Box>
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-              <ObjectTableViewer data={filteredUser} title={'User Data'} />
-            </Box>
-          </Box>
-        </PageLayout.Content>
-        <PageLayout.Pane>
+        <PageLayout.Pane
+          divider={{
+            narrow: 'line',
+            regular: 'line',
+            wide: 'line'
+          }}
+          position={{
+            narrow: 'start',
+            regular: 'start',
+            wide: 'start'
+          }}
+          >
           <PageHeader>
             <PageHeader.TitleArea>
               <PageHeader.LeadingVisual>
@@ -196,12 +197,22 @@ const EditUser = (props: {
             Delete User
           </Button>
         </PageLayout.Pane>
+        <PageLayout.Content>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <ObjectTableViewer data={server} title={'Server Data'} />
+            </Box>
+            <Box sx={{ flexGrow: 1, p: 3 }}>
+              <ObjectTableViewer data={filteredUser} title={'User Data'} />
+            </Box>
+          </Box>
+        </PageLayout.Content>
       </PageLayout>
     </>
   );
 };
 
-EditUser.propTypes = {
+UserEdit.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
       username: PropTypes.string,
@@ -211,10 +222,10 @@ EditUser.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }),
-  editUser: PropTypes.func,
+  UserEdit: PropTypes.func,
   deleteUser: PropTypes.func,
   noChangeEvent: PropTypes.func,
   updateUsers: PropTypes.func
 };
 
-export default EditUser;
+export default UserEdit;

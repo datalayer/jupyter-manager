@@ -89,7 +89,7 @@ const Groups = props => {
               <button
                 className="btn btn-primary adjacent-span-spacing"
                 onClick={() => {
-                  navigate('/create-group');
+                  navigate('/group-create');
                 }}
               >
                 New Group

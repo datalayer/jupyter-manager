@@ -13,10 +13,10 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PersonAddIcon } from '@primer/octicons-react';
-import { HubState } from './../../Store';
+import { HubState } from '../../Store';
 
-const AddUser = (props: {
-  addUsers: any;
+const UserAdd = (props: {
+  UserAdds: any;
   updateUsers: any;
   history: any;
 }): JSX.Element => {
@@ -73,11 +73,11 @@ const AddUser = (props: {
     }
   };
 
-  const { addUsers, updateUsers } = props;
+  const { UserAdds, updateUsers } = props;
 
-  const onAddUsers = () => {
+  const onUserAdds = () => {
     const users: string[] = newUsers.map(user => user.text);
-    addUsers(users, admin)
+    UserAdds(users, admin)
       .then((data: { status: number }) =>
         data.status < 300
           ? updateUsers(0, limit)
@@ -99,7 +99,7 @@ const AddUser = (props: {
         <PageLayout.Header divider="line">
           <Breadcrumbs>
             <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/add-users" selected>
+            <Breadcrumbs.Item href="/users-add" selected>
               Add Users
             </Breadcrumbs.Item>
           </Breadcrumbs>
@@ -140,7 +140,7 @@ const AddUser = (props: {
           <PageLayout.Footer divider="line">
             <Button
               variant="primary"
-              onClick={onAddUsers}
+              onClick={onUserAdds}
               disabled={!newUsers.length}
             >
               Add Users
@@ -152,12 +152,12 @@ const AddUser = (props: {
   );
 };
 
-AddUser.propTypes = {
-  addUsers: PropTypes.func,
+UserAdd.propTypes = {
+  UserAdds: PropTypes.func,
   updateUsers: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func
   })
 };
 
-export default AddUser;
+export default UserAdd;

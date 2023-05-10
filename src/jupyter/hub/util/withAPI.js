@@ -28,11 +28,11 @@ const withAPI = withProps(() => ({
     jhapiRequest('/groups/' + groupname + '/properties', 'PUT', propobject),
   removeFromGroup: (users, groupname) =>
     jhapiRequest('/groups/' + groupname + '/users', 'DELETE', { users }),
-  createGroup: groupName => jhapiRequest('/groups/' + groupName, 'POST'),
+  GroupCreate: groupName => jhapiRequest('/groups/' + groupName, 'POST'),
   deleteGroup: name => jhapiRequest('/groups/' + name, 'DELETE'),
-  addUsers: (usernames, admin) =>
+  UserAdds: (usernames, admin) =>
     jhapiRequest('/users', 'POST', { usernames, admin }),
-  editUser: (username, updated_username, admin) =>
+  UserEdit: (username, updated_username, admin) =>
     jhapiRequest('/users/' + username, 'PATCH', {
       name: updated_username,
       admin

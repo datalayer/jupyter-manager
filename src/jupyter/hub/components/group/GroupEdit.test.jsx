@@ -24,7 +24,7 @@ var mockAsyncRejection = () =>
 
 var okPacket = new Promise((resolve) => resolve(true));
 
-var groupEditJsx = (callbackSpy) => (
+var GroupEditJsx = (callbackSpy) => (
   <Provider store={createStore(() => {}, {})}>
     <HashRouter>
       <GroupEdit
@@ -63,7 +63,7 @@ test("Renders", async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   expect(screen.getByTestId("container")).toBeVisible();
@@ -73,7 +73,7 @@ test("Adds user from input to user selectables on button click", async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let input = screen.getByTestId("username-input");
@@ -95,7 +95,7 @@ test("Removes a user recently added from input from the selectables list", async
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let selectedUser = screen.getByText("foo");
@@ -110,7 +110,7 @@ test("Grays out a user, already in the group, when unselected and calls deleteUs
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let submit = screen.getByTestId("submit");
@@ -133,7 +133,7 @@ test("Calls deleteGroup on button click", async () => {
   let callbackSpy = mockAsync();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let deleteGroup = screen.getByTestId("delete-group");
@@ -149,7 +149,7 @@ test("Shows a UI error dialogue when group edit fails", async () => {
   let callbackSpy = mockAsyncRejection();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let groupUser = screen.getByText("foo");
@@ -171,7 +171,7 @@ test("Shows a UI error dialogue when group edit returns an improper status code"
   let callbackSpy = mockAsync({ status: 403 });
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let groupUser = screen.getByText("foo");
@@ -193,7 +193,7 @@ test("Shows a UI error dialogue when group delete fails", async () => {
   let callbackSpy = mockAsyncRejection();
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let deleteGroup = screen.getByTestId("delete-group");
@@ -212,7 +212,7 @@ test("Shows a UI error dialogue when group delete returns an improper status cod
   let callbackSpy = mockAsync({ status: 403 });
 
   await act(async () => {
-    render(groupEditJsx(callbackSpy));
+    render(GroupEditJsx(callbackSpy));
   });
 
   let deleteGroup = screen.getByTestId("delete-group");

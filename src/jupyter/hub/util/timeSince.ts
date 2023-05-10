@@ -1,4 +1,4 @@
-export const timeSince = time => {
+export const timeSince = (time: string) => {
   var msPerMinute = 60 * 1000;
   var msPerHour = msPerMinute * 60;
   var msPerDay = msPerHour * 24;
@@ -20,4 +20,4 @@ export const timeSince = time => {
   } else {
     return Math.round(elapsed / msPerYear) + ' years ago';
   }
-};
+}
