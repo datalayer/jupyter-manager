@@ -16,33 +16,7 @@ import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
 import { HubState } from '../../Store';
-
-type Server = {
-  last_activity: string | null;
-  name: string;
-  pending: boolean | null;
-  progress_url: string;
-  ready: boolean;
-  started: boolean | null;
-  state: any;
-  stopped: boolean;
-  url: string;
-  user_options: any;
-};
-
-type User = {
-  admin: boolean;
-  auth_state: any;
-  created: string;
-  groups: any[];
-  kind: string;
-  last_activity: string | null;
-  name: string;
-  pending: boolean | null;
-  roles: string[];
-  server: Server | null;
-  servers: Server[];
-};
+import type { Server, User } from '../../Store';
 
 const UserEdit = (props: {
   location: any;
@@ -60,7 +34,7 @@ const UserEdit = (props: {
 
   const dispatch = useDispatch();
 
-  const dispatchPageChange = (data: any, page: number) => {
+  const dispatchPageChange = (data: any, page: any) => {
     dispatch({
       type: 'USER_PAGE',
       value: {
@@ -133,7 +107,7 @@ const UserEdit = (props: {
   return (
     <>
       <PageLayout>
-        <PageLayout.Header divider="line">
+        <PageLayout.Header sx={{ my: [0, 0, 0, 0] }} divider="line">
           <Breadcrumbs>
             <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
             <Breadcrumbs.Item href="/#/user-edit" selected>
@@ -152,9 +126,9 @@ const UserEdit = (props: {
             regular: 'start',
             wide: 'start'
           }}
-          >
+        >
           <PageHeader>
-            <PageHeader.TitleArea>
+            <PageHeader.TitleArea sx={{ mt: 3 }}>
               <PageHeader.LeadingVisual>
                 <PencilIcon />
               </PageHeader.LeadingVisual>
@@ -192,13 +166,14 @@ const UserEdit = (props: {
           >
             Apply Changes
           </Button>
-          <hr />
-          <Button block variant="danger" onClick={onDeleteUser}>
-            Delete User
-          </Button>
+          <PageLayout.Footer divider="line">
+            <Button block variant="danger" onClick={onDeleteUser}>
+              Delete User
+            </Button>
+          </PageLayout.Footer>
         </PageLayout.Pane>
         <PageLayout.Content>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
             <Box sx={{ flexGrow: 1, p: 3 }}>
               <ObjectTableViewer data={server} title={'Server Data'} />
             </Box>

@@ -7,7 +7,49 @@ export const initialState = {
   limit: 10
 };
 
-export type HubState = typeof initialState;
+export type Group = {
+  kind: 'group';
+  name: string;
+  properties: Record<string, any>;
+  roles: string[];
+  users: string[];
+};
+
+export type Server = {
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  progress_url: string;
+  ready: boolean;
+  started: boolean | null;
+  state: any;
+  stopped: boolean;
+  url: string;
+  user_options: any;
+};
+
+export type User = {
+  admin: boolean;
+  auth_state: any;
+  created: string;
+  groups: string[];
+  kind: 'user';
+  last_activity: string | null;
+  name: string;
+  pending: boolean | null;
+  roles: string[];
+  server: Server | null;
+  servers: Server[];
+};
+
+export type HubState = {
+  user_data: User[];
+  user_page: { offset: number; limit: number; total?: number; next?: any };
+  name_filter: string;
+  groups_data: Group[];
+  groups_page: { offset: number; limit: number; total?: number; next?: any };
+  limit: number;
+};
 
 export const reducers = (state = initialState, action: any) => {
   switch (action.type) {
