@@ -34,7 +34,7 @@ const UserEdit = (props: {
 
   const dispatch = useDispatch();
 
-  const dispatchPageChange = (data: any, page: number) => {
+  const dispatchPageChange = (data: any, page: any) => {
     dispatch({
       type: 'USER_PAGE',
       value: {
@@ -166,13 +166,14 @@ const UserEdit = (props: {
           >
             Apply Changes
           </Button>
-          <hr />
-          <Button block variant="danger" onClick={onDeleteUser}>
-            Delete User
-          </Button>
+          <PageLayout.Footer divider="line">
+            <Button block variant="danger" onClick={onDeleteUser}>
+              Delete User
+            </Button>
+          </PageLayout.Footer>
         </PageLayout.Pane>
         <PageLayout.Content>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
             <Box sx={{ flexGrow: 1, p: 3 }}>
               <ObjectTableViewer data={server} title={'Server Data'} />
             </Box>

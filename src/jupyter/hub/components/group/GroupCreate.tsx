@@ -18,7 +18,7 @@ const GroupCreate = (props: {
   const [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState<string | null>(null),
     [successMessage, setSuccessMessage] = useState<string | null>(null),
-    limit = useSelector<HubState>(state => state.limit);
+    limit = useSelector<HubState, HubState['limit']>(state => state.limit);
 
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ const GroupCreate = (props: {
                 setSuccessMessage('Group added successfully!');
                 setTimeout(() => {
                   setSuccessMessage(null);
-                }, 2000);
+                }, 1000);
               })
               .catch(() => setErrorAlert('Could not update groups list.'))
           : setErrorAlert(
@@ -107,6 +107,7 @@ const GroupCreate = (props: {
         </FormControl>
         <PageLayout.Footer divider="line">
           <Button
+            block
             variant="primary"
             onClick={onCreateGroup}
             disabled={!groupName}

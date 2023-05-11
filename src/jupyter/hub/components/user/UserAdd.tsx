@@ -33,7 +33,7 @@ const UserAdd = (props: {
 
   const dispatch = useDispatch();
 
-  const dispatchPageChange = (data: any, page: number) => {
+  const dispatchPageChange = (data: any, page: any) => {
     dispatch({
       type: 'USER_PAGE',
       value: {
