@@ -4,7 +4,7 @@
 
 module.exports = {
   title: 'Jupyter Manager',
-  tagline: '✅ UI and CLI to manage your 🪐 Jupyter stack.',
+  tagline: '🚦 UI and CLI to manage your 🪐 Jupyter stack.',
   url: 'https://jupyter-manager.datalayer.tech',
   baseUrl: '/',
   onBrokenLinks: 'throw',
