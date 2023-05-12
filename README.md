@@ -4,9 +4,9 @@
 
 # 🪐 🚦 Jupyter Manager
 
-> UI and CLI to manage your Jupyter stack.
+> User interface to manage your Jupyter stack.
 
-`Deploy`, `configure`, `secure`, `monitor` and `operate` your Jupyter stack.
+`Configure`, `monitor` and `operate` your Jupyter stack.
 
 You can run `Jupyter Manager` as a service on any JupyterHub.
 
