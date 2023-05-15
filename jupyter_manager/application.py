@@ -1,5 +1,5 @@
-"""Jupyter Manager Server Application
-"""
+"""The Jupyter Manager Server application."""
+
 import os
 
 from traitlets import Unicode

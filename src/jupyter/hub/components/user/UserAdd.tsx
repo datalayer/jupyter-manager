@@ -13,7 +13,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PersonAddIcon } from '@primer/octicons-react';
-import { HubState } from '../../Store';
+import { ManagerState } from '../../../Store';
 
 const UserAdd = (props: {
   UserAdds: any;
@@ -29,7 +29,7 @@ const UserAdd = (props: {
   const [admin, setAdmin] = useState(false);
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const limit = useSelector<HubState, number>(state => state.limit);
+  const limit = useSelector<ManagerState, number>(state => state.limit);
 
   const dispatch = useDispatch();
 

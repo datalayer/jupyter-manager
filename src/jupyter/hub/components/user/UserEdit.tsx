@@ -15,8 +15,8 @@ import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
-import { HubState } from '../../Store';
-import type { Server, User } from '../../Store';
+import { ManagerState } from '../../../Store';
+import type { Server, User } from '../../../Store';
 
 const UserEdit = (props: {
   location: any;
@@ -29,7 +29,7 @@ const UserEdit = (props: {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const limit = useSelector<HubState>(state => state.limit);
+  const limit = useSelector<ManagerState>(state => state.limit);
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   const dispatch = useDispatch();

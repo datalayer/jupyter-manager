@@ -9,7 +9,7 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PlusIcon } from '@primer/octicons-react';
-import { HubState } from '../../Store';
+import { ManagerState } from '../../../Store';
 
 const GroupCreate = (props: {
   createGroup: any;
@@ -18,13 +18,13 @@ const GroupCreate = (props: {
   const [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState<string | null>(null),
     [successMessage, setSuccessMessage] = useState<string | null>(null),
-    limit = useSelector<HubState, HubState['limit']>(state => state.limit);
+    limit = useSelector<ManagerState, ManagerState['limit']>(state => state.limit);
 
   const dispatch = useDispatch();
 
   const dispatchPageUpdate = (
-    data: HubState['groups_data'],
-    page: HubState['groups_page']
+    data: ManagerState['groups_data'],
+    page: ManagerState['groups_page']
   ) => {
     dispatch({
       type: 'GROUPS_PAGE',

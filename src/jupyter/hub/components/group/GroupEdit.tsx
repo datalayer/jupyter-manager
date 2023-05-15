@@ -20,7 +20,7 @@ import {
   TrashIcon
 } from '@primer/octicons-react';
 import { PageHeader } from '@primer/react/drafts';
-import { HubState } from '../../Store';
+import { ManagerState } from '../../../Store';
 
 const GroupEdit = (props: {
   location: any;
@@ -38,7 +38,7 @@ const GroupEdit = (props: {
   const [username, setUsername] = useState('');
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const limit = useSelector<HubState, HubState['limit']>(state => state.limit);
+  const limit = useSelector<ManagerState, ManagerState['limit']>(state => state.limit);
 
   const dispatch = useDispatch();
 

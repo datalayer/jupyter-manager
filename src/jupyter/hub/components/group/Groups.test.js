@@ -8,7 +8,7 @@ import { HashRouter } from "react-router-dom";
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
 
-import { initialState, reducers } from "../../Store";
+import { initialState, reducers } from "../../../Store";
 import Groups from "./Groups";
 
 jest.mock("react-redux", () => ({

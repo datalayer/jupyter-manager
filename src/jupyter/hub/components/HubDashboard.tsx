@@ -17,7 +17,7 @@ import {
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
-import { HubState, User } from '../Store';
+import { ManagerState, User } from '../../Store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
 
@@ -35,11 +35,11 @@ const HubManager = (props: {
   const base_url = window.location.origin || '/';
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const user_data = useSelector<HubState, User[]>(state => state.user_data);
-  const user_page = useSelector<HubState, HubState['user_page']>(
+  const user_data = useSelector<ManagerState, User[]>(state => state.user_data);
+  const user_page = useSelector<ManagerState, ManagerState['user_page']>(
     state => state.user_page
   );
-  const name_filter = useSelector<HubState, string>(state => state.name_filter);
+  const name_filter = useSelector<ManagerState, string>(state => state.name_filter);
 
   const offset = user_page ? user_page.offset : 0;
   const limit = user_page ? user_page.limit : 10;

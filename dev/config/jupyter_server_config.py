@@ -39,14 +39,11 @@ c.ServerApp.token = '60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb507857507
 #################
 
 c.ServerApp.disable_check_xsrf = False
-# ORIGIN = 'http://localhost:3208'
 ORIGIN = '*'
-# c.ServerApp.allow_origin = ORIGIN
 c.ServerApp.allow_origin_pat = '.*'
 c.ServerApp.allow_credentials = True
 c.ServerApp.tornado_settings = {
   'headers': {
-#    'Access-Control-Allow-Origin': ORIGIN,
     'Access-Control-Allow-Methods': '*',
     'Access-Control-Allow-Headers': 'Accept, Accept-Encoding, Accept-Language, Authorization, Cache-Control, Connection, Content-Type, Host, Origin, Pragma, Referer, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform, Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Upgrade, User-Agent, X-XSRFToken, X-Datalayer, Expires',
     'Access-Control-Allow-Credentials': 'true',

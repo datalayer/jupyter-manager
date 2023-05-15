@@ -1,28 +1,15 @@
+import { useSelector } from 'react-redux';
+import validator from '@rjsf/validator-ajv8';
 import Form from '@datalayer/rjsf-primer';
-import { RJSFSchema } from '@rjsf/utils';
-import validator from '@rjsf/validator-ajv6';
-
-const schema: RJSFSchema = {
-  title: 'Server',
-  type: 'object',
-  required: ['title'],
-  properties: {
-    title: { type: 'string', title: 'Title', default: 'A new task' },
-    hello: { type: 'string', title: 'Hello', default: 'How are you?' },
-    done: { type: 'boolean', title: 'Done?', default: false }
-  }
-};
-
-const FormExample = () => {
-  return <Form schema={schema} validator={validator} />;
-};
+import { ManagerState } from './../Store';
 
 const ServerManager = (): JSX.Element => {
+  const schema = useSelector<ManagerState, {}>(state => state.config_schema);
   return (
     <>
-      <FormExample />
+      <Form schema={schema} validator={validator} />
     </>
-  );
-};
+  )
+}
 
 export default ServerManager;

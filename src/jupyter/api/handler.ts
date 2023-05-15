@@ -10,7 +10,11 @@ import { ServerConnection } from '@jupyterlab/services';
  */
 export async function requestAPI<T>(
   endPoint = '',
-  init: RequestInit = {}
+  init: RequestInit = {
+    mode: 'cors',
+    credentials: 'include',
+    cache: 'no-cache',
+  }
 ): Promise<T> {
   // Make request to Jupyter API
   const settings = ServerConnection.makeSettings();

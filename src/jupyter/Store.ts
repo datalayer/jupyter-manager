@@ -1,11 +1,13 @@
 export const initialState = {
   user_data: undefined,
-  user_page: { offset: 0, limit: 10 || 100 },
+  user_page: { offset: 0, limit: 10 },
   name_filter: '',
   groups_data: undefined,
-  groups_page: { offset: 0, limit: 10 || 100 },
+  groups_page: { offset: 0, limit: 10 },
+  config: {},
+  config_schema: {},
   limit: 10
-};
+}
 
 export type Group = {
   kind: 'group';
@@ -13,7 +15,7 @@ export type Group = {
   properties: Record<string, any>;
   roles: string[];
   users: string[];
-};
+}
 
 export type Server = {
   last_activity: string | null;
@@ -26,7 +28,7 @@ export type Server = {
   stopped: boolean;
   url: string;
   user_options: any;
-};
+}
 
 export type User = {
   admin: boolean;
@@ -40,30 +42,38 @@ export type User = {
   roles: string[];
   server: Server | null;
   servers: Server[];
-};
+}
 
-export type HubState = {
+export type ManagerState = {
   user_data: User[];
   user_page: { offset: number; limit: number; total?: number; next?: any };
   name_filter: string;
   groups_data: Group[];
   groups_page: { offset: number; limit: number; total?: number; next?: any };
+  config: {},
+  config_schema: {},
   limit: number;
-};
+}
 
 export const reducers = (state = initialState, action: any) => {
   switch (action.type) {
-    // Updates the client user model data and stores the page
+    case 'UPDATE_CONFIG':
+      return Object.assign({}, state, {
+        config: action.value.config
+      });
+    case 'SET_CONFIG_SCHEMA':
+      return Object.assign({}, state, {
+        config_schema: action.value.config_schema
+      });
+    // Updates the client user model data and stores the page.
     case 'USER_OFFSET':
       return Object.assign({}, state, {
         user_page: Object.assign({}, state.user_page, {
           offset: action.value.offset
         })
       });
-
     case 'USER_NAME_FILTER': {
-      // set offset to 0 if name filter changed,
-      // otherwise leave it alone
+      // set offset to 0 if name filter changed, otherwise leave it alone.
       const newOffset =
         action.value.name_filter !== state.name_filter ? 0 : state.name_filter;
       return Object.assign({}, state, {
@@ -73,28 +83,24 @@ export const reducers = (state = initialState, action: any) => {
         name_filter: action.value.name_filter
       });
     }
-
     case 'USER_PAGE':
       return Object.assign({}, state, {
         user_page: action.value.page,
         user_data: action.value.data
       });
-
-    // Updates the client group user model data and stores the page
+    // Updates the client group user model data and stores the page.
     case 'GROUPS_OFFSET':
       return Object.assign({}, state, {
         groups_page: Object.assign({}, state.groups_page, {
           offset: action.value.offset
         })
       });
-
     case 'GROUPS_PAGE':
       return Object.assign({}, state, {
         groups_page: action.value.page,
         groups_data: action.value.data
       });
-
     default:
       return state;
   }
-};
+}

@@ -10,8 +10,8 @@ import {
 import { PageHeader } from '@primer/react/drafts';
 import { Link } from 'react-router-dom';
 import { PeopleIcon } from '@primer/octicons-react';
-import { HubState } from '../../Store';
-import type { Group } from '../../Store';
+import { ManagerState } from '../../../Store';
+import type { Group } from '../../../Store';
 import GroupCreate from './GroupCreate';
 
 const Groups = (props: {
@@ -21,10 +21,10 @@ const Groups = (props: {
   history: any;
   location: any;
 }): JSX.Element => {
-  const groups_data = useSelector<HubState, Group[]>(
+  const groups_data = useSelector<ManagerState, Group[]>(
     state => state.groups_data
   );
-  const groups_page = useSelector<HubState, HubState['groups_page']>(
+  const groups_page = useSelector<ManagerState, ManagerState['groups_page']>(
     state => state.groups_page
   );
   const dispatch = useDispatch();
@@ -45,8 +45,8 @@ const Groups = (props: {
   const { updateGroups, createGroup } = props;
 
   const dispatchPageUpdate = (
-    data: HubState['groups_data'],
-    page: HubState['groups_page']
+    data: ManagerState['groups_data'],
+    page: ManagerState['groups_page']
   ) => {
     dispatch({
       type: 'GROUPS_PAGE',
