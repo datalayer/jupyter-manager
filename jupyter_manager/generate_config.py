@@ -1,4 +1,4 @@
-"""Traitlets configuration generation."""
+"""Generate the Traitlets configuration."""
 
 from collections import OrderedDict
 
@@ -7,19 +7,21 @@ from traitlets.utils.text import wrap_paragraphs
 
 
 def generate_config(configurable, classes=None):
-    """generate default config file from Configurables"""
+    """
+    Generate default configuration file from Configurables.
+    """
     lines = [f"# Configuration file for {configurable.name}."]
     lines.append("")
     lines.append("c = get_config()  #" + "noqa")
     lines.append("")
     classes = configurable.classes if classes is None else classes
-    config_classes = list(_classes_with_config_traits(configurable, classes))
+    config_classes = list(__classes_with_config_traits(configurable, classes))
     for cls in config_classes:
-        lines.append(class_config_section(cls, config_classes))
+        lines.append(__class_config_section(cls, config_classes))
     return "\n".join(lines)
 
 
-def _classes_with_config_traits(self, classes=None):
+def __classes_with_config_traits(self, classes=None):
     """
     Yields only classes with configurable traits, and their subclasses.
 
@@ -58,7 +60,7 @@ def _classes_with_config_traits(self, classes=None):
             yield cl
 
 
-def class_config_section(cls, classes=None):
+def __class_config_section(cls, classes=None):
     """Get the config section for this class.
 
     Parameters

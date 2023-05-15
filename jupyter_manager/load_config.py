@@ -6,7 +6,7 @@ from jupyter_core.application import JupyterApp
 
 
 class ConfLoader(JupyterApp):
-    """Configuration loader."""
+    """Config loader."""
 
     def __init__(self, name, path, argv):
         """Construct a loader with a name, a path and argv."""

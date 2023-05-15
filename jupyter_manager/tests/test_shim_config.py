@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import pytest
 
-from ..config.shim_config import merge_notebook_configs
+from ..shim_config import merge_notebook_configs
 
 
 config_dir = Path(__file__).parent / "config_2"

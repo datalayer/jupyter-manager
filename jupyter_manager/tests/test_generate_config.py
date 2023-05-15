@@ -2,11 +2,11 @@
 
 from jupyter_server.serverapp import ServerApp
 
-from ..config.generate_config import generate_config
+from ..generate_config import generate_config
 
 
-def test_print_traits():
-    """Test the printing of a configuration."""
+def test_extract_traits():
+    """Exract traits from a Configurable."""
     serverapp = ServerApp()
     trait_names = serverapp.trait_names()
     for trait_name in trait_names:
@@ -18,7 +18,7 @@ def test_print_traits():
 
 
 def test_generate_config():
-    """Test the generation of a configuration."""
+    """Test the generation of a configuration string."""
     serverapp = ServerApp()
     config_file = generate_config(serverapp)
     if isinstance(config_file, bytes):

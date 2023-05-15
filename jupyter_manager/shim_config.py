@@ -1,5 +1,5 @@
 
-"""Shim configuration."""
+"""Shim configurations."""
 
 import warnings
 

@@ -10,7 +10,7 @@ from jupyter_server.extension.application import ExtensionApp
 from jupyter_server.extension.serverextension import _get_extmanager_for_context
 
 
-def get_server_extensions():
+def get_server_extensions_config():
     """Test the extensions loading."""
     extensions = {}
     configurations = (
@@ -21,9 +21,8 @@ def get_server_extensions():
     )
     for option in configurations:
         _, ext_manager = _get_extmanager_for_context(**option)
-        for extname, extapps in ext_manager.extension_apps.items():
-            print(f"{extname} {extapps}")
-            for extapp in extapps:
-                if isinstance(extapp, ExtensionApp):
-                    extensions[extname] = extapp
+        for ext_name, ext_apps in ext_manager.extension_apps.items():
+            for ext_app in ext_apps:
+                if isinstance(ext_app, ExtensionApp):
+                    extensions[ext_name] = ext_app
     return extensions

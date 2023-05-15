@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from traitlets.config.loader import Config
 
-from ..config.load_config import load_config
+from ..load_config import load_config
 
 
 config_dir = Path(__file__).parent / "config_1"
