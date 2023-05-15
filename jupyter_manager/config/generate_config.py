@@ -115,4 +115,5 @@ def class_config_section(cls, classes=None):
 
         lines.append(f"# c.{cls.__name__}.{name} = {default_repr}")
         lines.append("")
+
     return "\n".join(lines)

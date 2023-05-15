@@ -1,5 +1,5 @@
 
-""""""
+"""Shim configuration."""
 
 import warnings
 
@@ -59,7 +59,7 @@ def _print_warnings(notebook_config):
         print("You are using NotebookApp settings that will be deprecated at the next major notebook release.")
         print("Please migrate following settings from NotebookApp to ServerApp:")
         print("  {}".format(deprecated))
-        print("Read more on https://jupyter-server.readthedocs.io/en/latest/migrate-from-notebook.html")
+        print("Read more on https://jupyter-server.readthedocs.io/en/latest")
         print("==============================================================================================")
         warnings.warn(
             "NotebookApp configuration is deprecated. Migrate them to ServerApp",

@@ -1,4 +1,4 @@
-"""Test the loading of configs."""
+"""Test the loading of the configurations."""
 
 import os
 
@@ -8,14 +8,14 @@ from traitlets.config.loader import Config
 from ..config.load_config import load_config
 
 
-fixtures_dir = Path(__file__).parent / "fixtures_1"
-os.chdir(fixtures_dir)
+config_dir = Path(__file__).parent / "config_1"
+os.chdir(config_dir)
 
 
 def test_load_config():
     """Test the loading of a configuration."""
     config = Config()
-    c_notebook = load_config("jupyter_notebook", fixtures_dir)
+    c_notebook = load_config("jupyter_notebook", config_dir)
     assert c_notebook.NotebookApp.port == 8889
     config.merge(c_notebook)
     assert isinstance(config, Config) is True
