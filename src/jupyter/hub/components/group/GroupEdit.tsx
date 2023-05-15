@@ -34,122 +34,32 @@ const GroupEdit = (props: {
 }): JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  if (!location.state) {
+    navigate('/groups');
+    return <></>;
+  }
+
+  const { group_data } = location.state;
+  if (!group_data) {
+    return <div></div>;
+  }
+
+  const limit = useSelector<ManagerState, ManagerState['limit']>(
+    state => state.limit
+  );
 
   const [username, setUsername] = useState('');
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const limit = useSelector<ManagerState, ManagerState['limit']>(state => state.limit);
 
-  const dispatch = useDispatch();
-
-  const dispatchPageUpdate = (data: any, page: any) => {
-    dispatch({
-      type: 'GROUPS_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
-
-  const Cell = (props: {
-    groupKey: string;
-    groupValue: string;
-    groupProps: Record<string, string>;
-  }) => {
-    const [keyInput, setKeyInput] = useState<string>(props.groupKey);
-    const [valInput, setValInput] = useState<string>(props.groupValue);
-    const [allowEdit, setAllowEdit] = useState<boolean>(false);
-    const [keyError, setKeyError] = useState<boolean>(false);
-    return (
-      <>
-        <TextInput
-          sx={{ flexGrow: 1, mr: 2 }}
-          name="key"
-          trailingVisual="Key"
-          value={keyInput}
-          validationStatus={keyError ? 'error' : undefined}
-          disabled={!allowEdit}
-          onChange={e => {
-            setKeyInput(e.target.value);
-            if (props.groupProps[e.target.value]) {
-              setKeyError(true);
-            } else {
-              setKeyError(false);
-            }
-          }}
-        />
-
-        <TextInput
-          sx={{ flexGrow: 1, mr: 2 }}
-          trailingVisual="Value"
-          name="value"
-          value={valInput}
-          disabled={!allowEdit}
-          onChange={e => {
-            setValInput(e.target.value);
-          }}
-        />
-
-        <Button
-          sx={{ mr: 2 }}
-          variant={allowEdit ? 'primary' : undefined}
-          disabled={
-            allowEdit &&
-            (keyError ||
-              (props.groupKey === keyInput && props.groupValue === valInput))
-          }
-          onClick={() => {
-            if (allowEdit) {
-              setGroupProps((prevProps: Record<string, string>) => {
-                const index = Object.keys(prevProps).indexOf(props.groupKey);
-                const newGroupProps = {
-                  ...prevProps,
-                  [keyInput]: prevProps[props.groupKey]
-                };
-                delete newGroupProps[props.groupKey];
-                if (index < Object.keys(prevProps).length - 1) {
-                  const keys = Object.keys(newGroupProps);
-                  const newKeys = [
-                    ...keys.slice(0, index),
-                    ...keys.slice(index + 1, keys.length),
-                    keys[index]
-                  ];
-                  const reorderedGroupProps = newKeys.reduce((acc, key) => {
-                    return {
-                      ...acc,
-                      [key]: newGroupProps[key]
-                    };
-                  }, {});
-                  return reorderedGroupProps;
-                } else {
-                  return newGroupProps;
-                }
-              });
-              setAllowEdit(false);
-            } else {
-              setAllowEdit(true);
-            }
-          }}
-        >
-          {allowEdit ? 'Update' : 'Edit'}
-        </Button>
-
-        <IconButton
-          aria-label="Delete"
-          variant="danger"
-          icon={TrashIcon}
-          onClick={() => {
-            setGroupProps((prevProps: Record<string, string>) => {
-              const newProps = { ...prevProps };
-              delete newProps[props.groupKey];
-              return newProps;
-            });
-          }}
-        />
-      </>
-    );
-  };
+  const [groupUsers, setGroupUsers] = useState(group_data.users);
+  const [groupProps, setGroupProps] = useState<Record<string, string>>(
+    group_data.properties
+  );
+  const [newPropKey, setNewPropKey] = useState('');
+  const [newPropValue, setNewPropValue] = useState('');
 
   const {
     addToGroup,
@@ -160,10 +70,15 @@ const GroupEdit = (props: {
     updateProp
   } = props;
 
-  if (!location.state) {
-    navigate('/groups');
-    return <></>;
-  }
+  const dispatchPageUpdate = (data: any, page: any) => {
+    dispatch({
+      type: 'GROUPS_PAGE',
+      value: {
+        data: data,
+        page: page
+      }
+    });
+  };
 
   const onUserAdd = () => {
     validateUser(username).then((exists: boolean) => {
@@ -268,17 +183,104 @@ const GroupEdit = (props: {
       });
   };
 
-  const { group_data } = location.state;
-  if (!group_data) {
-    return <div></div>;
-  }
+  const Cell = (props: {
+    groupKey: string;
+    groupValue: string;
+    groupProps: Record<string, string>;
+  }) => {
+    const [keyInput, setKeyInput] = useState<string>(props.groupKey);
+    const [valInput, setValInput] = useState<string>(props.groupValue);
+    const [allowEdit, setAllowEdit] = useState<boolean>(false);
+    const [keyError, setKeyError] = useState<boolean>(false);
+    return (
+      <>
+        <TextInput
+          sx={{ flexGrow: 1, mr: 2 }}
+          name="key"
+          trailingVisual="Key"
+          value={keyInput}
+          validationStatus={keyError ? 'error' : undefined}
+          disabled={!allowEdit}
+          onChange={e => {
+            setKeyInput(e.target.value);
+            if (props.groupProps[e.target.value]) {
+              setKeyError(true);
+            } else {
+              setKeyError(false);
+            }
+          }}
+        />
 
-  const [groupUsers, setGroupUsers] = useState(group_data.users);
-  const [groupProps, setGroupProps] = useState<Record<string, string>>(
-    group_data.properties
-  );
-  const [newPropKey, setNewPropKey] = useState('');
-  const [newPropValue, setNewPropValue] = useState('');
+        <TextInput
+          sx={{ flexGrow: 1, mr: 2 }}
+          trailingVisual="Value"
+          name="value"
+          value={valInput}
+          disabled={!allowEdit}
+          onChange={e => {
+            setValInput(e.target.value);
+          }}
+        />
+
+        <Button
+          sx={{ mr: 2 }}
+          variant={allowEdit ? 'primary' : undefined}
+          disabled={
+            allowEdit &&
+            (keyError ||
+              (props.groupKey === keyInput && props.groupValue === valInput))
+          }
+          onClick={() => {
+            if (allowEdit) {
+              setGroupProps((prevProps: Record<string, string>) => {
+                const index = Object.keys(prevProps).indexOf(props.groupKey);
+                const newGroupProps = {
+                  ...prevProps,
+                  [keyInput]: prevProps[props.groupKey]
+                };
+                delete newGroupProps[props.groupKey];
+                if (index < Object.keys(prevProps).length - 1) {
+                  const keys = Object.keys(newGroupProps);
+                  const newKeys = [
+                    ...keys.slice(0, index),
+                    ...keys.slice(index + 1, keys.length),
+                    keys[index]
+                  ];
+                  const reorderedGroupProps = newKeys.reduce((acc, key) => {
+                    return {
+                      ...acc,
+                      [key]: newGroupProps[key]
+                    };
+                  }, {});
+                  return reorderedGroupProps;
+                } else {
+                  return newGroupProps;
+                }
+              });
+              setAllowEdit(false);
+            } else {
+              setAllowEdit(true);
+            }
+          }}
+        >
+          {allowEdit ? 'Update' : 'Edit'}
+        </Button>
+
+        <IconButton
+          aria-label="Delete"
+          variant="danger"
+          icon={TrashIcon}
+          onClick={() => {
+            setGroupProps((prevProps: Record<string, string>) => {
+              const newProps = { ...prevProps };
+              delete newProps[props.groupKey];
+              return newProps;
+            });
+          }}
+        />
+      </>
+    );
+  };
 
   return (
     <>

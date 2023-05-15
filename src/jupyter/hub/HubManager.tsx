@@ -27,6 +27,6 @@ const HubManager = (): JSX.Element => {
       </Routes>
     </HashRouter>
   );
-}
+};
 
 export default HubManager;

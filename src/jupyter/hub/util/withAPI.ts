@@ -40,7 +40,10 @@ const withAPI = withProps(() => ({
     }),
   deleteUser: (username: string) =>
     jhapiRequest('/users/' + username, 'DELETE'),
-  findUser: (username: string) => jhapiRequest('/users/' + username, 'GET'),
+  findGroup: (groupname: string) =>
+    jhapiRequest('/groups/' + groupname, 'GET').then(data => data.json()),
+  findUser: (username: string) =>
+    jhapiRequest('/users/' + username, 'GET').then(data => data.json()),
   validateUser: (username: string) =>
     jhapiRequest('/users/' + username, 'GET')
       .then(data => data.status)

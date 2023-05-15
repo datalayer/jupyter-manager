@@ -1,13 +1,13 @@
 export const initialState = {
-  user_data: undefined,
+  user_data: null,
   user_page: { offset: 0, limit: 10 },
   name_filter: '',
-  groups_data: undefined,
+  groups_data: null,
   groups_page: { offset: 0, limit: 10 },
   config: {},
   config_schema: {},
   limit: 10
-}
+};
 
 export type Group = {
   kind: 'group';
@@ -15,7 +15,7 @@ export type Group = {
   properties: Record<string, any>;
   roles: string[];
   users: string[];
-}
+};
 
 export type Server = {
   last_activity: string | null;
@@ -28,7 +28,7 @@ export type Server = {
   stopped: boolean;
   url: string;
   user_options: any;
-}
+};
 
 export type User = {
   admin: boolean;
@@ -42,20 +42,23 @@ export type User = {
   roles: string[];
   server: Server | null;
   servers: Server[];
-}
+};
 
 export type ManagerState = {
-  user_data: User[];
+  user_data: User[] | null;
   user_page: { offset: number; limit: number; total?: number; next?: any };
   name_filter: string;
-  groups_data: Group[];
+  groups_data: Group[] | null;
   groups_page: { offset: number; limit: number; total?: number; next?: any };
-  config: {},
-  config_schema: {},
+  config: any;
+  config_schema: any;
   limit: number;
-}
+};
 
-export const reducers = (state = initialState, action: any) => {
+export const reducers = (
+  state: ManagerState = initialState,
+  action: any
+): ManagerState => {
   switch (action.type) {
     case 'UPDATE_CONFIG':
       return Object.assign({}, state, {
@@ -103,4 +106,4 @@ export const reducers = (state = initialState, action: any) => {
     default:
       return state;
   }
-}
+};

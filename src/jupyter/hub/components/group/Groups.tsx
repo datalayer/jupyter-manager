@@ -21,7 +21,7 @@ const Groups = (props: {
   history: any;
   location: any;
 }): JSX.Element => {
-  const groups_data = useSelector<ManagerState, Group[]>(
+  const groups_data = useSelector<ManagerState, Group[] | null>(
     state => state.groups_data
   );
   const groups_page = useSelector<ManagerState, ManagerState['groups_page']>(
