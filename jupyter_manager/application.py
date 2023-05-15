@@ -7,8 +7,6 @@ from traitlets import Unicode
 from jupyter_server.utils import url_path_join
 from jupyter_server.extension.application import ExtensionApp, ExtensionAppJinjaMixin
 
-from tornado_swagger.setup import setup_swagger
-
 from .handlers import ConfigHandler, IndexHandler
 
 

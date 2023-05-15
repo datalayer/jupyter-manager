@@ -1,4 +1,9 @@
-"""Test extensions."""
+"""Test extensions.
+
+On a running Jupyter Server, the extensions are normally found under
+app.serverapp.extension_manager.extensions
+
+"""
 
 from jupyter_server.extension.application import ExtensionApp
 from jupyter_server.extension.serverextension import _get_extmanager_for_context
