@@ -11,12 +11,13 @@ import {
   Flash,
   Label,
   PageLayout,
+  Pagination,
   RelativeTime,
   TextInput
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
-import { HubState } from '../Store';
+import { HubState, User } from '../Store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
 
@@ -34,14 +35,15 @@ const HubManager = (props: {
   const base_url = window.location.origin || '/';
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const user_data = useSelector<HubState, any>(state => state.user_data);
-  const user_page = useSelector<HubState, { offset: number; limit: number }>(
+  const user_data = useSelector<HubState, User[]>(state => state.user_data);
+  const user_page = useSelector<HubState, HubState['user_page']>(
     state => state.user_page
   );
   const name_filter = useSelector<HubState, string>(state => state.name_filter);
 
   const offset = user_page ? user_page.offset : 0;
   const limit = user_page ? user_page.limit : 10;
+  const total = user_page ? user_page.total : undefined;
 
   const dispatch = useDispatch();
 
@@ -53,6 +55,15 @@ const HubManager = (props: {
     startAll,
     stopAll
   } = props;
+
+  const setOffset = (offset: any) => {
+    dispatch({
+      type: 'USER_OFFSET',
+      value: {
+        offset: offset
+      }
+    });
+  };
 
   const dispatchPageUpdate = (data: any, page: any) => {
     dispatch({
@@ -240,7 +251,7 @@ const HubManager = (props: {
     name: string;
     admin: string;
     serverName: string;
-    lastActivity: number;
+    lastActivity: number | null;
     serverReady: boolean;
     serverURL: string;
   }[] = servers.map((server: any, index: number) => {
@@ -407,6 +418,19 @@ const HubManager = (props: {
               ]}
             />
           </Table.Container>
+          {total && (
+            <Pagination
+              pageCount={Math.ceil(total / limit)}
+              currentPage={Math.floor(offset / limit) + 1}
+              onPageChange={e => {
+                e.preventDefault();
+                const el = e.target as HTMLAnchorElement;
+                const targetPage = parseInt(el.href.split('#').pop() as string);
+                const currPage = Math.floor(offset / limit) + 1;
+                setOffset(offset + limit * (targetPage - currPage));
+              }}
+            />
+          )}
         </PageLayout.Content>
         <PageLayout.Pane>
           <Button

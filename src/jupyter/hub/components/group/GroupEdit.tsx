@@ -43,7 +43,6 @@ const GroupEdit = (props: {
   const dispatch = useDispatch();
 
   const dispatchPageUpdate = (data: any, page: any) => {
-    console.log(data, page);
     dispatch({
       type: 'GROUPS_PAGE',
       value: {
@@ -144,7 +143,6 @@ const GroupEdit = (props: {
             setGroupProps((prevProps: Record<string, string>) => {
               const newProps = { ...prevProps };
               delete newProps[props.groupKey];
-              console.log(newProps, props.groupKey);
               return newProps;
             });
           }}
@@ -282,7 +280,6 @@ const GroupEdit = (props: {
   const [newPropKey, setNewPropKey] = useState('');
   const [newPropValue, setNewPropValue] = useState('');
 
-  console.log(groupProps, group_data.properties);
   return (
     <>
       <PageLayout>

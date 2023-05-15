@@ -29,7 +29,6 @@ const Groups = (props: {
   );
   const dispatch = useDispatch();
 
-  console.log(groups_data, groups_page);
   const offset = groups_page ? groups_page.offset : 0;
 
   const setOffset = (offset: any) => {
