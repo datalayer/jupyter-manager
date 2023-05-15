@@ -2,11 +2,11 @@
 
 [![Become a Sponsor](https://img.shields.io/static/v1?label=Become%20a%20Sponsor&message=%E2%9D%A4&logo=GitHub&style=flat&color=1ABC9C)](https://github.com/sponsors/datalayer)
 
-# 🪐 🚦 Jupyter Manager
+# 🪐 ⚙️ Jupyter Manager
 
-> User interface to manage your Jupyter stack.
+> User interface to manage your Jupyter platform.
 
-`Configure`, `monitor` and `operate` your Jupyter stack.
+`Configure`, `monitor` and `operate` your Jupyter platform.
 
 You can run `Jupyter Manager` as a service on any JupyterHub.
 
