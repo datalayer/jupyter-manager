@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import {
   Breadcrumbs,
   PageLayout,
@@ -10,60 +10,34 @@ import {
 import { PageHeader } from '@primer/react/drafts';
 import { Link } from 'react-router-dom';
 import { PeopleIcon } from '@primer/octicons-react';
-import { ManagerState } from '../../../Store';
-import type { Group } from '../../../Store';
 import GroupCreate from './GroupCreate';
+import { GroupState } from '../../reducers/group';
+import {
+  createGroup,
+  setGroupOffset,
+  getGroupsPagination
+} from '../../actions/group';
 
-const Groups = (props: {
+const Groups = ({
+  createGroup,
+  setGroupOffset,
+  getGroupsPagination,
+  group: { groups, group_page }
+}: {
   createGroup: any;
-  updateUsers: any;
-  updateGroups: any;
-  history: any;
-  location: any;
+  setGroupOffset: any;
+  getGroupsPagination: any;
+  group: GroupState;
 }): JSX.Element => {
-  const groups_data = useSelector<ManagerState, Group[] | null>(
-    state => state.groups_data
-  );
-  const groups_page = useSelector<ManagerState, ManagerState['groups_page']>(
-    state => state.groups_page
-  );
-  const dispatch = useDispatch();
-
-  const offset = groups_page ? groups_page.offset : 0;
-
-  const setOffset = (offset: any) => {
-    dispatch({
-      type: 'GROUPS_OFFSET',
-      value: {
-        offset: offset
-      }
-    });
-  };
-  const limit = groups_page ? groups_page.limit : 10;
-  const total = groups_page ? groups_page.total : undefined;
-
-  const { updateGroups, createGroup } = props;
-
-  const dispatchPageUpdate = (
-    data: ManagerState['groups_data'],
-    page: ManagerState['groups_page']
-  ) => {
-    dispatch({
-      type: 'GROUPS_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
+  const offset = group_page ? group_page.offset : 0;
+  const limit = group_page ? group_page.limit : 10;
+  const total = group_page ? group_page.total : undefined;
 
   useEffect(() => {
-    updateGroups(offset, limit).then((data: any) =>
-      dispatchPageUpdate(data.items, data._pagination)
-    );
-  }, [offset, limit]);
+    getGroupsPagination(group_page.offset, group_page.limit);
+  }, [getGroupsPagination, offset, limit]);
 
-  if (!groups_data || !groups_page) {
+  if (!groups || !group_page) {
     return <div data-testid="no-show"></div>;
   }
 
@@ -78,7 +52,10 @@ const Groups = (props: {
             </Breadcrumbs.Item>
           </Breadcrumbs>
         </PageLayout.Header>
-        <GroupCreate createGroup={createGroup} updateGroups={updateGroups} />
+        <GroupCreate
+          createGroup={createGroup}
+          updateGroups={getGroupsPagination}
+        />
         <PageLayout.Content sx={{ p: 3 }}>
           <PageHeader>
             <PageHeader.TitleArea>
@@ -89,8 +66,8 @@ const Groups = (props: {
             </PageHeader.TitleArea>
           </PageHeader>
           <ActionList>
-            {groups_data.length > 0 ? (
-              groups_data.map((e: any, i: number) => (
+            {groups.length > 0 ? (
+              groups.map((e: any, i: number) => (
                 <Link
                   to="/group-edit"
                   key={'group-' + i}
@@ -119,7 +96,7 @@ const Groups = (props: {
                 const el = e.target as HTMLAnchorElement;
                 const targetPage = parseInt(el.href.split('#').pop() as string);
                 const currPage = Math.floor(offset / limit) + 1;
-                setOffset(offset + limit * (targetPage - currPage));
+                setGroupOffset(offset + limit * (targetPage - currPage));
               }}
             />
           )}
@@ -129,4 +106,12 @@ const Groups = (props: {
   );
 };
 
-export default Groups;
+const mapStateToProps = (state: any) => ({
+  group: state.group
+});
+
+export default connect(mapStateToProps, {
+  createGroup,
+  setGroupOffset,
+  getGroupsPagination
+})(Groups);

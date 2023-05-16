@@ -16,7 +16,7 @@ import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
 import { ManagerState } from '../../../Store';
-import type { Server, User } from '../../../Store';
+import type { Server, User } from '../../reducers/user';
 
 const UserEdit = (props: {
   location: any;

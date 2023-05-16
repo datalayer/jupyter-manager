@@ -1,6 +1,6 @@
 import { compose } from 'react-recompose';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import withAPI from './util/withAPI';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import withAPI from './utils/withAPI';
 import HubDashboard from './components/HubDashboard';
 import Groups from './components/group/Groups';
 import GroupEdit from './components/group/GroupEdit';
@@ -17,15 +17,16 @@ const UserEditCompose = compose(withAPI)(UserEdit);
 
 const HubManager = (): JSX.Element => {
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<HubDashboardCompose />} />
-        <Route path="/groups" element={<GroupsCompose />} />
-        <Route path="/group-edit" element={<GroupEditCompose />} />
+        <Route path="/groups" element={<Groups />} />
+        <Route path="/groups/:name" element={<GroupEditCompose />} />
         <Route path="/users-add" element={<UserAddCompose />} />
         <Route path="/user-edit" element={<UserEditCompose />} />
+        {/*<Route path="/*" element={<NotFound />} />*/}
       </Routes>
-    </HashRouter>
+    </Router>
   );
 };
 

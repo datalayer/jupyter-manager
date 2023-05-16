@@ -1,3 +1,24 @@
+import { createStore, applyMiddleware, Store } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from './hub/reducers';
+
+const initialState = {
+  user_data: null,
+  user_page: { offset: 0, limit: 10 },
+  name_filter: '',
+  groups_data: null,
+  groups_page: { offset: 0, limit: 10 },
+  config: {},
+  config_schema: {},
+  limit: 10
+};
+
+const middleware = [thunk];
+
+const store: Store = createStore(rootReducer, applyMiddleware(...middleware));
+
+export default store;
+/*
 export const initialState = {
   user_data: null,
   user_page: { offset: 0, limit: 10 },
@@ -107,3 +128,4 @@ export const reducers = (
       return state;
   }
 };
+*/
