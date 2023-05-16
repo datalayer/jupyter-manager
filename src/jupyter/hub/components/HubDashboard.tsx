@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import {
   Breadcrumbs,
@@ -17,97 +16,52 @@ import {
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
-import { ManagerState, User } from '../../Store';
+import { MainState } from 'src/jupyter/Store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
+import {
+  setUserOffset,
+  setNameFilter,
+  getUsersPagination
+} from '../actions/user';
+import { UserState } from '../reducers/user';
 
 const HubManager = (props: {
-  updateUsers: any;
   shutdownHub: any;
   startServer: any;
   stopServer: any;
   startAll: any;
   stopAll: any;
-  history: any;
 }): JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const base_url = window.location.origin || '/';
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const user_data = useSelector<ManagerState, User[] | null>(
-    state => state.user_data
-  );
-  const user_page = useSelector<ManagerState, ManagerState['user_page']>(
-    state => state.user_page
-  );
-  const name_filter = useSelector<ManagerState, string>(
-    state => state.name_filter
-  );
+  const user = useSelector<MainState, UserState>(state => state.user);
+  const { users, user_page, name_filter } = user;
 
   const offset = user_page ? user_page.offset : 0;
   const limit = user_page ? user_page.limit : 10;
   const total = user_page ? user_page.total : undefined;
 
-  const dispatch = useDispatch();
-
-  const {
-    updateUsers,
-    shutdownHub,
-    startServer,
-    stopServer,
-    startAll,
-    stopAll
-  } = props;
-
-  const setOffset = (offset: any) => {
-    dispatch({
-      type: 'USER_OFFSET',
-      value: {
-        offset: offset
-      }
-    });
-  };
-
-  const dispatchPageUpdate = (data: any, page: any) => {
-    dispatch({
-      type: 'USER_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
-
-  const setNameFilter = (name_filter: any) => {
-    dispatch({
-      type: 'USER_NAME_FILTER',
-      value: {
-        name_filter: name_filter
-      }
-    });
-  };
+  const { shutdownHub, startServer, stopServer, startAll, stopAll } = props;
 
   useEffect(() => {
-    updateUsers(offset, limit, name_filter)
-      .then((data: { items: any; _pagination: any }) =>
-        dispatchPageUpdate(data.items, data._pagination)
-      )
-      .catch((err: any) => setErrorAlert('Failed to update user list.'));
-  }, [offset, limit, name_filter]);
+    dispatch(getUsersPagination(offset, limit, name_filter));
+  }, [getUsersPagination, offset, limit, name_filter]);
 
-  if (!user_data || !user_page) {
+  if (!users || !user_page) {
     return <div data-testid="no-show"></div>;
   }
 
-  const slice = [offset, limit, name_filter];
-
   const handleSearch = debounce(async (event: { target: { value: any } }) => {
-    setNameFilter(event.target.value);
+    dispatch(setNameFilter(event.target.value));
   }, 300);
 
   const StartAllServers = () => {
-    Promise.all(startAll(user_data.map((e: { name: any }) => e.name)))
+    Promise.all(startAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
         const failedServers = res.filter(e => !e.ok);
         if (failedServers.length > 0) {
@@ -122,18 +76,14 @@ const HubManager = (props: {
         return res;
       })
       .then(res => {
-        updateUsers(...slice)
-          .then((data: { items: any; _pagination: any }) => {
-            dispatchPageUpdate(data.items, data._pagination);
-          })
-          .catch(() => setErrorAlert('Failed to update users list.'));
+        dispatch(getUsersPagination(offset, limit, name_filter));
         return res;
       })
       .catch(() => setErrorAlert('Failed to start servers.'));
   };
 
   const StopAllServers = () => {
-    Promise.all(stopAll(user_data.map((e: { name: any }) => e.name)))
+    Promise.all(stopAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
         const failedServers = res.filter(e => !e.ok);
         if (failedServers.length > 0) {
@@ -148,11 +98,7 @@ const HubManager = (props: {
         return res;
       })
       .then(res => {
-        updateUsers(...slice)
-          .then((data: { items: any; _pagination: any }) => {
-            dispatchPageUpdate(data.items, data._pagination);
-          })
-          .catch(() => setErrorAlert('Failed to update users list.'));
+        dispatch(getUsersPagination(offset, limit, name_filter));
         return res;
       })
       .catch(() => setErrorAlert('Failed to stop servers.'));
@@ -175,14 +121,7 @@ const HubManager = (props: {
           stopServer(userName, serverName)
             .then((res: { status: number }) => {
               if (res.status < 300) {
-                updateUsers(...slice)
-                  .then((data: { items: any; _pagination: any }) => {
-                    dispatchPageUpdate(data.items, data._pagination);
-                  })
-                  .catch(() => {
-                    setIsDisabled(false);
-                    setErrorAlert('Failed to update users list.');
-                  });
+                dispatch(getUsersPagination(offset, limit, name_filter));
               } else {
                 setErrorAlert('Failed to stop server.');
                 setIsDisabled(false);
@@ -217,14 +156,7 @@ const HubManager = (props: {
           startServer(userName, serverName)
             .then((res: { status: number }) => {
               if (res.status < 300) {
-                updateUsers(...slice)
-                  .then((data: { items: any; _pagination: any }) => {
-                    dispatchPageUpdate(data.items, data._pagination);
-                  })
-                  .catch(() => {
-                    setErrorAlert('Failed to update users list.');
-                    setIsDisabled(false);
-                  });
+                dispatch(getUsersPagination(offset, limit, name_filter));
               } else {
                 setErrorAlert('Failed to start server.');
                 setIsDisabled(false);
@@ -242,7 +174,7 @@ const HubManager = (props: {
     );
   };
 
-  const servers = user_data.flatMap((user: { server: any; servers: any }) => {
+  const servers = users.flatMap((user: { server: any; servers: any }) => {
     const userServers = Object.values({
       '': user.server || {},
       ...(user.servers || {})
@@ -406,14 +338,7 @@ const HubManager = (props: {
                         title={`Edit ${row.name}`}
                         icon={PencilIcon}
                         variant="invisible"
-                        onClick={() =>
-                          navigate('/user-edit', {
-                            state: {
-                              user: servers[row.id][0],
-                              server: servers[row.id][1]
-                            }
-                          })
-                        }
+                        onClick={() => navigate(`/users/${row.name}`)}
                       />
                     );
                   },
@@ -431,7 +356,9 @@ const HubManager = (props: {
                 const el = e.target as HTMLAnchorElement;
                 const targetPage = parseInt(el.href.split('#').pop() as string);
                 const currPage = Math.floor(offset / limit) + 1;
-                setOffset(offset + limit * (targetPage - currPage));
+                dispatch(
+                  setUserOffset(offset + limit * (targetPage - currPage))
+                );
               }}
             />
           )}
@@ -441,7 +368,7 @@ const HubManager = (props: {
             block
             sx={{ mb: 3 }}
             variant="primary"
-            onClick={() => navigate('/users-add')}
+            onClick={() => navigate('/add-users')}
           >
             Add Users
           </Button>
@@ -482,23 +409,6 @@ const HubManager = (props: {
       </PageLayout>
     </>
   );
-};
-
-HubManager.propTypes = {
-  user_data: PropTypes.array,
-  updateUsers: PropTypes.func,
-  shutdownHub: PropTypes.func,
-  startServer: PropTypes.func,
-  stopServer: PropTypes.func,
-  startAll: PropTypes.func,
-  stopAll: PropTypes.func,
-  dispatch: PropTypes.func,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
-  location: PropTypes.shape({
-    search: PropTypes.string
-  })
 };
 
 export default HubManager;

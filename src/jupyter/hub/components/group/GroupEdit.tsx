@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { isEqual } from 'lodash';
 import {
   Box,
@@ -20,167 +20,65 @@ import {
   TrashIcon
 } from '@primer/octicons-react';
 import { PageHeader } from '@primer/react/drafts';
-import { ManagerState } from '../../../Store';
+import type { MainState } from '../../../Store';
+import { GroupState } from '../../reducers/group';
+import {
+  addUserToGroup,
+  removeFromGroup,
+  deleteGroup,
+  updateGroupProps,
+  getCurrentGroup
+} from '../../actions/group';
 
-const GroupEdit = (props: {
-  location: any;
-  history: any;
-  addToGroup: any;
-  removeFromGroup: any;
-  deleteGroup: any;
-  updateGroups: any;
-  updateProp: any;
-  validateUser: any;
-}): JSX.Element => {
+const GroupEdit = (): JSX.Element => {
+  const { name } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
-  if (!location.state) {
+  if (!name) {
     navigate('/groups');
     return <></>;
   }
 
-  const { group_data } = location.state;
-  if (!group_data) {
-    return <div></div>;
-  }
-
-  const limit = useSelector<ManagerState, ManagerState['limit']>(
-    state => state.limit
-  );
+  const group = useSelector<MainState, GroupState>(state => state.group);
+  const { group: group_data, loading } = group;
 
   const [username, setUsername] = useState('');
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  const [groupUsers, setGroupUsers] = useState(group_data.users);
-  const [groupProps, setGroupProps] = useState<Record<string, string>>(
-    group_data.properties
-  );
+  const [groupUsers, setGroupUsers] = useState(group_data?.users || []);
+  const [groupProps, setGroupProps] = useState(group_data?.properties || {});
   const [newPropKey, setNewPropKey] = useState('');
   const [newPropValue, setNewPropValue] = useState('');
 
-  const {
-    addToGroup,
-    removeFromGroup,
-    deleteGroup,
-    updateGroups,
-    validateUser,
-    updateProp
-  } = props;
+  useEffect(() => {
+    dispatch(getCurrentGroup(name));
+  }, [getCurrentGroup, name]);
 
-  const dispatchPageUpdate = (data: any, page: any) => {
-    dispatch({
-      type: 'GROUPS_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
+  useEffect(() => {
+    setGroupUsers(group_data?.users || []);
+    setGroupProps(group_data?.properties || {});
+  }, [group_data]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!group_data) {
+    return <div></div>;
+  }
 
   const onUserAdd = () => {
-    validateUser(username).then((exists: boolean) => {
-      if (exists) {
-        if (!groupUsers.includes(username)) {
-          addToGroup([username], group_data.name)
-            .then((data: { status: number }) => {
-              if (data.status < 300) {
-                setUsername('');
-                setSuccessMessage('User successfully added to the group');
-                setTimeout(() => {
-                  setSuccessMessage(null);
-                }, 1000);
-                setGroupUsers([...groupUsers, username]);
-                return true;
-              } else {
-                setErrorAlert(
-                  `Failed to add user to group. ${
-                    data.status === 409 ? 'User already exists.' : ''
-                  }`
-                );
-                setTimeout(() => {
-                  setErrorAlert(null);
-                }, 2000);
-                return false;
-              }
-            })
-            .catch(() => {
-              setErrorAlert('Failed to add user.');
-              setTimeout(() => {
-                setErrorAlert(null);
-              }, 2000);
-            });
-        } else {
-          setErrorAlert(`"${username}" already exists in the group.`);
-          setTimeout(() => {
-            setErrorAlert(null);
-          }, 2000);
-        }
-      } else {
-        setErrorAlert(`"${username}" is not a valid JupyterHub user.`);
-        setTimeout(() => {
-          setErrorAlert(null);
-        }, 2000);
-      }
-    });
+    dispatch(addUserToGroup(group_data.name, username));
+    setUsername('');
   };
 
   const onRemoveUser = (username: string) => {
-    removeFromGroup([username], group_data.name)
-      .then((data: { status: number }) => {
-        if (data.status < 300) {
-          const updatedGroup = groupUsers;
-          const index = updatedGroup.indexOf(username);
-          if (index > -1) {
-            updatedGroup.splice(index, 1);
-          }
-          setUsername('');
-          setSuccessMessage('User successfully removed from the group');
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 1000);
-          setGroupUsers(updatedGroup);
-          return true;
-        } else {
-          setErrorAlert('Failed to remove user from group.}');
-          setTimeout(() => {
-            setErrorAlert(null);
-          }, 2000);
-          return false;
-        }
-      })
-      .catch(() => {
-        setErrorAlert('Failed to remove user.');
-        setTimeout(() => {
-          setErrorAlert(null);
-        }, 2000);
-      });
+    dispatch(removeFromGroup(group_data.name, [username]));
   };
 
   const onPropUpdate = () => {
-    updateProp(groupProps, group_data.name)
-      .then((data: { status: number }) => {
-        if (data.status < 300) {
-          setUsername('');
-          setSuccessMessage('Group properties updated succesfully');
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 1000);
-          group_data.properties = groupProps;
-          return true;
-        } else {
-          setErrorAlert('Failed to update group properties');
-          return false;
-        }
-      })
-      .catch(() => {
-        setErrorAlert('Failed to update group properties');
-        setTimeout(() => {
-          setErrorAlert(null);
-        }, 2000);
-      });
+    dispatch(updateGroupProps(group_data.name, groupProps));
   };
 
   const Cell = (props: {
@@ -288,7 +186,7 @@ const GroupEdit = (props: {
         <PageLayout.Header sx={{ my: [0, 0, 0, 0] }} divider="line">
           <Breadcrumbs>
             <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="#/groups">Groups</Breadcrumbs.Item>
+            <Breadcrumbs.Item href="/groups">Groups</Breadcrumbs.Item>
             <Breadcrumbs.Item href="/group-edit" selected>
               {group_data.name}
             </Breadcrumbs.Item>
@@ -391,24 +289,8 @@ const GroupEdit = (props: {
                   block
                   variant="danger"
                   onClick={() => {
-                    const groupName = group_data.name;
-                    deleteGroup(groupName)
-                      // TODO add error if res not ok
-                      .then((res: { status: number }) => {
-                        res.status < 300
-                          ? updateGroups(0, limit)
-                              .then(
-                                (data: { items: any; _pagination: any }) => {
-                                  dispatchPageUpdate(
-                                    data.items,
-                                    data._pagination
-                                  );
-                                }
-                              )
-                              .then(() => navigate('/groups'))
-                          : setErrorAlert('Failed to delete group.');
-                      })
-                      .catch(() => setErrorAlert('Failed to delete group.'));
+                    dispatch(deleteGroup(group_data.name));
+                    navigate('/groups');
                   }}
                 >
                   Delete Group

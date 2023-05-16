@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider, useDispatch } from 'react-redux';
-import { createStore } from 'redux';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
-import { GearIcon, CpuIcon, EyeIcon, FileDirectoryIcon } from '@primer/octicons-react';
-import { DatalayerGreenIcon, JupyterHubIcon, JupyterServerIcon, JupyterKernelIcon } from '@datalayer-icons/react/solid';
+import {
+  GearIcon,
+  CpuIcon,
+  EyeIcon,
+  FileDirectoryIcon
+} from '@primer/octicons-react';
+import {
+  DatalayerGreenIcon,
+  JupyterHubIcon,
+  JupyterServerIcon,
+  JupyterKernelIcon
+} from '@datalayer-icons/react/solid';
 import { UnderlineNav } from '@primer/react/drafts';
-import { initialState, reducers } from './Store';
+import store from './Store';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from './Config';
 import { requestAPI } from './api/handler';
 import HubManager from './hub/HubManager';
@@ -21,22 +30,20 @@ type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
 };
 
-const store = createStore(reducers, initialState);
-
-const ConfigUpdater = (props: { data: any}) => {
+const ConfigUpdater = (props: { data: any }) => {
   const { data } = props;
   const dispatch = useDispatch();
   const updateConfigs = (data: any) => {
     dispatch({
       type: 'UPDATE_CONFIG',
       value: {
-        config: data.config,
+        config: data.config
       }
     });
     dispatch({
       type: 'SET_CONFIG_SCHEMA',
       value: {
-        config_schema: data.config_schema,
+        config_schema: data.config_schema
       }
     });
   };
@@ -44,7 +51,7 @@ const ConfigUpdater = (props: { data: any}) => {
     updateConfigs(data);
   }, []);
   return null;
-}
+};
 
 const Manager = (props: ManagerProps): JSX.Element => {
   const { loadDatalayerConfigFromPage: loadDatalayerConfigFromPage } = props;
@@ -71,13 +78,13 @@ const Manager = (props: ManagerProps): JSX.Element => {
     <ReduxProvider store={store}>
       <ThemeProvider>
         <BaseStyles>
-          { data && <ConfigUpdater data={data}/>}
+          {data && <ConfigUpdater data={data} />}
           <Box>
             <Box mb={3}>
               <UnderlineNav>
                 <UnderlineNav.Item
                   aria-current="page"
-                  icon={() => <JupyterHubIcon colored/>}
+                  icon={() => <JupyterHubIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
                     setTab('hub');
@@ -95,7 +102,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   Editor
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
-                  icon={() => <JupyterServerIcon colored/>}
+                  icon={() => <JupyterServerIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
                     setTab('server');
@@ -140,7 +147,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   Settings
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
-                  icon={() => <DatalayerGreenIcon colored/>}
+                  icon={() => <DatalayerGreenIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
                     setTab('about');

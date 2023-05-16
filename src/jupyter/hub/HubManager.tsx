@@ -10,8 +10,6 @@ import UserEdit from './components/user/UserEdit';
 import './../../../style/jupyterhub/root.css';
 
 const HubDashboardCompose = compose(withAPI)(HubDashboard);
-const GroupsCompose = compose(withAPI)(Groups);
-const GroupEditCompose = compose(withAPI)(GroupEdit);
 const UserAddCompose = compose(withAPI)(UserAdd);
 const UserEditCompose = compose(withAPI)(UserEdit);
 
@@ -21,9 +19,9 @@ const HubManager = (): JSX.Element => {
       <Routes>
         <Route path="/" element={<HubDashboardCompose />} />
         <Route path="/groups" element={<Groups />} />
-        <Route path="/groups/:name" element={<GroupEditCompose />} />
-        <Route path="/users-add" element={<UserAddCompose />} />
-        <Route path="/user-edit" element={<UserEditCompose />} />
+        <Route path="/groups/:name" element={<GroupEdit />} />
+        <Route path="/add-users" element={<UserAddCompose />} />
+        <Route path="/users/:name" element={<UserEditCompose />} />
         {/*<Route path="/*" element={<NotFound />} />*/}
       </Routes>
     </Router>

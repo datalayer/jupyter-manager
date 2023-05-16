@@ -35,7 +35,9 @@ export const getCurrentGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = (await jhapiRequest('/groups/' + groupname, 'GET')).json();
+    const res = await (
+      await jhapiRequest('/groups/' + groupname, 'GET')
+    ).json();
 
     dispatch({
       type: GET_GROUP,
@@ -54,7 +56,7 @@ export const getGroupsPagination = (offset: number, limit: number) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = (
+    const res = await (
       await jhapiRequest(`/groups?offset=${offset}&limit=${limit}`, 'GET')
     ).json();
 
@@ -110,14 +112,17 @@ export const updateGroupProps = (
   propobject: Record<string, string>
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    await jhapiRequest(
-      '/groups/' + groupname + '/properties',
-      'PUT',
-      propobject
-    );
+    const res = await (
+      await jhapiRequest(
+        '/groups/' + groupname + '/properties',
+        'PUT',
+        propobject
+      )
+    ).json();
 
     dispatch({
-      type: UPDATE_GROUP_PROPS
+      type: UPDATE_GROUP_PROPS,
+      payload: res
     });
   } catch (err: any) {
     dispatch({
@@ -131,7 +136,7 @@ export const refreshGroups = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = (await jhapiRequest('/groups', 'GET')).json();
+    const res = await (await jhapiRequest('/groups', 'GET')).json();
 
     dispatch({
       type: REFRESH_GROUPS,
@@ -149,10 +154,13 @@ export const removeFromGroup = (groupname: string, users: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    await jhapiRequest('/groups/' + groupname + '/users', 'DELETE', { users });
+    const res = await (
+      await jhapiRequest('/groups/' + groupname + '/users', 'DELETE', { users })
+    ).json();
 
     dispatch({
-      type: REMOVE_FROM_GROUP
+      type: REMOVE_FROM_GROUP,
+      payload: res
     });
   } catch (err: any) {
     dispatch({
@@ -162,18 +170,21 @@ export const removeFromGroup = (groupname: string, users: string[]) => async (
   }
 };
 
-export const addUsersToGroup = (groupname: string, username: string) => async (
+export const addUserToGroup = (groupname: string, username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
     const resStatus = (await jhapiRequest('/users/' + username, 'GET')).status;
-    if (resStatus > 200) {
-      await jhapiRequest('/groups/' + groupname + '/users', 'POST', {
-        users: [username]
-      });
+    if (resStatus <= 200) {
+      const res = await (
+        await jhapiRequest('/groups/' + groupname + '/users', 'POST', {
+          users: [username]
+        })
+      ).json();
 
       dispatch({
-        type: ADD_TO_GROUP
+        type: ADD_TO_GROUP,
+        payload: res
       });
     } else {
       throw new Error('User does not exist');

@@ -2,6 +2,8 @@ import { jhapiRequest } from '../utils/jhapiUtil';
 
 import {
   USER_PAGINATION,
+  SET_USER_OFFSET,
+  SET_NAME_FILTER,
   REFRESH_USERS,
   START_SERVER,
   STOP_SERVER,
@@ -15,12 +17,44 @@ import {
 } from './types';
 import { Dispatch, AnyAction } from 'redux';
 
+export const setUserOffset = (offset: number) => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    dispatch({
+      type: SET_USER_OFFSET,
+      payload: offset
+    });
+  } catch (err: any) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err }
+    });
+  }
+};
+
+export const setNameFilter = (namefilter: string) => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    dispatch({
+      type: SET_NAME_FILTER,
+      payload: namefilter
+    });
+  } catch (err: any) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err }
+    });
+  }
+};
+
 // Get current user
 export const getCurrentUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = (await jhapiRequest('/users/' + username, 'GET')).json();
+    const res = await (await jhapiRequest('/users/' + username, 'GET')).json();
 
     dispatch({
       type: GET_USER,
@@ -43,7 +77,7 @@ export const getUsersPagination = (
   //dispatch({ type: CLEAR_USERS });
 
   try {
-    const res = (
+    const res = await (
       await jhapiRequest(
         `/users?include_stopped_servers&offset=${offset}&limit=${limit}&name_filter=${
           name_filter || ''
@@ -82,7 +116,7 @@ export const addUsers = (usernames: string[], admin: boolean) => async (
   }
 };
 
-export const deleteUsers = (username: string) => async (
+export const deleteUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
@@ -105,13 +139,16 @@ export const editUser = (
   admin: boolean
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    await jhapiRequest('/users/' + username, 'PATCH', {
-      name: updated_username,
-      admin
-    });
+    const res = await (
+      await jhapiRequest('/users/' + username, 'PATCH', {
+        name: updated_username,
+        admin
+      })
+    ).json();
 
     dispatch({
-      type: EDIT_USER
+      type: EDIT_USER,
+      payload: res
     });
   } catch (err: any) {
     dispatch({
@@ -125,7 +162,7 @@ export const refreshUsers = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = (await jhapiRequest('/users', 'GET')).json();
+    const res = await (await jhapiRequest('/users', 'GET')).json();
 
     dispatch({
       type: REFRESH_USERS,

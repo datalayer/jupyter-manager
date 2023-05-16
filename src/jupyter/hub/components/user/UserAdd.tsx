@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   Breadcrumbs,
   Button,
@@ -13,13 +12,9 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PersonAddIcon } from '@primer/octicons-react';
-import { ManagerState } from '../../../Store';
+import { addUsers } from '../../actions/user';
 
-const UserAdd = (props: {
-  UserAdds: any;
-  updateUsers: any;
-  history: any;
-}): JSX.Element => {
+const UserAdd = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [currUser, setCurrUser] = useState<string>('');
@@ -29,19 +24,7 @@ const UserAdd = (props: {
   const [admin, setAdmin] = useState(false);
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
-  const limit = useSelector<ManagerState, number>(state => state.limit);
-
   const dispatch = useDispatch();
-
-  const dispatchPageChange = (data: any, page: any) => {
-    dispatch({
-      type: 'USER_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
 
   const onNewUserRemove = (newUserId: string | number) => {
     setNewUsers(newUsers.filter(newUser => newUser.id !== Number(newUserId)));
@@ -73,24 +56,10 @@ const UserAdd = (props: {
     }
   };
 
-  const { UserAdds, updateUsers } = props;
-
-  const onUserAdds = () => {
+  const onAddUsers = () => {
     const users: string[] = newUsers.map(user => user.text);
-    UserAdds(users, admin)
-      .then((data: { status: number }) =>
-        data.status < 300
-          ? updateUsers(0, limit)
-              .then((data: any) => dispatchPageChange(data, 0))
-              .then(() => navigate('/'))
-              .catch(() => setErrorAlert('Failed to update users.'))
-          : setErrorAlert(
-              `Failed to create user. ${
-                data.status === 409 ? 'User already exists.' : ''
-              }`
-            )
-      )
-      .catch(() => setErrorAlert('Failed to create user.'));
+    dispatch(addUsers(users, admin));
+    navigate('/');
   };
 
   return (
@@ -140,7 +109,7 @@ const UserAdd = (props: {
           <PageLayout.Footer divider="line">
             <Button
               variant="primary"
-              onClick={onUserAdds}
+              onClick={onAddUsers}
               disabled={!newUsers.length}
             >
               Add Users
@@ -150,14 +119,6 @@ const UserAdd = (props: {
       </PageLayout>
     </>
   );
-};
-
-UserAdd.propTypes = {
-  UserAdds: PropTypes.func,
-  updateUsers: PropTypes.func,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  })
 };
 
 export default UserAdd;

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Breadcrumbs,
   Box,
@@ -15,94 +15,61 @@ import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
-import { ManagerState } from '../../../Store';
-import type { Server, User } from '../../reducers/user';
+import type { MainState } from '../../../Store';
+import type { UserState } from '../../reducers/user';
+import { editUser, deleteUser, getCurrentUser } from '../../actions/user';
 
-const UserEdit = (props: {
-  location: any;
-  UserEdit: any;
-  deleteUser: any;
-  updateUsers: any;
-  noChangeEvent: any;
-  history: any;
-}): JSX.Element => {
+const UserEdit = (): JSX.Element => {
+  const { name } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const limit = useSelector<ManagerState>(state => state.limit);
-  const [errorAlert, setErrorAlert] = useState<string | null>(null);
-
   const dispatch = useDispatch();
 
-  const dispatchPageChange = (data: any, page: any) => {
-    dispatch({
-      type: 'USER_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
-
-  const { UserEdit, deleteUser, noChangeEvent, updateUsers } = props;
-
-  const onDeleteUser = () => {
-    deleteUser(username)
-      .then((data: { status: number }) => {
-        data.status < 300
-          ? updateUsers(0, limit)
-              .then((data: any) => dispatchPageChange(data, 0))
-              .then(() => navigate('/'))
-              .catch(() => setErrorAlert('Could not update users list.'))
-          : setErrorAlert('Failed to delete user.');
-      })
-      .catch(() => {
-        setErrorAlert('Failed to delete user.');
-      });
-  };
-
-  const onApplyChanges = () => {
-    if (updatedUsername === '' && admin === has_admin) {
-      noChangeEvent();
-      return;
-    } else {
-      UserEdit(
-        username,
-        updatedUsername !== '' ? updatedUsername : username,
-        admin
-      )
-        .then((data: { status: number }) => {
-          data.status < 300
-            ? updateUsers(0, limit)
-                .then((data: any) => dispatchPageChange(data, 0))
-                .then(() => navigate('/'))
-                .catch(() => setErrorAlert('Could not update users list.'))
-            : setErrorAlert('Failed to edit user.');
-        })
-        .catch(() => {
-          setErrorAlert('Failed to edit user.');
-        });
-    }
-  };
-
-  if (location.state === undefined) {
+  if (!name) {
     navigate('/');
     return <></>;
   }
 
-  const {
-    user,
-    server
-  }: {
-    user: User;
-    server: Server;
-  } = location.state;
+  const user = useSelector<MainState, UserState>(state => state.user);
+  const { user: user_data, loading } = user;
 
-  const { servers, ...filteredUser } = user;
-  const { name: username, admin: has_admin } = user;
-
+  const [errorAlert, setErrorAlert] = useState<string | null>(null);
   const [updatedUsername, setUpdatedUsername] = useState('');
-  const [admin, setAdmin] = useState(has_admin);
+  const [admin, setAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(getCurrentUser(name));
+  }, [getCurrentUser, name]);
+
+  useEffect(() => {
+    setAdmin(user_data?.admin || false);
+  }, [user_data]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user_data) {
+    return <div></div>;
+  }
+
+  const { server } = user_data;
+  const { servers, ...filteredUser } = user_data;
+  const { name: username, admin: has_admin } = user_data;
+
+  const onDeleteUser = () => {
+    dispatch(deleteUser(username));
+    navigate('/');
+  };
+
+  const onApplyChanges = () => {
+    dispatch(
+      editUser(
+        username,
+        updatedUsername !== '' ? updatedUsername : username,
+        admin
+      )
+    );
+  };
 
   return (
     <>
@@ -175,7 +142,7 @@ const UserEdit = (props: {
         <PageLayout.Content>
           <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
             <Box sx={{ flexGrow: 1, p: 3 }}>
-              <ObjectTableViewer data={server} title={'Server Data'} />
+              <ObjectTableViewer data={server ?? {}} title={'Server Data'} />
             </Box>
             <Box sx={{ flexGrow: 1, p: 3 }}>
               <ObjectTableViewer data={filteredUser} title={'User Data'} />

@@ -1,4 +1,6 @@
 export const USER_PAGINATION = 'USER_PAGINATION';
+export const SET_USER_OFFSET = 'SET_USER_OFFSET';
+export const SET_NAME_FILTER = 'SET_NAME_FILTER';
 export const REFRESH_USERS = 'REFRESH_USERS';
 export const STOP_SERVER = 'STOP_SERVER';
 export const START_SERVER = 'START_SERVER';

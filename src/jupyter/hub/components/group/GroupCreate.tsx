@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Button,
   Flash,
@@ -9,57 +9,25 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PlusIcon } from '@primer/octicons-react';
-import { ManagerState } from '../../../Store';
+import { createGroup, getGroupsPagination } from '../../actions/group';
 
-const GroupCreate = (props: {
-  createGroup: any;
-  updateGroups: any;
+const GroupCreate = ({
+  offset,
+  limit
+}: {
+  offset: number;
+  limit: number;
 }): JSX.Element => {
   const [groupName, setGroupName] = useState(''),
     [errorAlert, setErrorAlert] = useState<string | null>(null),
-    [successMessage, setSuccessMessage] = useState<string | null>(null),
-    limit = useSelector<ManagerState, ManagerState['limit']>(state => state.limit);
+    [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
-  const dispatchPageUpdate = (
-    data: ManagerState['groups_data'],
-    page: ManagerState['groups_page']
-  ) => {
-    dispatch({
-      type: 'GROUPS_PAGE',
-      value: {
-        data: data,
-        page: page
-      }
-    });
-  };
-
-  const { createGroup, updateGroups } = props;
-
-  const onCreateGroup = () => {
-    createGroup(groupName)
-      .then((data: { status: number }) => {
-        return data.status < 300
-          ? updateGroups(0, limit)
-              .then((data: any) =>
-                dispatchPageUpdate(data.items, data._pagination)
-              )
-              .then(() => {
-                setGroupName('');
-                setSuccessMessage('Group added successfully!');
-                setTimeout(() => {
-                  setSuccessMessage(null);
-                }, 1000);
-              })
-              .catch(() => setErrorAlert('Could not update groups list.'))
-          : setErrorAlert(
-              `Failed to create group. ${
-                data.status === 409 ? 'Group already exists.' : ''
-              }`
-            );
-      })
-      .catch(() => setErrorAlert('Failed to create group.'));
+  const onCreateGroup = async () => {
+    dispatch(createGroup(groupName));
+    dispatch(getGroupsPagination(offset, limit));
+    setGroupName('');
   };
 
   return (

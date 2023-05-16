@@ -1,21 +1,28 @@
 import { createStore, applyMiddleware, Store } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './hub/reducers';
+import { GroupState, groupInitialState } from './hub/reducers/group';
+import { UserState, userInitialState } from './hub/reducers/user';
 
 const initialState = {
-  user_data: null,
-  user_page: { offset: 0, limit: 10 },
-  name_filter: '',
-  groups_data: null,
-  groups_page: { offset: 0, limit: 10 },
-  config: {},
-  config_schema: {},
+  group: groupInitialState,
+  user: userInitialState,
   limit: 10
 };
 
 const middleware = [thunk];
 
-const store: Store = createStore(rootReducer, applyMiddleware(...middleware));
+export type MainState = {
+  group: GroupState;
+  user: UserState;
+  limit: number;
+};
+
+const store: Store = createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(...middleware)
+);
 
 export default store;
 /*

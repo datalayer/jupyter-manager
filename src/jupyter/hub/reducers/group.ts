@@ -11,7 +11,7 @@ import {
   GROUP_ERROR
 } from '../actions/types';
 
-const initialState = {
+export const groupInitialState = {
   loading: true,
   error: {},
   group: null,
@@ -36,7 +36,7 @@ export type Group = {
 };
 
 function groupReducer(
-  state: GroupState = initialState,
+  state: GroupState = groupInitialState,
   action: {
     type: string;
     payload: any;
@@ -64,27 +64,37 @@ function groupReducer(
         group_page: {
           ...state.group_page,
           offset: payload
-        }
+        },
+        loading: false
       };
     case REFRESH_GROUPS:
       return {
         ...state,
-        groups: payload
+        groups: payload.items,
+        group_page: payload._pagination,
+        loading: false
       };
     // make sure you go redirect after these:
     case ADD_TO_GROUP:
     case REMOVE_FROM_GROUP:
     case UPDATE_GROUP_PROPS:
-      return state;
+      return {
+        ...state,
+        group: payload,
+        loading: false
+      };
     // make sure you call user pagination after these:
     case CREATE_GROUP:
     case DELETE_GROUP:
-      return state;
+      return {
+        ...state,
+        loading: false
+      };
     // error
     case GROUP_ERROR:
       return {
         ...state,
-        error: payload,
+        error: payload.msg,
         loading: false
       };
     default:

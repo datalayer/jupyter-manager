@@ -1,5 +1,7 @@
 import {
   USER_PAGINATION,
+  SET_USER_OFFSET,
+  SET_NAME_FILTER,
   REFRESH_USERS,
   START_SERVER,
   STOP_SERVER,
@@ -12,12 +14,13 @@ import {
   USER_ERROR
 } from '../actions/types';
 
-const initialState = {
+export const userInitialState = {
   loading: true,
   error: {},
   user: null,
   users: [],
-  user_page: { offset: 0, limit: 10 }
+  user_page: { offset: 0, limit: 10 },
+  name_filter: ''
 };
 
 export type UserState = {
@@ -26,6 +29,7 @@ export type UserState = {
   user: User | null;
   users: User[];
   user_page: { offset: number; limit: number; total?: number; next?: any };
+  name_filter: string;
 };
 
 export type Server = {
@@ -56,7 +60,7 @@ export type User = {
 };
 
 function userReducer(
-  state: UserState = initialState,
+  state: UserState = userInitialState,
   action: {
     type: string;
     payload: any;
@@ -78,6 +82,21 @@ function userReducer(
         user_page: payload._pagination,
         loading: false
       };
+    case SET_USER_OFFSET:
+      return {
+        ...state,
+        user_page: {
+          ...state.user_page,
+          offset: payload
+        },
+        loading: false
+      };
+    case SET_NAME_FILTER:
+      return {
+        ...state,
+        name_filter: payload,
+        loading: false
+      };
     case REFRESH_USERS:
       return {
         ...state,
@@ -85,7 +104,12 @@ function userReducer(
       };
     // make sure you go redirect after these:
     case ADD_USERS:
+      return state;
     case EDIT_USER:
+      return {
+        ...state,
+        user: payload
+      };
     case DELETE_USER:
       return state;
     // make sure you call user pagination after these:
