@@ -1,0 +1,28 @@
+export const USER_PAGINATION = 'USER_PAGINATION';
+export const SET_USER_OFFSET = 'SET_USER_OFFSET';
+export const SET_NAME_FILTER = 'SET_NAME_FILTER';
+export const REFRESH_USERS = 'REFRESH_USERS';
+export const STOP_SERVER = 'STOP_SERVER';
+export const START_SERVER = 'START_SERVER';
+export const STOP_ALL_SERVERS = 'STOP_ALL_SERVERS';
+export const START_ALL_SERVERS = 'START_ALL_SERVERS';
+export const EDIT_USER = 'EDIT_USER';
+export const ADD_USERS = 'ADD_USERS';
+export const GET_USER = 'GET_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const VALIDATE_USER = 'VALIDATE_USER';
+export const USER_ERROR = 'USER_ERROR';
+
+export const GROUP_PAGINATION = 'GROUP_PAGINATION';
+export const SET_GROUP_OFFSET = 'SET_GROUP_OFFSET';
+export const REFRESH_GROUPS = 'REFRESH_GROUPS';
+export const ADD_TO_GROUP = 'ADD_TO_GROUP';
+export const REMOVE_FROM_GROUP = 'REMOVE_FROM_GROUP';
+export const UPDATE_GROUP_PROPS = 'UPDATE_GROUP_PROPS';
+export const GET_GROUP = 'GET_GROUP';
+export const CREATE_GROUP = 'CREATE_GROUP';
+export const DELETE_GROUP = 'DELETE_GROUP';
+export const GROUP_ERROR = 'GROUP_ERROR';
+
+export const UPDATE_CONFIG = 'UPDATE_CONFIG';
+export const SET_CONFIG_SCHEMA = 'SET_CONFIG_SCHEMA';

@@ -99,3 +99,9 @@ c.ServerApp.kernel_ws_protocol = None # None or ''
 #################
 
 c.LabApp.collaborative = False
+
+#################
+# JupyterManager
+#################
+
+c.JupyterManagerApp.configA = "A value for configA taken from a config file."

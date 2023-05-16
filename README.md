@@ -4,9 +4,9 @@
 
 # 🪐 ⚙️ Jupyter Manager
 
-> User interface to manage your Jupyter stack.
+> User interface to manage your Jupyter platform.
 
-You can `configure`, `monitor` and `operate` your Jupyter stack.
+You can `configure`, `monitor` and `operate` your Jupyter platform.
 
 `Jupyter Manager` can be deployed as a service on any JupyterHub.
 

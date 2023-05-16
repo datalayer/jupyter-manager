@@ -1,5 +1,5 @@
 import { ReactWidget } from '@jupyterlab/apputils';
-import Manager from './jupyter/Manager';
+import Manager from './components/Manager';
 
 export class ManagerWidget extends ReactWidget {
   constructor() {

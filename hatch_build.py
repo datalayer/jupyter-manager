@@ -12,10 +12,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 def build_javascript():
     check_call(
-        ['./dev/sh/fix-yarn.sh'],
-        cwd=here,
-    )
-    check_call(
         ['yarn', 'build:webpack'],
         cwd=here,
     )

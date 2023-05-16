@@ -16,7 +16,7 @@ DEFAULT_TEMPLATE_FILES_PATH = os.path.join(os.path.dirname(__file__), "./templat
 
 
 class JupyterManagerApp(ExtensionAppJinjaMixin, ExtensionApp):
-    """Jupyter Manager application."""
+    """The Jupyter Server extension."""
 
     name = "jupyter_manager"
 
@@ -37,7 +37,7 @@ class JupyterManagerApp(ExtensionAppJinjaMixin, ExtensionApp):
     def initialize_handlers(self):
         handlers = [
             ("jupyter_manager", IndexHandler),
-            (url_path_join("jupyter_manager", "get_config"), ConfigHandler),
+            (url_path_join("jupyter_manager", "get_server_config"), ConfigHandler),
         ]
         self.handlers.extend(handlers)
 

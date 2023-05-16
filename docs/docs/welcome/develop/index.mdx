@@ -37,18 +37,6 @@ make env && \
   conda activate datalayer
 ```
 
-:::caution
-
-JupyterLab has migrated to Yarn v3 which is not friendly with resolutions, especially for non final (alpha, beta, rc) releases. Ensure Yarn v1 for resolutions and Visual Studio Code completions.
-
-```bash
-curl https://raw.githubusercontent.com/jupyterlab/jupyterlab/v4.0.0a36/jupyterlab/staging/yarn.js \
- -o $( dirname "$(which jupyter)" )/../lib/python3.11/site-packages/jupyterlab/staging/yarn.js
-jlpm --version # Should be 1.22.19.
-```
-
-:::
-
 ## Install and Build
 
 Install the JavaScript dependencies.
@@ -72,21 +60,6 @@ pip list | grep manager
 # jupyter_manager ...
 ```
 
-Double check the jlpm version, as the pip command may have changed that.
-
-```bash
-# Should be 1.22.19.
-jlpm --version
-```
-
-If it is not `1.22.19`, run again the following command.
-
-```bash
-curl https://raw.githubusercontent.com/jupyterlab/jupyterlab/v4.0.0a36/jupyterlab/staging/yarn.js \
- -o $( dirname "$(which jupyter)" )/../lib/python3.11/site-packages/jupyterlab/staging/yarn.js
-jlpm --version # Should be 1.22.19.
-```
-
 Link the JupyterLab extension for development.
 
 ```bash
@@ -100,7 +73,7 @@ Check the availability of your Jupyter extension.
 
 ```bash
 jupyter labextension list
-# JupyterLab v4.0.0b1
+# JupyterLab v4.0.0
 # .../share/jupyter/labextensions
 #        jupyterlab_pygments v0.2.2 enabled  X (python, jupyterlab_pygments)
 #        @datalayer/jupyter-manager v0.0.2 enabled  X

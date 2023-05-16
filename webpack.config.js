@@ -12,7 +12,7 @@ const devtool = IS_PRODUCTION ? false : "inline-cheap-source-map";
 const minimize = IS_PRODUCTION ? true : false;
 
 module.exports = {
-  entry: "./src/jupyter/App",
+  entry: "./src/components/App",
   mode: mode,
   devServer: {
     port: 3063,
