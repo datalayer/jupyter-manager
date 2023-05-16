@@ -4,7 +4,7 @@
 
 # 🪐 ⚙️ Jupyter Manager
 
-User interface to manage your Jupyter stack.
+> User interface to manage your Jupyter stack.
 
 You can `configure`, `monitor` and `operate` your Jupyter stack.
 
