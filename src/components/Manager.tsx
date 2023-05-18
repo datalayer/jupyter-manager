@@ -79,6 +79,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
           <Box>
             <Box mb={1}>
               <UnderlineNav>
+                <DatalayerGreenIcon/>
                 <UnderlineNav.Item
                   aria-current="page"
                   icon={() => <JupyterHubIcon colored />}

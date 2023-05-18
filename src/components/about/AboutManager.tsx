@@ -20,7 +20,7 @@ const AboutManager = (): JSX.Element => {
         Jupyter Manager is developed with ❤️ by these <Link href="https://github.com/datalayer/jupyter-manager/graphs/contributors">wonderfull contributors</Link>.
       </Box>
       <Box pt={3}>
-        Copyright © 2023 <DatalayerIcon colored/> Datalayer, Inc.
+        <DatalayerIcon colored/> Copyright © 2023 Datalayer, Inc.
       </Box>
     </Box>
   )
