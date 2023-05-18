@@ -15,7 +15,7 @@ import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
-import type { MainState } from '../../../../redux/store2';
+import type { MainState } from '../../../../redux/store';
 import type { UserState } from '../../../../redux/state/user';
 import { editUser, deleteUser, getCurrentUser } from '../../../../redux/actions/user';
 

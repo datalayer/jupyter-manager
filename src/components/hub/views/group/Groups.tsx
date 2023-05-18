@@ -12,7 +12,7 @@ import { PeopleIcon } from '@primer/octicons-react';
 import GroupCreate from './GroupCreate';
 import { GroupState } from '../../../../redux/state/group';
 import { setGroupOffset, getGroupsPagination } from '../../../../redux/actions/group';
-import { MainState } from 'src/redux/store2';
+import { MainState } from 'src/redux/store';
 
 const Groups = (): JSX.Element => {
   const dispatch = useDispatch();

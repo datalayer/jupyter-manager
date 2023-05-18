@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Box, NavList } from '@primer/react'
 import validator from '@rjsf/validator-ajv8';
 import Form from '@datalayer/rjsf-primer';
-import { MainState } from '../../redux/store2';
+import { MainState } from '../../redux/store';
 import { ConfigState } from '../../redux/state/config';
 
 const ServerManager = (): JSX.Element => {

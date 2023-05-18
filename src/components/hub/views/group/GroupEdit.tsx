@@ -20,7 +20,7 @@ import {
   TrashIcon
 } from '@primer/octicons-react';
 import { PageHeader } from '@primer/react/drafts';
-import type { MainState } from '../../../../redux/store2';
+import type { MainState } from '../../../../redux/store';
 import { GroupState } from '../../../../redux/state/group';
 import {
   addUserToGroup,

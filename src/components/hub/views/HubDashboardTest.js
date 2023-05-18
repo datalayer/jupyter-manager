@@ -10,7 +10,7 @@ import { createStore } from 'redux';
 import regeneratorRuntime from "regenerator-runtime";
 
 import HubManager from '../HubManager';
-import { initialState, reducers } from '../../../redux/store2';
+import { initialState, reducers } from '../../../redux/store';
 import * as sinon from 'sinon';
 
 let clock;

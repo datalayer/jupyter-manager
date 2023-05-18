@@ -16,7 +16,7 @@ import {
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
-import { MainState } from 'src/redux/store2';
+import { MainState } from 'src/redux/store';
 
 import './../../../../style/jupyterhub/server-dashboard.css';
 import {
