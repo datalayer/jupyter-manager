@@ -1,13 +1,13 @@
 import { Box, NavList, Text } from '@primer/react'
 
-const NotebooksrManager = (): JSX.Element => {
+const ContentManager = (): JSX.Element => {
   return (
     <>
       <Box sx={{display: 'flex'}}>
         <Box sx={{minWidth: "200px"}}>
           <NavList>
             <NavList.Item>
-              Feature 1
+              Notebooks
               <NavList.SubNav>
                 <NavList.Item aria-current="page">
                   Feature 1.1
@@ -18,19 +18,16 @@ const NotebooksrManager = (): JSX.Element => {
               </NavList.SubNav>
             </NavList.Item>
             <NavList.Item>
-              Feature 2
-            </NavList.Item>
-            <NavList.Item>
-              Feature 3
+              Datasets
             </NavList.Item>
           </NavList>
         </Box>
         <Box p={3}>
-          <Text>Notebooks</Text>
+          <Text>Content</Text>
         </Box>
       </Box>
     </>
   );
 };
 
-export default NotebooksrManager;
+export default ContentManager;

@@ -1,36 +1,36 @@
 import { Box, NavList, Text } from '@primer/react'
 
-const DashboardsManager = (): JSX.Element => {
+const AppsManager = (): JSX.Element => {
   return (
     <>
       <Box sx={{display: 'flex'}}>
         <Box sx={{minWidth: "200px"}}>
           <NavList>
             <NavList.Item>
-              Feature 1
+              Voila
               <NavList.SubNav>
                 <NavList.Item aria-current="page">
-                  Feature 1.1
+                  Running
                 </NavList.Item>
                 <NavList.Item >
-                  Feature 1.2
+                  All
                 </NavList.Item>
               </NavList.SubNav>
             </NavList.Item>
             <NavList.Item>
-              Feature 2
+              Panel
             </NavList.Item>
             <NavList.Item>
-              Feature 3
+              Solara
             </NavList.Item>
           </NavList>
         </Box>
         <Box p={3}>
-          <Text>Dashboards</Text>
+          <Text>Running Voila Applications</Text>
         </Box>
       </Box>
     </>
   );
 };
 
-export default DashboardsManager;
+export default AppsManager;

@@ -5,7 +5,7 @@ import Form from '@datalayer/rjsf-primer';
 import { MainState } from '../../redux/store';
 import { ConfigState } from '../../redux/state/config';
 
-const ServerManager = (): JSX.Element => {
+const ServersManager = (): JSX.Element => {
   const config = useSelector<MainState, ConfigState>(state => state.config);
   return (
     <>
@@ -13,7 +13,10 @@ const ServerManager = (): JSX.Element => {
         <Box sx={{minWidth: "200px"}}>
           <NavList>
             <NavList.Item>
-              Server Extensions
+              All servers
+            </NavList.Item>
+            <NavList.Item>
+              Server extensions
               <NavList.SubNav>
                 <NavList.Item >
                   Home
@@ -21,16 +24,13 @@ const ServerManager = (): JSX.Element => {
                 <NavList.Item aria-current="page">
                   Configuration
                 </NavList.Item>
+                <NavList.Item >
+                  Monitoring
+                </NavList.Item>
+                <NavList.Item >
+                  Status
+                </NavList.Item>
               </NavList.SubNav>
-            </NavList.Item>
-            <NavList.Item>
-              Logs
-            </NavList.Item>
-            <NavList.Item>
-              Monitoring
-            </NavList.Item>
-            <NavList.Item>
-              Status
             </NavList.Item>
           </NavList>
         </Box>
@@ -42,4 +42,4 @@ const ServerManager = (): JSX.Element => {
   );
 };
 
-export default ServerManager;
+export default ServersManager;

@@ -4,7 +4,8 @@ import { ThemeProvider, BaseStyles, Box } from '@primer/react';
 import {
   GearIcon,
   EyeIcon,
-  FileDirectoryIcon
+  FileDirectoryIcon,
+  AppsIcon
 } from '@primer/octicons-react';
 import {
   DatalayerGreenIcon,
@@ -18,9 +19,9 @@ import store from '../redux/store';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from '../api/connectionConfigs';
 import { requestAPI } from '../api/serverHandler';
 import HubManager from './hub/HubManager';
-import ServerManager from './server/ServerManager';
-import NotebooksManager from './notebooks/NotebooksManager';
-import DashboardsManager from './dashboards/DashboardsManager';
+import ServersManager from './servers/ServersManager';
+import ContentManager from './content/ContentManager';
+import AppsManager from './apps/AppsManager';
 import KernelsManager from './kernels/KernelsManager';
 import VolumesManager from './volumes/VolumesManager';
 import EventsManager from './events/EventsManager';
@@ -92,10 +93,10 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   icon={() => <JupyterServerIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
-                    setTab('server');
+                    setTab('servers');
                   }}
                 >
-                  Server
+                  Servers
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
                   icon={() => <JupyterKernelIcon colored />}
@@ -110,19 +111,19 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   icon={() => <JupyterIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
-                    setTab('notebooks');
+                    setTab('content');
                   }}
                 >
-                  Notebooks
+                  Content
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
-                  icon={() => <JupyterIcon colored />}
+                  icon={AppsIcon}
                   onSelect={e => {
                     e.preventDefault();
-                    setTab('dashboards');
+                    setTab('apps');
                   }}
                 >
-                  Dashboards
+                  Applications
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
                   icon={FileDirectoryIcon}
@@ -164,10 +165,10 @@ const Manager = (props: ManagerProps): JSX.Element => {
             </Box>
             <Box pt={1} pb={1} pl={1} pr={1}>
               {tab === 'hub' && showHub && <HubManager />}
-              {tab === 'server' && <ServerManager />}
+              {tab === 'servers' && <ServersManager />}
               {tab === 'kernels' && <KernelsManager />}
-              {tab === 'notebooks' && <NotebooksManager />}
-              {tab === 'dashboards' && <DashboardsManager />}
+              {tab === 'content' && <ContentManager />}
+              {tab === 'apps' && <AppsManager />}
               {tab === 'volumes' && <VolumesManager />}
               {tab === 'events' && <EventsManager />}
               {tab === 'settings' && <SettingsManager />}
