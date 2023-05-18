@@ -1,5 +1,5 @@
 import { Box, NavList } from '@primer/react'
-import LegacyManager from './LegacyManager';
+import HomeManager from './views/HomeManager';
 
 const HubManager = (): JSX.Element => {
   return (
@@ -8,7 +8,7 @@ const HubManager = (): JSX.Element => {
         <Box sx={{minWidth: "200px"}}>
           <NavList>
             <NavList.Item aria-current="page">
-              Legacy
+              Home
             </NavList.Item>
             <NavList.Item>
               Users
@@ -39,7 +39,7 @@ const HubManager = (): JSX.Element => {
           </NavList>
         </Box>
         <Box>
-          <LegacyManager/>
+          <HomeManager/>
         </Box>
       </Box>
     </>

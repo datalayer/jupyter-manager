@@ -1,23 +1,24 @@
 import { compose } from 'react-recompose';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HubDashboard from './views/HubDashboard';
-import Groups from './views/group/Groups';
-import GroupEdit from './views/group/GroupEdit';
-import UserAdd from './views/user/UserAdd';
-import UserEdit from './views/user/UserEdit';
-import withAPI from '../../api/withAPI';
+import Overview from './overview/Overview';
+import Groups from './group/Groups';
+import GroupEdit from './group/GroupEdit';
+import UserAdd from './user/UserAdd';
+import UserEdit from './user/UserEdit';
+import withAPI from '../../../api/withAPI';
 
-import './../../../style/jupyterhub/root.css';
+import './../../../../style/jupyterhub/root.css';
+import './../../../../style/jupyterhub/server-dashboard.css';
 
-const HubDashboardCompose = compose(withAPI)(HubDashboard);
+const OverviewCompose = compose(withAPI)(Overview);
 const UserAddCompose = compose(withAPI)(UserAdd);
 const UserEditCompose = compose(withAPI)(UserEdit);
 
-const LegacyManager = (): JSX.Element => {
+const HomeManager = (): JSX.Element => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HubDashboardCompose />} />
+        <Route path="/" element={<OverviewCompose />} />
         <Route path="/groups" element={<Groups />} />
         <Route path="/groups/:name" element={<GroupEdit />} />
         <Route path="/add-users" element={<UserAddCompose />} />
@@ -28,4 +29,4 @@ const LegacyManager = (): JSX.Element => {
   );
 };
 
-export default LegacyManager;
+export default HomeManager;

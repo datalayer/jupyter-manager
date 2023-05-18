@@ -9,7 +9,7 @@ import { createStore } from 'redux';
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
 
-import HubManager from '../LegacyManager';
+import HubManager from './home/HomeManager';
 import { initialState, reducers } from '../../../redux/store';
 import * as sinon from 'sinon';
 

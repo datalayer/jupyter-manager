@@ -5,6 +5,7 @@ import {
   GearIcon,
   EyeIcon,
   FileDirectoryIcon,
+  CpuIcon,
   AppsIcon
 } from '@primer/octicons-react';
 import {
@@ -23,6 +24,7 @@ import ServersManager from './servers/ServersManager';
 import ContentManager from './content/ContentManager';
 import AppsManager from './apps/AppsManager';
 import KernelsManager from './kernels/KernelsManager';
+import NodesManager from './nodes/NodesManager';
 import VolumesManager from './volumes/VolumesManager';
 import EventsManager from './events/EventsManager';
 import SettingsManager from './settings/SettingsManager';
@@ -127,6 +129,15 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   Applications
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
+                  icon={CpuIcon}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('nodes');
+                  }}
+                >
+                  Nodes
+                </UnderlineNav.Item>
+                <UnderlineNav.Item
                   icon={FileDirectoryIcon}
                   onSelect={e => {
                     e.preventDefault();
@@ -170,6 +181,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
               {tab === 'kernels' && <KernelsManager />}
               {tab === 'content' && <ContentManager />}
               {tab === 'apps' && <AppsManager />}
+              {tab === 'nodes' && <NodesManager />}
               {tab === 'volumes' && <VolumesManager />}
               {tab === 'events' && <EventsManager />}
               {tab === 'settings' && <SettingsManager />}

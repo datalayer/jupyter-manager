@@ -17,14 +17,12 @@ import {
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
 import { MainState } from 'src/redux/store';
-
-import './../../../../style/jupyterhub/server-dashboard.css';
 import {
   setUserOffset,
   setNameFilter,
   getUsersPagination
-} from '../../../redux/actions/user';
-import { UserState } from '../../../redux/state/user';
+} from '../../../../redux/actions/user';
+import { UserState } from '../../../../redux/state/user';
 
 const HubManager = (props: {
   shutdownHub: any;
