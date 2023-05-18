@@ -1,5 +1,5 @@
-import { Box } from '@primer/react';
-import { DatalayerIcon } from '@datalayer/icons-react/solid';
+import { Box, Link } from '@primer/react';
+import { DatalayerIcon, JupyterIcon } from '@datalayer/icons-react/solid';
 
 const AboutManager = (): JSX.Element => {
   return (
@@ -11,7 +11,16 @@ const AboutManager = (): JSX.Element => {
         Jupyter Manager is a user interface to configure, monitor and operate your Jupyter platform.
       </Box>
       <Box>
-        <DatalayerIcon colored/> (c) Datalayer, 2023
+        <JupyterIcon size="large" colored/>
+      </Box>
+      <Box>
+        "Jupyter" is a trademark of the NumFOCUS foundation, of which Project Jupyter is a part.
+      </Box>
+      <Box pt={3}>
+        Jupyter Manager is developed with ❤️ by these <Link href="https://github.com/datalayer/jupyter-manager/graphs/contributors">wonderfull contributors</Link>.
+      </Box>
+      <Box pt={3}>
+        Copyright © 2023 <DatalayerIcon colored/> Datalayer, Inc.
       </Box>
     </Box>
   )

@@ -1,6 +1,6 @@
 import { Box, NavList, Text } from '@primer/react'
 
-const EditorManager = (): JSX.Element => {
+const NotebooksrManager = (): JSX.Element => {
   return (
     <>
       <Box sx={{display: 'flex'}}>
@@ -26,11 +26,11 @@ const EditorManager = (): JSX.Element => {
           </NavList>
         </Box>
         <Box p={3}>
-          <Text>Editor</Text>
+          <Text>Notebooks</Text>
         </Box>
       </Box>
     </>
   );
 };
 
-export default EditorManager;
+export default NotebooksrManager;

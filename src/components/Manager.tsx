@@ -3,7 +3,6 @@ import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
 import {
   GearIcon,
-  CpuIcon,
   EyeIcon,
   FileDirectoryIcon
 } from '@primer/octicons-react';
@@ -11,21 +10,23 @@ import {
   DatalayerGreenIcon,
   JupyterHubIcon,
   JupyterServerIcon,
-  JupyterKernelIcon
+  JupyterKernelIcon,
+  JupyterIcon,
 } from '@datalayer/icons-react/solid';
 import { UnderlineNav } from '@primer/react/drafts';
-import store from '../redux/store';
+import store from '../redux/store2';
 import { loadDatalayerConfig, loadJupyterConfig, getHubPrefix } from '../api/connectionConfigs';
 import { requestAPI } from '../api/serverHandler';
 import HubManager from './hub/HubManager';
 import ServerManager from './server/ServerManager';
-import EditorManager from './editor/EditorManager';
+import NotebooksManager from './notebooks/NotebooksManager';
+import DashboardsManager from './dashboards/DashboardsManager';
 import KernelsManager from './kernels/KernelsManager';
 import VolumesManager from './volumes/VolumesManager';
 import EventsManager from './events/EventsManager';
 import SettingsManager from './settings/SettingsManager';
 import AboutManager from './about/AboutManager';
-import { UPDATE_CONFIG, SET_CONFIG_SCHEMA } from '../redux/actions';
+import { setConfigSchema, updateConfig } from '../redux/actions/config';
 
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
@@ -35,14 +36,12 @@ const ConfigUpdater = (props: { data: any }) => {
   const { data } = props;
   const dispatch = useDispatch();
   const updateConfigs = (data: any) => {
-    dispatch({
-      type: UPDATE_CONFIG,
-      payload: data.config,
-    });
-    dispatch({
-      type: SET_CONFIG_SCHEMA,
-      payload: data.config_schema,
-    });
+    dispatch(
+      updateConfig(data.config)
+    );
+    dispatch(
+      setConfigSchema(data.config_schema)
+    );
   };
   useEffect(() => {
     updateConfigs(data);
@@ -108,13 +107,22 @@ const Manager = (props: ManagerProps): JSX.Element => {
                   Kernels
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
-                  icon={CpuIcon}
+                  icon={() => <JupyterIcon colored />}
                   onSelect={e => {
                     e.preventDefault();
-                    setTab('editor');
+                    setTab('notebooks');
                   }}
                 >
-                  Editor
+                  Notebooks
+                </UnderlineNav.Item>
+                <UnderlineNav.Item
+                  icon={() => <JupyterIcon colored />}
+                  onSelect={e => {
+                    e.preventDefault();
+                    setTab('dashboards');
+                  }}
+                >
+                  Dashboards
                 </UnderlineNav.Item>
                 <UnderlineNav.Item
                   icon={FileDirectoryIcon}
@@ -156,10 +164,11 @@ const Manager = (props: ManagerProps): JSX.Element => {
             </Box>
             <Box pt={1} pb={1} pl={1} pr={1}>
               {tab === 'hub' && showHub && <HubManager />}
-              {tab === 'editor' && <EditorManager />}
               {tab === 'server' && <ServerManager />}
-              {tab === 'volumes' && <VolumesManager />}
               {tab === 'kernels' && <KernelsManager />}
+              {tab === 'notebooks' && <NotebooksManager />}
+              {tab === 'dashboards' && <DashboardsManager />}
+              {tab === 'volumes' && <VolumesManager />}
               {tab === 'events' && <EventsManager />}
               {tab === 'settings' && <SettingsManager />}
               {tab === 'about' && <AboutManager />}

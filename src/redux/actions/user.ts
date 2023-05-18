@@ -1,5 +1,5 @@
+import { Dispatch, AnyAction } from 'redux';
 import { jhapiRequest } from '../../api/hubHandler';
-
 import {
   USER_PAGINATION,
   SET_USER_OFFSET,
@@ -14,8 +14,7 @@ import {
   DELETE_USER,
   GET_USER,
   USER_ERROR
-} from '.';
-import { Dispatch, AnyAction } from 'redux';
+} from './index';
 
 export const setUserOffset = (offset: number) => async (
   dispatch: Dispatch<AnyAction>

@@ -1,4 +1,4 @@
-import { configInitialState, ConfigState } from "./../state/config"
+import { configInitialState, ConfigState } from "./../state/config";
 import {
   UPDATE_CONFIG,
   SET_CONFIG_SCHEMA,

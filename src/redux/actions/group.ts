@@ -1,3 +1,4 @@
+import { Dispatch, AnyAction } from 'redux';
 import { jhapiRequest } from '../../api/hubHandler';
 import {
   GROUP_PAGINATION,
@@ -10,8 +11,7 @@ import {
   DELETE_GROUP,
   GET_GROUP,
   GROUP_ERROR
-} from '.';
-import { Dispatch, AnyAction } from 'redux';
+} from './index';
 
 export const setGroupOffset = (offset: number) => async (
   dispatch: Dispatch<AnyAction>
@@ -29,7 +29,7 @@ export const setGroupOffset = (offset: number) => async (
   }
 };
 
-// Get current group
+// Get current group.
 export const getCurrentGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
@@ -50,7 +50,7 @@ export const getCurrentGroup = (groupname: string) => async (
   }
 };
 
-// Get all groups
+// Get all groups.
 export const getGroupsPagination = (offset: number, limit: number) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
@@ -71,7 +71,7 @@ export const getGroupsPagination = (offset: number, limit: number) => async (
   }
 };
 
-// Create group
+// Create group.
 export const createGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
