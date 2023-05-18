@@ -24,7 +24,7 @@ import {
   setNameFilter,
   getUsersPagination
 } from '../../../redux/actions/user';
-import { UserState } from '../../../redux/user';
+import { UserState } from '../../../redux/state/user';
 
 const HubManager = (props: {
   shutdownHub: any;

@@ -21,7 +21,7 @@ import {
 } from '@primer/octicons-react';
 import { PageHeader } from '@primer/react/drafts';
 import type { MainState } from '../../../../redux/store';
-import { GroupState } from '../../../../redux/group';
+import { GroupState } from '../../../../redux/state/group';
 import {
   addUserToGroup,
   removeFromGroup,

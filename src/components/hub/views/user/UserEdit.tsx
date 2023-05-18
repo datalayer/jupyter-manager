@@ -16,7 +16,7 @@ import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
 import ObjectTableViewer from '../common/ObjectTableViewer';
 import type { MainState } from '../../../../redux/store';
-import type { UserState } from '../../../../redux/user';
+import type { UserState } from '../../../../redux/state/user';
 import { editUser, deleteUser, getCurrentUser } from '../../../../redux/actions/user';
 
 const UserEdit = (): JSX.Element => {
