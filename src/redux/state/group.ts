@@ -1,6 +1,6 @@
 export const groupInitialState = {
   loading: true,
-  error: {},
+  error: "A group error",
   group: null,
   groups: [],
   group_page: { offset: 0, limit: 10 }

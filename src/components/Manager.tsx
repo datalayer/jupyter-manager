@@ -29,6 +29,7 @@ import VolumesManager from './volumes/VolumesManager';
 import EventsManager from './events/EventsManager';
 import SettingsManager from './settings/SettingsManager';
 import AboutManager from './about/AboutManager';
+import Messages from './messages/Messages';
 import { setConfigSchema, updateConfig } from '../redux/actions/config';
 
 type ManagerProps = {
@@ -176,6 +177,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
               </UnderlineNav>
             </Box>
             <Box pt={1} pb={1} pl={1} pr={1}>
+              <Messages/>
               {tab === 'hub' && showHub && <HubManager />}
               {tab === 'servers' && <ServersManager />}
               {tab === 'kernels' && <KernelsManager />}

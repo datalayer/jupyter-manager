@@ -1,6 +1,6 @@
 export const userInitialState = {
   loading: true,
-  error: {},
+  error: "A user error",
   user: null,
   users: [],
   user_page: { offset: 0, limit: 10 },
