@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
+import { ThemeProvider as BrandThemeProvider, Card } from '@primer/react-brand';
 import {
   GearIcon,
   EyeIcon,
@@ -31,6 +32,8 @@ import SettingsManager from './settings/SettingsManager';
 import AboutManager from './about/AboutManager';
 import Messages from './messages/Messages';
 import { setConfigSchema, updateConfig } from '../redux/actions/config';
+
+import '@primer/react-brand/lib/css/main.css'
 
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
@@ -76,122 +79,130 @@ const Manager = (props: ManagerProps): JSX.Element => {
   }, []);
   return (
     <ReduxProvider store={store}>
-      <ThemeProvider>
-        <BaseStyles>
-          {data && <ConfigUpdater data={data} />}
-          <Box>
-            <Box mb={1}>
-              <UnderlineNav>
-                <DatalayerGreenIcon/>
-                <UnderlineNav.Item
-                  aria-current="page"
-                  icon={() => <JupyterHubIcon colored />}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('hub');
-                  }}
-                >
-                  Hub
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={() => <JupyterServerIcon colored />}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('servers');
-                  }}
-                >
-                  Servers
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={() => <JupyterKernelIcon colored />}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('kernels');
-                  }}
-                >
-                  Kernels
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={() => <JupyterIcon colored />}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('content');
-                  }}
-                >
-                  Content
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={AppsIcon}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('apps');
-                  }}
-                >
-                  Applications
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={CpuIcon}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('nodes');
-                  }}
-                >
-                  Nodes
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={FileDirectoryIcon}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('volumes');
-                  }}
-                >
-                  Volumes
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={EyeIcon}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('events');
-                  }}
-                >
-                  Events
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={GearIcon}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('settings');
-                  }}
-                >
-                  Settings
-                </UnderlineNav.Item>
-                <UnderlineNav.Item
-                  icon={() => <DatalayerGreenIcon colored />}
-                  onSelect={e => {
-                    e.preventDefault();
-                    setTab('about');
-                  }}
-                >
-                  About
-                </UnderlineNav.Item>
-              </UnderlineNav>
+      <BrandThemeProvider>
+        <ThemeProvider>
+          <BaseStyles>
+            <Card href="https://datalayer.io">
+              <Card.Heading>Collaboration is the key to data success</Card.Heading>
+              <Card.Description>
+                Everything you need to know about getting started with Datalayer.
+              </Card.Description>
+            </Card>
+            {data && <ConfigUpdater data={data} />}
+            <Box>
+              <Box mb={1}>
+                <UnderlineNav>
+                  <DatalayerGreenIcon/>
+                  <UnderlineNav.Item
+                    aria-current="page"
+                    icon={() => <JupyterHubIcon colored />}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('hub');
+                    }}
+                  >
+                    Hub
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={() => <JupyterServerIcon colored />}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('servers');
+                    }}
+                  >
+                    Servers
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={() => <JupyterKernelIcon colored />}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('kernels');
+                    }}
+                  >
+                    Kernels
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={() => <JupyterIcon colored />}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('content');
+                    }}
+                  >
+                    Content
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={AppsIcon}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('apps');
+                    }}
+                  >
+                    Applications
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={CpuIcon}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('nodes');
+                    }}
+                  >
+                    Nodes
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={FileDirectoryIcon}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('volumes');
+                    }}
+                  >
+                    Volumes
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={EyeIcon}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('events');
+                    }}
+                  >
+                    Events
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={GearIcon}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('settings');
+                    }}
+                  >
+                    Settings
+                  </UnderlineNav.Item>
+                  <UnderlineNav.Item
+                    icon={() => <DatalayerGreenIcon colored />}
+                    onSelect={e => {
+                      e.preventDefault();
+                      setTab('about');
+                    }}
+                  >
+                    About
+                  </UnderlineNav.Item>
+                </UnderlineNav>
+              </Box>
+              <Box pt={1} pb={1} pl={1} pr={1}>
+                <Messages/>
+                {tab === 'hub' && showHub && <HubManager />}
+                {tab === 'servers' && <ServersManager />}
+                {tab === 'kernels' && <KernelsManager />}
+                {tab === 'content' && <ContentManager />}
+                {tab === 'apps' && <AppsManager />}
+                {tab === 'nodes' && <NodesManager />}
+                {tab === 'volumes' && <VolumesManager />}
+                {tab === 'events' && <EventsManager />}
+                {tab === 'settings' && <SettingsManager />}
+                {tab === 'about' && <AboutManager />}
+              </Box>
             </Box>
-            <Box pt={1} pb={1} pl={1} pr={1}>
-              <Messages/>
-              {tab === 'hub' && showHub && <HubManager />}
-              {tab === 'servers' && <ServersManager />}
-              {tab === 'kernels' && <KernelsManager />}
-              {tab === 'content' && <ContentManager />}
-              {tab === 'apps' && <AppsManager />}
-              {tab === 'nodes' && <NodesManager />}
-              {tab === 'volumes' && <VolumesManager />}
-              {tab === 'events' && <EventsManager />}
-              {tab === 'settings' && <SettingsManager />}
-              {tab === 'about' && <AboutManager />}
-            </Box>
-          </Box>
-        </BaseStyles>
-      </ThemeProvider>
+          </BaseStyles>
+        </ThemeProvider>
+      </BrandThemeProvider>
     </ReduxProvider>
   );
 };
