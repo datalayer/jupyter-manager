@@ -3,9 +3,9 @@ import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 import {
   GearIcon,
   EyeIcon,
-  FileDirectoryIcon,
   CpuIcon,
-  AppsIcon
+  AppsIcon,
+  InfoIcon
 } from '@primer/octicons-react';
 import {
   DatalayerGreenIcon,
@@ -35,7 +35,9 @@ const Navbar = (): JSX.Element => {
     <Box>
       <Box mb={1}>
         <UnderlineNav>
-          <DatalayerGreenIcon />
+          <UnderlineNavItem to="/" icon={() => <DatalayerGreenIcon colored />}>
+            Home
+          </UnderlineNavItem>
           <UnderlineNavItem to="/hub" icon={() => <JupyterHubIcon colored />}>
             Hub
           </UnderlineNavItem>
@@ -66,10 +68,7 @@ const Navbar = (): JSX.Element => {
           <UnderlineNavItem to="/settings" icon={GearIcon}>
             Settings
           </UnderlineNavItem>
-          <UnderlineNavItem
-            to="/about"
-            icon={() => <DatalayerGreenIcon colored />}
-          >
+          <UnderlineNavItem to="/about" icon={InfoIcon}>
             About
           </UnderlineNavItem>
         </UnderlineNav>

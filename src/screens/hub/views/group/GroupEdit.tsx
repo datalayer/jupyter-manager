@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { isEqual } from 'lodash';
 import {
   Box,
-  Breadcrumbs,
   Button,
   PageLayout,
   Heading,
@@ -36,7 +35,7 @@ const GroupEdit = (): JSX.Element => {
   const dispatch = useDispatch();
 
   if (!name) {
-    navigate('/groups');
+    navigate('/hub/groups');
     return <></>;
   }
 
@@ -182,234 +181,219 @@ const GroupEdit = (): JSX.Element => {
 
   return (
     <>
-      <PageLayout>
-        <PageLayout.Header sx={{ my: [0, 0, 0, 0] }} divider="line">
-          <Breadcrumbs>
-            <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/groups">Groups</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/group-edit" selected>
-              {group_data.name}
-            </Breadcrumbs.Item>
-          </Breadcrumbs>
-        </PageLayout.Header>
-        <PageLayout.Content sx={{ p: 3 }}>
-          <PageHeader>
-            <PageHeader.TitleArea>
-              <PageHeader.LeadingVisual>
-                <PencilIcon />
-              </PageHeader.LeadingVisual>
-              <PageHeader.Title>Editing {group_data.name}</PageHeader.Title>
-            </PageHeader.TitleArea>
-          </PageHeader>
-          {errorAlert && (
-            <Flash sx={{ mt: 4 }} variant="danger">
-              {errorAlert}
-            </Flash>
-          )}
-          {successMessage && (
-            <Flash sx={{ mt: 4 }} variant="success">
-              {successMessage}
-            </Flash>
-          )}
-          <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
-            <Box sx={{ flexGrow: 1 / 4 }}>
-              <Heading sx={{ fontSize: 1, mt: 4 }}>
-                Manage group members
-              </Heading>
-              <Box sx={{ mt: 2 }}>
-                {groupUsers.length > 0 ? (
-                  groupUsers.map((user: any, i: number) => (
+      <PageLayout.Content sx={{ p: 3 }}>
+        <PageHeader>
+          <PageHeader.TitleArea>
+            <PageHeader.LeadingVisual>
+              <PencilIcon />
+            </PageHeader.LeadingVisual>
+            <PageHeader.Title>Editing {group_data.name}</PageHeader.Title>
+          </PageHeader.TitleArea>
+        </PageHeader>
+        {errorAlert && (
+          <Flash sx={{ mt: 4 }} variant="danger">
+            {errorAlert}
+          </Flash>
+        )}
+        {successMessage && (
+          <Flash sx={{ mt: 4 }} variant="success">
+            {successMessage}
+          </Flash>
+        )}
+        <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
+          <Box sx={{ flexGrow: 1 / 4 }}>
+            <Heading sx={{ fontSize: 1, mt: 4 }}>Manage group members</Heading>
+            <Box sx={{ mt: 2 }}>
+              {groupUsers.length > 0 ? (
+                groupUsers.map((user: any, i: number) => (
+                  <Box
+                    key={'user-' + i}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mb: 2
+                    }}
+                  >
                     <Box
-                      key={'user-' + i}
                       sx={{
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        mb: 2
+                        alignItems: 'center'
                       }}
                     >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <PersonIcon />
-                        <Box sx={{ ml: 2, fontSize: 1 }}>{user}</Box>
-                      </Box>
-                      <IconButton
-                        aria-label="Delete"
-                        variant="danger"
-                        size="small"
-                        icon={TrashIcon}
-                        onClick={() => onRemoveUser(user)}
-                      />
+                      <PersonIcon />
+                      <Box sx={{ ml: 2, fontSize: 1 }}>{user}</Box>
                     </Box>
-                  ))
-                ) : (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      py: 4,
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderColor: 'border.default',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ color: 'gray', fontSize: 1 }}>
-                      No Users Added.
-                    </Box>
+                    <IconButton
+                      aria-label="Delete"
+                      variant="danger"
+                      size="small"
+                      icon={TrashIcon}
+                      onClick={() => onRemoveUser(user)}
+                    />
                   </Box>
-                )}
-              </Box>
-              <FormControl sx={{ mt: 2 }}>
-                <FormControl.Label>Add User</FormControl.Label>
-                <Box sx={{ display: 'flex', width: '100%' }}>
-                  <TextInput
-                    sx={{ flexGrow: 1, mr: 2 }}
-                    placeholder="Add by username"
-                    value={username}
-                    onChange={e => {
-                      setUsername(e.target.value.trim());
-                    }}
-                  />
-                  <Button
-                    variant="primary"
-                    onClick={onUserAdd}
-                    disabled={!username}
-                  >
-                    Add User
-                  </Button>
-                </Box>
-              </FormControl>
-              <PageLayout.Footer divider="line">
-                <Button
-                  block
-                  variant="danger"
-                  onClick={() => {
-                    dispatch(deleteGroup(group_data.name));
-                    navigate('/groups');
+                ))
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    py: 4,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderColor: 'border.default',
+                    borderRadius: 2
                   }}
                 >
-                  Delete Group
-                </Button>
-              </PageLayout.Footer>
+                  <Box sx={{ color: 'gray', fontSize: 1 }}>No Users Added.</Box>
+                </Box>
+              )}
             </Box>
-            <Box sx={{ flexGrow: 1, ml: [0, 4] }}>
-              <Heading sx={{ fontSize: 1, mt: 4, mb: 2 }}>
-                Manage group properties
-              </Heading>
-              <Box
-                sx={{
-                  px: 2,
-                  py: 1,
-                  mb: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderColor: 'attention.emphasis',
-                  borderRadius: 2,
-                  color: 'attention.emphasis',
-                  fontSize: 1
+            <FormControl sx={{ mt: 2 }}>
+              <FormControl.Label>Add User</FormControl.Label>
+              <Box sx={{ display: 'flex', width: '100%' }}>
+                <TextInput
+                  sx={{ flexGrow: 1, mr: 2 }}
+                  placeholder="Add by username"
+                  value={username}
+                  onChange={e => {
+                    setUsername(e.target.value.trim());
+                  }}
+                />
+                <Button
+                  variant="primary"
+                  onClick={onUserAdd}
+                  disabled={!username}
+                >
+                  Add User
+                </Button>
+              </Box>
+            </FormControl>
+            <PageLayout.Footer divider="line">
+              <Button
+                block
+                variant="danger"
+                onClick={() => {
+                  dispatch(deleteGroup(group_data.name));
+                  navigate('/hub/groups');
                 }}
               >
-                <AlertIcon />
-                <Box sx={{ ml: 2 }}>Changes are NOT saved until you Apply!</Box>
-              </Box>
-              <Box>
-                {Object.keys(groupProps).length > 0 ? (
-                  Object.entries(groupProps).map(
-                    ([key, value]: any, i: number) => (
-                      <Box sx={{ display: 'flex', mb: 2 }} key={'user-' + i}>
-                        <Cell
-                          groupKey={key}
-                          groupValue={value}
-                          groupProps={groupProps}
-                        />
-                      </Box>
-                    )
-                  )
-                ) : (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      py: 4,
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderColor: 'border.default',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ color: 'gray', fontSize: 1 }}>
-                      No Group Properties.
-                    </Box>
-                  </Box>
-                )}
-              </Box>
-              <Box>
-                <Heading sx={{ fontSize: 1, mt: 3 }}>Add a property</Heading>
-                <Box sx={{ display: 'flex', mt: 2 }}>
-                  <TextInput
-                    sx={{ flexGrow: 1, mr: 2 }}
-                    trailingVisual="Key"
-                    name="new-prop-key"
-                    value={newPropKey}
-                    onChange={e => setNewPropKey(e.target.value)}
-                    placeholder="Enter new property key"
-                  />
-
-                  <TextInput
-                    sx={{ flexGrow: 1, mr: 2 }}
-                    trailingVisual="Value"
-                    name="new-prop-value"
-                    value={newPropValue}
-                    onChange={e => setNewPropValue(e.target.value)}
-                    placeholder="Enter new property value"
-                  />
-
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      const newGroupProps = groupProps;
-                      if (!newGroupProps[newPropKey]) {
-                        setGroupProps({
-                          ...groupProps,
-                          [newPropKey]: newPropValue
-                        });
-                        setNewPropKey('');
-                        setNewPropValue('');
-                      } else {
-                        setErrorAlert(
-                          'Property already exists, you can Update it instead.'
-                        );
-                        setTimeout(() => {
-                          setErrorAlert(null);
-                        }, 2000);
-                      }
-                    }}
-                  >
-                    Add
-                  </Button>
-                </Box>
-              </Box>
-              <PageLayout.Footer divider="line">
-                <Button
-                  block
-                  variant="primary"
-                  disabled={isEqual(groupProps, group_data.properties)}
-                  onClick={onPropUpdate}
-                >
-                  Apply Changes
-                </Button>
-              </PageLayout.Footer>
-            </Box>
+                Delete Group
+              </Button>
+            </PageLayout.Footer>
           </Box>
-        </PageLayout.Content>
-      </PageLayout>
+          <Box sx={{ flexGrow: 1, ml: [0, 4] }}>
+            <Heading sx={{ fontSize: 1, mt: 4, mb: 2 }}>
+              Manage group properties
+            </Heading>
+            <Box
+              sx={{
+                px: 2,
+                py: 1,
+                mb: 3,
+                display: 'flex',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderColor: 'attention.emphasis',
+                borderRadius: 2,
+                color: 'attention.emphasis',
+                fontSize: 1
+              }}
+            >
+              <AlertIcon />
+              <Box sx={{ ml: 2 }}>Changes are NOT saved until you Apply!</Box>
+            </Box>
+            <Box>
+              {Object.keys(groupProps).length > 0 ? (
+                Object.entries(groupProps).map(
+                  ([key, value]: any, i: number) => (
+                    <Box sx={{ display: 'flex', mb: 2 }} key={'user-' + i}>
+                      <Cell
+                        groupKey={key}
+                        groupValue={value}
+                        groupProps={groupProps}
+                      />
+                    </Box>
+                  )
+                )
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    py: 4,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderColor: 'border.default',
+                    borderRadius: 2
+                  }}
+                >
+                  <Box sx={{ color: 'gray', fontSize: 1 }}>
+                    No Group Properties.
+                  </Box>
+                </Box>
+              )}
+            </Box>
+            <Box>
+              <Heading sx={{ fontSize: 1, mt: 3 }}>Add a property</Heading>
+              <Box sx={{ display: 'flex', mt: 2 }}>
+                <TextInput
+                  sx={{ flexGrow: 1, mr: 2 }}
+                  trailingVisual="Key"
+                  name="new-prop-key"
+                  value={newPropKey}
+                  onChange={e => setNewPropKey(e.target.value)}
+                  placeholder="Enter new property key"
+                />
+
+                <TextInput
+                  sx={{ flexGrow: 1, mr: 2 }}
+                  trailingVisual="Value"
+                  name="new-prop-value"
+                  value={newPropValue}
+                  onChange={e => setNewPropValue(e.target.value)}
+                  placeholder="Enter new property value"
+                />
+
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    const newGroupProps = groupProps;
+                    if (!newGroupProps[newPropKey]) {
+                      setGroupProps({
+                        ...groupProps,
+                        [newPropKey]: newPropValue
+                      });
+                      setNewPropKey('');
+                      setNewPropValue('');
+                    } else {
+                      setErrorAlert(
+                        'Property already exists, you can Update it instead.'
+                      );
+                      setTimeout(() => {
+                        setErrorAlert(null);
+                      }, 2000);
+                    }
+                  }}
+                >
+                  Add
+                </Button>
+              </Box>
+            </Box>
+            <PageLayout.Footer divider="line">
+              <Button
+                block
+                variant="primary"
+                disabled={isEqual(groupProps, group_data.properties)}
+                onClick={onPropUpdate}
+              >
+                Apply Changes
+              </Button>
+            </PageLayout.Footer>
+          </Box>
+        </Box>
+      </PageLayout.Content>
     </>
   );
 };

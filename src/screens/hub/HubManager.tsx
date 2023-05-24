@@ -26,7 +26,7 @@ const HubManager = (): JSX.Element => {
             </NavList.Group>
           </NavList>
         </Box>
-        <Box>
+        <Box width="100%">
           <HomeManager />
         </Box>
       </Box>

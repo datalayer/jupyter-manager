@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import {
-  Breadcrumbs,
   Button,
   ButtonGroup,
   IconButton,
@@ -207,204 +206,188 @@ const HubManager = (props: {
   });
   return (
     <>
-      {errorAlert && (
-        <Flash sx={{ mt: 4 }} variant="danger">
-          {errorAlert}
-        </Flash>
-      )}
-      <PageLayout>
-        <PageLayout.Header divider="line">
-          <Breadcrumbs>
-            <Breadcrumbs.Item href="/" selected>
-              Home
-            </Breadcrumbs.Item>
-          </Breadcrumbs>
-        </PageLayout.Header>
-        <PageLayout.Content>
-          <Table.Container>
-            <Table.Title as="h2" id="repositories">
-              JupyterHub
-            </Table.Title>
-            <Table.Actions>
-              <TextInput
-                trailingVisual={SearchIcon}
-                aria-label="Search users"
-                name="search-user"
-                placeholder="Search users"
-                defaultValue={name_filter}
-                onChange={handleSearch}
-              />
-            </Table.Actions>
-            <DataTable
-              aria-labelledby="repositories"
-              aria-describedby="repositories-subtitle"
-              data={tableData}
-              columns={[
-                {
-                  header: 'User',
-                  field: 'name',
-                  rowHeader: true,
-                  width: 'grow',
-                  sortBy: 'alphanumeric',
-                  renderCell: row => {
-                    return <>{row.name}</>;
-                  },
-                  minWidth: '100px',
-                  maxWidth: '300px'
-                },
-                {
-                  header: 'Role',
-                  field: 'admin',
-                  sortBy: 'alphanumeric',
-                  renderCell: row => {
-                    return row.admin ? <Label>admin</Label> : <></>;
-                  },
-                  width: '100px'
-                },
-                {
-                  header: 'Server',
-                  field: 'serverName',
-                  renderCell: row => {
-                    return <>{row.serverName}</>;
-                  },
-                  maxWidth: '100px'
-                },
-                {
-                  header: 'Last Activity',
-                  field: 'lastActivity',
-                  sortBy: 'datetime',
-                  renderCell: row => {
-                    return row.lastActivity ? (
-                      <RelativeTime date={new Date(row.lastActivity)} />
-                    ) : (
-                      <></>
-                    );
-                  },
-                  width: '150px'
-                },
-                {
-                  header: 'Running',
-                  field: 'serverReady',
-                  renderCell: row => {
-                    return row.serverReady ? (
-                      // Stop Single-user server
-                      <>
-                        <ButtonGroup>
-                          <StopServerButton
-                            serverName={row.serverName as string}
-                            userName={row.name}
-                          />
-                          <Button
-                            onClick={() =>
-                              (window.location.href = row.serverURL as string)
-                            }
-                          >
-                            Access Server
-                          </Button>
-                        </ButtonGroup>
-                      </>
-                    ) : (
-                      // Start Single-user server
-                      <>
-                        <ButtonGroup>
-                          <StartServerButton
-                            serverName={row.serverName as string}
-                            userName={row.name}
-                          />
-                          <Button
-                            onClick={() =>
-                              (window.location.href = `${base_url}spawn/${
-                                row.name
-                              }${row.serverName ? '/' + row.serverName : ''}`)
-                            }
-                          >
-                            Spawn Page
-                          </Button>
-                        </ButtonGroup>
-                      </>
-                    );
-                  },
-                  width: 'grow'
-                },
-                {
-                  id: 'actions',
-                  header: '',
-                  renderCell: row => {
-                    return (
-                      <IconButton
-                        aria-label={`Edit ${row.name}`}
-                        title={`Edit ${row.name}`}
-                        icon={PencilIcon}
-                        variant="invisible"
-                        onClick={() => navigate(`/users/${row.name}`)}
-                      />
-                    );
-                  },
-                  width: 'auto'
-                }
-              ]}
+      <PageLayout.Content>
+        {errorAlert && (
+          <Flash sx={{ mt: 4 }} variant="danger">
+            {errorAlert}
+          </Flash>
+        )}
+        <Table.Container>
+          <Table.Title as="h2" id="repositories">
+            Users
+          </Table.Title>
+          <Table.Actions>
+            <TextInput
+              trailingVisual={SearchIcon}
+              aria-label="Search users"
+              name="search-user"
+              placeholder="Search users"
+              defaultValue={name_filter}
+              onChange={handleSearch}
             />
-          </Table.Container>
-          {total && (
-            <Pagination
-              pageCount={Math.ceil(total / limit)}
-              currentPage={Math.floor(offset / limit) + 1}
-              onPageChange={e => {
-                e.preventDefault();
-                const el = e.target as HTMLAnchorElement;
-                const targetPage = parseInt(el.href.split('#').pop() as string);
-                const currPage = Math.floor(offset / limit) + 1;
-                dispatch(
-                  setUserOffset(offset + limit * (targetPage - currPage))
-                );
-              }}
-            />
-          )}
-        </PageLayout.Content>
-        <PageLayout.Pane>
-          <Button
-            block
-            sx={{ mb: 3 }}
-            variant="primary"
-            onClick={() => navigate('/add-users')}
-          >
-            Add Users
-          </Button>
-          <Button
-            block
-            sx={{ mb: 3 }}
-            variant="primary"
-            onClick={() => navigate('/groups')}
-          >
-            Manage Groups
-          </Button>
-          <Button
-            block
-            sx={{ mb: 3 }}
-            variant="primary"
-            onClick={StartAllServers}
-          >
-            Start All Servers
-          </Button>
-          <Button
-            block
-            sx={{ mb: 3 }}
-            variant="danger"
-            onClick={StopAllServers}
-          >
-            Stop All Servers
-          </Button>
-          <Button
-            block
-            sx={{ mb: 3 }}
-            variant="danger"
-            id="shutdown-button"
-            onClick={shutdownHub}
-          >
-            Shutdown Hub
-          </Button>
-        </PageLayout.Pane>
-      </PageLayout>
+          </Table.Actions>
+          <DataTable
+            aria-labelledby="repositories"
+            aria-describedby="repositories-subtitle"
+            data={tableData}
+            columns={[
+              {
+                header: 'User',
+                field: 'name',
+                rowHeader: true,
+                width: 'grow',
+                sortBy: 'alphanumeric',
+                renderCell: row => {
+                  return <>{row.name}</>;
+                },
+                minWidth: '100px',
+                maxWidth: '300px'
+              },
+              {
+                header: 'Role',
+                field: 'admin',
+                sortBy: 'alphanumeric',
+                renderCell: row => {
+                  return row.admin ? <Label>admin</Label> : <></>;
+                },
+                width: '100px'
+              },
+              {
+                header: 'Server',
+                field: 'serverName',
+                renderCell: row => {
+                  return <>{row.serverName}</>;
+                },
+                maxWidth: '100px'
+              },
+              {
+                header: 'Last Activity',
+                field: 'lastActivity',
+                sortBy: 'datetime',
+                renderCell: row => {
+                  return row.lastActivity ? (
+                    <RelativeTime date={new Date(row.lastActivity)} />
+                  ) : (
+                    <></>
+                  );
+                },
+                width: '150px'
+              },
+              {
+                header: 'Running',
+                field: 'serverReady',
+                renderCell: row => {
+                  return row.serverReady ? (
+                    // Stop Single-user server
+                    <>
+                      <ButtonGroup>
+                        <StopServerButton
+                          serverName={row.serverName as string}
+                          userName={row.name}
+                        />
+                        <Button
+                          onClick={() =>
+                            (window.location.href = row.serverURL as string)
+                          }
+                        >
+                          Access Server
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  ) : (
+                    // Start Single-user server
+                    <>
+                      <ButtonGroup>
+                        <StartServerButton
+                          serverName={row.serverName as string}
+                          userName={row.name}
+                        />
+                        <Button
+                          onClick={() =>
+                            (window.location.href = `${base_url}spawn/${
+                              row.name
+                            }${row.serverName ? '/' + row.serverName : ''}`)
+                          }
+                        >
+                          Spawn Page
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  );
+                },
+                width: 'grow'
+              },
+              {
+                id: 'actions',
+                header: '',
+                renderCell: row => {
+                  return (
+                    <IconButton
+                      aria-label={`Edit ${row.name}`}
+                      title={`Edit ${row.name}`}
+                      icon={PencilIcon}
+                      variant="invisible"
+                      onClick={() => navigate(`/hub/user/${row.name}`)}
+                    />
+                  );
+                },
+                width: 'auto'
+              }
+            ]}
+          />
+        </Table.Container>
+        {total && (
+          <Pagination
+            pageCount={Math.ceil(total / limit)}
+            currentPage={Math.floor(offset / limit) + 1}
+            onPageChange={e => {
+              e.preventDefault();
+              const el = e.target as HTMLAnchorElement;
+              const targetPage = parseInt(el.href.split('#').pop() as string);
+              const currPage = Math.floor(offset / limit) + 1;
+              dispatch(setUserOffset(offset + limit * (targetPage - currPage)));
+            }}
+          />
+        )}
+      </PageLayout.Content>
+      <PageLayout.Pane>
+        <Button
+          block
+          sx={{ mb: 3 }}
+          variant="primary"
+          onClick={() => navigate('/hub/users/add')}
+        >
+          Add Users
+        </Button>
+        <Button
+          block
+          sx={{ mb: 3 }}
+          variant="primary"
+          onClick={() => navigate('/hub/groups')}
+        >
+          Manage Groups
+        </Button>
+        <Button
+          block
+          sx={{ mb: 3 }}
+          variant="primary"
+          onClick={StartAllServers}
+        >
+          Start All Servers
+        </Button>
+        <Button block sx={{ mb: 3 }} variant="danger" onClick={StopAllServers}>
+          Stop All Servers
+        </Button>
+        <Button
+          block
+          sx={{ mb: 3 }}
+          variant="danger"
+          id="shutdown-button"
+          onClick={shutdownHub}
+        >
+          Shutdown Hub
+        </Button>
+      </PageLayout.Pane>
     </>
   );
 };

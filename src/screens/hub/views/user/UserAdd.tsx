@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Breadcrumbs,
   Button,
   Checkbox,
   Flash,
@@ -64,59 +63,49 @@ const UserAdd = (): JSX.Element => {
 
   return (
     <>
-      <PageLayout>
-        <PageLayout.Header divider="line">
-          <Breadcrumbs>
-            <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/users-add" selected>
-              Add Users
-            </Breadcrumbs.Item>
-          </Breadcrumbs>
-        </PageLayout.Header>
-        <PageLayout.Content>
-          <PageHeader>
-            <PageHeader.TitleArea>
-              <PageHeader.LeadingVisual>
-                <PersonAddIcon />
-              </PageHeader.LeadingVisual>
-              <PageHeader.Title>Add Users</PageHeader.Title>
-            </PageHeader.TitleArea>
-          </PageHeader>
-          {errorAlert && (
-            <Flash sx={{ mt: 4 }} variant="danger">
-              {errorAlert}
-            </Flash>
-          )}
-          <FormControl sx={{ mt: 4 }}>
-            <FormControl.Label>New User(s)</FormControl.Label>
-            <TextInputWithTokens
-              preventTokenWrapping
-              block
-              tokens={newUsers}
-              onTokenRemove={onNewUserRemove}
-              value={currUser}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder={
-                !newUsers.length ? 'Press space to add a user' : undefined
-              }
-            />
-          </FormControl>
-          <FormControl sx={{ mt: 3 }}>
-            <Checkbox onChange={() => setAdmin(!admin)} />
-            <FormControl.Label>Give Admin Privileges</FormControl.Label>
-          </FormControl>
-          <PageLayout.Footer divider="line">
-            <Button
-              variant="primary"
-              onClick={onAddUsers}
-              disabled={!newUsers.length}
-            >
-              Add Users
-            </Button>
-          </PageLayout.Footer>
-        </PageLayout.Content>
-      </PageLayout>
+      <PageLayout.Content>
+        <PageHeader>
+          <PageHeader.TitleArea>
+            <PageHeader.LeadingVisual>
+              <PersonAddIcon />
+            </PageHeader.LeadingVisual>
+            <PageHeader.Title>Add Users</PageHeader.Title>
+          </PageHeader.TitleArea>
+        </PageHeader>
+        {errorAlert && (
+          <Flash sx={{ mt: 4 }} variant="danger">
+            {errorAlert}
+          </Flash>
+        )}
+        <FormControl sx={{ mt: 4 }}>
+          <FormControl.Label>New User(s)</FormControl.Label>
+          <TextInputWithTokens
+            preventTokenWrapping
+            block
+            tokens={newUsers}
+            onTokenRemove={onNewUserRemove}
+            value={currUser}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={
+              !newUsers.length ? 'Press space to add a user' : undefined
+            }
+          />
+        </FormControl>
+        <FormControl sx={{ mt: 3 }}>
+          <Checkbox onChange={() => setAdmin(!admin)} />
+          <FormControl.Label>Give Admin Privileges</FormControl.Label>
+        </FormControl>
+        <PageLayout.Footer divider="line">
+          <Button
+            variant="primary"
+            onClick={onAddUsers}
+            disabled={!newUsers.length}
+          >
+            Add Users
+          </Button>
+        </PageLayout.Footer>
+      </PageLayout.Content>
     </>
   );
 };

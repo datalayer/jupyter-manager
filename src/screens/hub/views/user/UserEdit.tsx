@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  Breadcrumbs,
   Box,
   Button,
   Checkbox,
@@ -14,7 +13,7 @@ import {
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
 import PropTypes from 'prop-types';
-import ObjectTableViewer from '../../../../components/ObjectTableViewer/ObjectTableViewer';
+import ObjectTableViewer from '../../../../components/ObjectTableViewer';
 import type { MainState } from '../../../../redux/store';
 import type { UserState } from '../../../../redux/state/user';
 import {
@@ -77,83 +76,73 @@ const UserEdit = (): JSX.Element => {
 
   return (
     <>
-      <PageLayout>
-        <PageLayout.Header sx={{ my: [0, 0, 0, 0] }} divider="line">
-          <Breadcrumbs>
-            <Breadcrumbs.Item href="/#">Home</Breadcrumbs.Item>
-            <Breadcrumbs.Item href="/#/user-edit" selected>
-              Edit User
-            </Breadcrumbs.Item>
-          </Breadcrumbs>
-        </PageLayout.Header>
-        <PageLayout.Pane
-          divider={{
-            narrow: 'line',
-            regular: 'line',
-            wide: 'line'
-          }}
-          position={{
-            narrow: 'start',
-            regular: 'start',
-            wide: 'start'
-          }}
-        >
-          <PageHeader>
-            <PageHeader.TitleArea sx={{ mt: 3 }}>
-              <PageHeader.LeadingVisual>
-                <PencilIcon />
-              </PageHeader.LeadingVisual>
-              <PageHeader.Title>Editing {username}</PageHeader.Title>
-            </PageHeader.TitleArea>
-          </PageHeader>
-          {errorAlert && (
-            <Flash sx={{ mt: 4 }} variant="danger">
-              {errorAlert}
-            </Flash>
-          )}
-          <FormControl sx={{ mt: 3 }}>
-            <FormControl.Label>New Username</FormControl.Label>
-            <TextInput
-              block
-              placeholder="Updated username"
-              value={updatedUsername}
-              onChange={e => {
-                setUpdatedUsername(e.target.value.trim());
-              }}
-            />
-          </FormControl>
-          <FormControl sx={{ my: 3 }}>
-            <Checkbox checked={admin} onChange={() => setAdmin(!admin)} />
-            <FormControl.Label>Give Admin Privileges</FormControl.Label>
-          </FormControl>
-          <Button
+      <PageLayout.Pane
+        divider={{
+          narrow: 'line',
+          regular: 'line',
+          wide: 'line'
+        }}
+        position={{
+          narrow: 'start',
+          regular: 'start',
+          wide: 'start'
+        }}
+      >
+        <PageHeader>
+          <PageHeader.TitleArea sx={{ mt: 3 }}>
+            <PageHeader.LeadingVisual>
+              <PencilIcon />
+            </PageHeader.LeadingVisual>
+            <PageHeader.Title>Editing {username}</PageHeader.Title>
+          </PageHeader.TitleArea>
+        </PageHeader>
+        {errorAlert && (
+          <Flash sx={{ mt: 4 }} variant="danger">
+            {errorAlert}
+          </Flash>
+        )}
+        <FormControl sx={{ mt: 3 }}>
+          <FormControl.Label>New Username</FormControl.Label>
+          <TextInput
             block
-            variant="primary"
-            onClick={onApplyChanges}
-            disabled={
-              (updatedUsername === '' || username === updatedUsername) &&
-              admin === has_admin
-            }
-          >
-            Apply Changes
+            placeholder="Updated username"
+            value={updatedUsername}
+            onChange={e => {
+              setUpdatedUsername(e.target.value.trim());
+            }}
+          />
+        </FormControl>
+        <FormControl sx={{ my: 3 }}>
+          <Checkbox checked={admin} onChange={() => setAdmin(!admin)} />
+          <FormControl.Label>Give Admin Privileges</FormControl.Label>
+        </FormControl>
+        <Button
+          block
+          variant="primary"
+          onClick={onApplyChanges}
+          disabled={
+            (updatedUsername === '' || username === updatedUsername) &&
+            admin === has_admin
+          }
+        >
+          Apply Changes
+        </Button>
+        <PageLayout.Footer divider="line">
+          <Button block variant="danger" onClick={onDeleteUser}>
+            Delete User
           </Button>
-          <PageLayout.Footer divider="line">
-            <Button block variant="danger" onClick={onDeleteUser}>
-              Delete User
-            </Button>
-          </PageLayout.Footer>
-        </PageLayout.Pane>
-        <PageLayout.Content>
-          <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-              <ObjectTableViewer data={server ?? {}} title={'Server Data'} />
-            </Box>
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-              <ObjectTableViewer data={filteredUser} title={'User Data'} />
-            </Box>
+        </PageLayout.Footer>
+      </PageLayout.Pane>
+      <PageLayout.Content>
+        <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <ObjectTableViewer data={server ?? {}} title={'Server Data'} />
           </Box>
-        </PageLayout.Content>
-      </PageLayout>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <ObjectTableViewer data={filteredUser} title={'User Data'} />
+          </Box>
+        </Box>
+      </PageLayout.Content>
     </>
   );
 };

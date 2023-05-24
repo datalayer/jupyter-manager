@@ -10,6 +10,7 @@ import {
 } from './api/connectionConfigs';
 import { requestAPI } from './api/serverHandler';
 
+import Overview from './screens/overview/Overview';
 import HubManager from './screens/hub/HubManager';
 import ServersManager from './screens/servers/ServersManager';
 import ContentManager from './screens/content/ContentManager';
@@ -21,8 +22,8 @@ import EventsManager from './screens/events/EventsManager';
 import SettingsManager from './screens/settings/SettingsManager';
 import AboutManager from './screens/about/AboutManager';
 
-import Navbar from './components/Navbar/Navbar';
-import Messages from './components/Messages/Messages';
+import Navbar from './components/Navbar';
+import Messages from './components/Messages';
 
 import { setConfigSchema, updateConfig } from './redux/actions/config';
 
@@ -71,10 +72,10 @@ const Manager = (props: ManagerProps): JSX.Element => {
             <Router>
               <Navbar />
               {data && <ConfigUpdater data={data} />}
-              <Messages />
+              {/* <Messages /> */}
               <Routes>
-                {/* <Route path="/" element={<OverviewCompose />} /> */}
-                <Route path="/hub" element={<HubManager />} />
+                <Route path="/" element={<Overview />} />
+                <Route path="/hub/*" element={<HubManager />} />
                 <Route path="/servers" element={<ServersManager />} />
                 <Route path="/content" element={<ContentManager />} />
                 <Route path="/apps" element={<AppsManager />} />
