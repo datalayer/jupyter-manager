@@ -197,11 +197,7 @@ const HubManager = (props: {
       serverURL: server[1].ready ? server[1].url : '',
       lastActivity: server[1].last_activity
         ? Date.parse(server[1].last_activity)
-        : null,
-      state: {
-        user: server[0],
-        server: server[1]
-      }
+        : null
     };
   });
   return (
@@ -355,9 +351,9 @@ const HubManager = (props: {
           block
           sx={{ mb: 3 }}
           variant="primary"
-          onClick={() => navigate('/hub/users/add')}
+          onClick={() => navigate('/hub/users')}
         >
-          Add Users
+          Manage Users
         </Button>
         <Button
           block

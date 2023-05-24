@@ -4,7 +4,8 @@ import { Breadcrumbs as Breadcrumb } from '@primer/react';
 const names: Record<string, string> = {
   hub: 'JupyterHub',
   users: 'Users',
-  groups: 'Groups'
+  groups: 'Groups',
+  servers: 'Servers'
 };
 
 const Breadcrumbs = (): JSX.Element => {
