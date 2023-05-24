@@ -56,12 +56,12 @@ const UserEdit = (): JSX.Element => {
   }
 
   const { server } = user_data;
-  const { servers, ...filteredUser } = user_data;
+  const { servers: _, ...filteredUser } = user_data;
   const { name: username, admin: has_admin } = user_data;
 
   const onDeleteUser = () => {
     dispatch(deleteUser(username));
-    navigate('/');
+    navigate('/hub/users');
   };
 
   const onApplyChanges = () => {

@@ -1,5 +1,6 @@
 import { ProjectIcon } from '@primer/octicons-react';
-import { Box, Link, PageLayout, Text } from '@primer/react';
+import { Box, PageLayout, Text } from '@primer/react';
+import { Link } from 'react-router-dom';
 
 const Overview = (): JSX.Element => {
   return (
@@ -7,7 +8,7 @@ const Overview = (): JSX.Element => {
       <PageLayout>
         <PageLayout.Content>
           <Box display="flex">
-            <Link href="/hub">
+            <Link to="/hub">
               <Box
                 sx={{
                   p: 4,
@@ -23,10 +24,10 @@ const Overview = (): JSX.Element => {
                 }}
               >
                 <ProjectIcon fill="#1ABC9C" />
-                <Text sx={{ ml: 2 }}>Hub Metrics</Text>
+                <Text sx={{ ml: 2 }}>Manage Hub</Text>
               </Box>
             </Link>
-            <Link href="/servers">
+            <Link to="/servers">
               <Box
                 sx={{
                   p: 4,
@@ -42,10 +43,10 @@ const Overview = (): JSX.Element => {
                 }}
               >
                 <ProjectIcon fill="#1ABC9C" />
-                <Text sx={{ ml: 2 }}>Server Metrics</Text>
+                <Text sx={{ ml: 2 }}>Manage Server</Text>
               </Box>
             </Link>
-            <Link href="/kernels">
+            <Link to="/kernels">
               <Box
                 sx={{
                   p: 4,
@@ -61,7 +62,7 @@ const Overview = (): JSX.Element => {
                 }}
               >
                 <ProjectIcon fill="#1ABC9C" />
-                <Text sx={{ ml: 2 }}>Kernel Metrics</Text>
+                <Text sx={{ ml: 2 }}>Manage Kernel</Text>
               </Box>
             </Link>
           </Box>

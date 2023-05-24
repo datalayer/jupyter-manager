@@ -33,7 +33,7 @@ const Groups = (): JSX.Element => {
   return (
     <>
       <GroupCreate offset={offset} limit={limit} />
-      <PageLayout.Content sx={{ p: 3 }}>
+      <PageLayout.Content>
         <PageHeader>
           <PageHeader.TitleArea>
             <PageHeader.LeadingVisual>

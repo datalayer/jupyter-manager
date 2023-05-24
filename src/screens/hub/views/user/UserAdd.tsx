@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Checkbox,
@@ -11,17 +10,23 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PersonAddIcon } from '@primer/octicons-react';
-import { addUsers } from '../../../../redux/actions/user';
+import { addUsers, getUsersPagination } from '../../../../redux/actions/user';
 
-const UserAdd = (): JSX.Element => {
-  const navigate = useNavigate();
-
+const UserAdd = ({
+  offset,
+  limit,
+  name_filter
+}: {
+  offset: number;
+  limit: number;
+  name_filter: string;
+}): JSX.Element => {
   const [currUser, setCurrUser] = useState<string>('');
   const [newUsers, setNewUsers] = React.useState<
     { text: string; id: number }[]
   >([]);
   const [admin, setAdmin] = useState(false);
-  const [errorAlert, _] = useState<string | null>(null);
+  const [errorAlert] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
@@ -58,12 +63,25 @@ const UserAdd = (): JSX.Element => {
   const onAddUsers = () => {
     const users: string[] = newUsers.map(user => user.text);
     dispatch(addUsers(users, admin));
-    navigate('/');
+    dispatch(getUsersPagination(offset, limit, name_filter));
+    setNewUsers([]);
+    setCurrUser('');
   };
 
   return (
     <>
-      <PageLayout.Content>
+      <PageLayout.Pane
+        divider={{
+          narrow: 'line',
+          regular: 'line',
+          wide: 'line'
+        }}
+        position={{
+          narrow: 'start',
+          regular: 'start',
+          wide: 'start'
+        }}
+      >
         <PageHeader>
           <PageHeader.TitleArea>
             <PageHeader.LeadingVisual>
@@ -105,7 +123,7 @@ const UserAdd = (): JSX.Element => {
             Add Users
           </Button>
         </PageLayout.Footer>
-      </PageLayout.Content>
+      </PageLayout.Pane>
     </>
   );
 };
