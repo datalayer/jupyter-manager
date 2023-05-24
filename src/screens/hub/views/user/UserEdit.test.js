@@ -1,22 +1,22 @@
-import React from "react";
-import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { createStore } from "redux";
-import { HashRouter } from "react-router-dom";
+import React from 'react';
+import '@testing-library/jest-dom';
+import { act } from 'react-dom/test-utils';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { createStore } from 'redux';
+import { HashRouter } from 'react-router-dom';
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
 
-import UserEdit from "./UserEdit";
+import UserEdit from './UserEdit';
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
-  useSelector: jest.fn(),
+  useSelector: jest.fn()
 }));
 
-var mockAsync = (data) =>
+var mockAsync = data =>
   jest.fn().mockImplementation(() => Promise.resolve(data));
 
 var mockAsyncRejection = () =>
@@ -26,7 +26,7 @@ var UserEditJsx = (callbackSpy, empty) => (
   <Provider store={createStore(() => {}, {})}>
     <HashRouter>
       <UserEdit
-        location={empty ? {} : { state: { username: "foo", has_admin: false } }}
+        location={empty ? {} : { state: { username: 'foo', has_admin: false } }}
         deleteUser={callbackSpy}
         UserEdit={callbackSpy}
         updateUsers={callbackSpy}
@@ -38,14 +38,14 @@ var UserEditJsx = (callbackSpy, empty) => (
 );
 
 var mockAppState = () => ({
-  limit: 3,
+  limit: 3
 });
 
 beforeEach(() => {
   useDispatch.mockImplementation(() => {
     return () => {};
   });
-  useSelector.mockImplementation((callback) => {
+  useSelector.mockImplementation(callback => {
     return callback(mockAppState());
   });
 });
@@ -54,24 +54,24 @@ afterEach(() => {
   useDispatch.mockClear();
 });
 
-test("Renders", async () => {
-  let callbackSpy = mockAsync({ key: "value", status: 200 });
+test('Renders', async () => {
+  let callbackSpy = mockAsync({ key: 'value', status: 200 });
 
   await act(async () => {
     render(UserEditJsx(callbackSpy));
   });
 
-  expect(screen.getByTestId("container")).toBeVisible();
+  expect(screen.getByTestId('container')).toBeVisible();
 });
 
-test("Calls the delete user function when the button is pressed", async () => {
-  let callbackSpy = mockAsync({ key: "value", status: 200 });
+test('Calls the delete user function when the button is pressed', async () => {
+  let callbackSpy = mockAsync({ key: 'value', status: 200 });
 
   await act(async () => {
     render(UserEditJsx(callbackSpy));
   });
 
-  let deleteUser = screen.getByTestId("delete-user");
+  let deleteUser = screen.getByTestId('delete-user');
 
   await act(async () => {
     fireEvent.click(deleteUser);
@@ -80,14 +80,14 @@ test("Calls the delete user function when the button is pressed", async () => {
   expect(callbackSpy).toHaveBeenCalled();
 });
 
-test("Submits the edits when the button is pressed", async () => {
-  let callbackSpy = mockAsync({ key: "value", status: 200 });
+test('Submits the edits when the button is pressed', async () => {
+  let callbackSpy = mockAsync({ key: 'value', status: 200 });
 
   await act(async () => {
     render(UserEditJsx(callbackSpy));
   });
 
-  let submit = screen.getByTestId("submit");
+  let submit = screen.getByTestId('submit');
   await act(async () => {
     fireEvent.click(submit);
   });
@@ -95,43 +95,43 @@ test("Submits the edits when the button is pressed", async () => {
   expect(callbackSpy).toHaveBeenCalled();
 });
 
-test("Shows a UI error dialogue when user edit fails", async () => {
+test('Shows a UI error dialogue when user edit fails', async () => {
   let callbackSpy = mockAsyncRejection();
 
   await act(async () => {
     render(UserEditJsx(callbackSpy));
   });
 
-  let submit = screen.getByTestId("submit");
-  let usernameInput = screen.getByTestId("user-editname-input");
+  let submit = screen.getByTestId('submit');
+  let usernameInput = screen.getByTestId('user-editname-input');
 
-  fireEvent.blur(usernameInput, { target: { value: "whatever" } });
+  fireEvent.blur(usernameInput, { target: { value: 'whatever' } });
   await act(async () => {
     fireEvent.click(submit);
   });
 
-  let errorDialog = screen.getByText("Failed to edit user.");
+  let errorDialog = screen.getByText('Failed to edit user.');
 
   expect(errorDialog).toBeVisible();
   expect(callbackSpy).toHaveBeenCalled();
 });
 
-test("Shows a UI error dialogue when user edit returns an improper status code", async () => {
+test('Shows a UI error dialogue when user edit returns an improper status code', async () => {
   let callbackSpy = mockAsync({ status: 409 });
 
   await act(async () => {
     render(UserEditJsx(callbackSpy));
   });
 
-  let submit = screen.getByTestId("submit");
-  let usernameInput = screen.getByTestId("user-editname-input");
+  let submit = screen.getByTestId('submit');
+  let usernameInput = screen.getByTestId('user-editname-input');
 
-  fireEvent.blur(usernameInput, { target: { value: "whatever" } });
+  fireEvent.blur(usernameInput, { target: { value: 'whatever' } });
   await act(async () => {
     fireEvent.click(submit);
   });
 
-  let errorDialog = screen.getByText("Failed to edit user.");
+  let errorDialog = screen.getByText('Failed to edit user.');
 
   expect(errorDialog).toBeVisible();
   expect(callbackSpy).toHaveBeenCalled();

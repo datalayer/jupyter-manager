@@ -1,28 +1,28 @@
-import React from "react";
-import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
-import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { createStore } from "redux";
-import { HashRouter } from "react-router-dom";
+import React from 'react';
+import '@testing-library/jest-dom';
+import { act } from 'react-dom/test-utils';
+import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { createStore } from 'redux';
+import { HashRouter } from 'react-router-dom';
 // eslint-disable-next-line
 import regeneratorRuntime from "regenerator-runtime";
-import GroupCreate from "./GroupCreate";
+import GroupCreate from './GroupCreate';
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
-  useSelector: jest.fn(),
+  useSelector: jest.fn()
 }));
 
-var mockAsync = (result) =>
+var mockAsync = result =>
   jest.fn().mockImplementation(() => Promise.resolve(result));
 
 var mockAsyncRejection = () =>
   jest.fn().mockImplementation(() => Promise.reject());
 
-var GroupCreateJsx = (callbackSpy) => (
+var GroupCreateJsx = callbackSpy => (
   <Provider store={createStore(() => {}, {})}>
     <HashRouter>
       <GroupCreate
@@ -35,14 +35,14 @@ var GroupCreateJsx = (callbackSpy) => (
 );
 
 var mockAppState = () => ({
-  limit: 3,
+  limit: 3
 });
 
 beforeEach(() => {
   useDispatch.mockImplementation(() => {
     return () => () => {};
   });
-  useSelector.mockImplementation((callback) => {
+  useSelector.mockImplementation(callback => {
     return callback(mockAppState());
   });
 });
@@ -51,63 +51,63 @@ afterEach(() => {
   useDispatch.mockClear();
 });
 
-test("Renders", async () => {
+test('Renders', async () => {
   await act(async () => {
     render(GroupCreateJsx());
   });
-  expect(screen.getByTestId("container")).toBeVisible();
+  expect(screen.getByTestId('container')).toBeVisible();
 });
 
-test("Calls GroupCreate on submit", async () => {
+test('Calls GroupCreate on submit', async () => {
   let callbackSpy = mockAsync({ status: 200 });
 
   await act(async () => {
     render(GroupCreateJsx(callbackSpy));
   });
 
-  let input = screen.getByTestId("group-input");
-  let submit = screen.getByTestId("submit");
+  let input = screen.getByTestId('group-input');
+  let submit = screen.getByTestId('submit');
 
-  userEvent.type(input, "groupname");
+  userEvent.type(input, 'groupname');
   await act(async () => fireEvent.click(submit));
 
-  expect(callbackSpy).toHaveBeenNthCalledWith(1, "groupname");
+  expect(callbackSpy).toHaveBeenNthCalledWith(1, 'groupname');
 });
 
-test("Shows a UI error dialogue when group creation fails", async () => {
+test('Shows a UI error dialogue when group creation fails', async () => {
   let callbackSpy = mockAsyncRejection();
 
   await act(async () => {
     render(GroupCreateJsx(callbackSpy));
   });
 
-  let submit = screen.getByTestId("submit");
+  let submit = screen.getByTestId('submit');
 
   await act(async () => {
     fireEvent.click(submit);
   });
 
-  let errorDialog = screen.getByText("Failed to create group.");
+  let errorDialog = screen.getByText('Failed to create group.');
 
   expect(errorDialog).toBeVisible();
   expect(callbackSpy).toHaveBeenCalled();
 });
 
-test("Shows a more specific UI error dialogue when user creation returns an improper status code", async () => {
+test('Shows a more specific UI error dialogue when user creation returns an improper status code', async () => {
   let callbackSpy = mockAsync({ status: 409 });
 
   await act(async () => {
     render(GroupCreateJsx(callbackSpy));
   });
 
-  let submit = screen.getByTestId("submit");
+  let submit = screen.getByTestId('submit');
 
   await act(async () => {
     fireEvent.click(submit);
   });
 
   let errorDialog = screen.getByText(
-    "Failed to create group. Group already exists.",
+    'Failed to create group. Group already exists.'
   );
 
   expect(errorDialog).toBeVisible();

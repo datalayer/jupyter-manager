@@ -9,7 +9,10 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PlusIcon } from '@primer/octicons-react';
-import { createGroup, getGroupsPagination } from '../../../../redux/actions/group';
+import {
+  createGroup,
+  getGroupsPagination
+} from '../../../../redux/actions/group';
 
 const GroupCreate = ({
   offset,

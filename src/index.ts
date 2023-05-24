@@ -36,7 +36,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const command = CommandIDs.create;
     const datalayerIcon = new LabIcon({
       name: 'datalayer:icon',
-      svgstr: datalayerSvg,
+      svgstr: datalayerSvg
     });
     commands.addCommand(command, {
       caption: 'Show Jupyter Manager',
