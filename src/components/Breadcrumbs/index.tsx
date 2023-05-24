@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Breadcrumbs as Breadcrumb } from '@primer/react';
 
 const names: Record<string, string> = {
@@ -19,7 +19,8 @@ const Breadcrumbs = (): JSX.Element => {
     <Breadcrumb>
       {paths.map((path, index) => (
         <Breadcrumb.Item
-          href={`/${paths.slice(0, index + 1).join('/')}`}
+          as={Link}
+          to={`/${paths.slice(0, index + 1).join(' / ')}`}
           key={index}
           selected={index === paths.length - 1}
         >
