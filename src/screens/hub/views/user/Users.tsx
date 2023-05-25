@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   IconButton,
   RelativeTime,
@@ -9,8 +9,7 @@ import {
   Label,
   Text,
   Pagination,
-  TextInput,
-  Link
+  TextInput
 } from '@primer/react';
 import { PageHeader, Table, DataTable } from '@primer/react/drafts';
 import {
@@ -115,7 +114,15 @@ const Users = (): JSX.Element => {
                 width: 'grow',
                 sortBy: 'alphanumeric',
                 renderCell: row => {
-                  return <Link href={`/hub/user/${row.name}`}>{row.name}</Link>;
+                  return (
+                    <Text
+                      color="accent.fg"
+                      as={Link}
+                      to={`/hub/user/${row.name}`}
+                    >
+                      {row.name}
+                    </Text>
+                  );
                 },
                 minWidth: '100px',
                 maxWidth: '300px'

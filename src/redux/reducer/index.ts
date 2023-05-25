@@ -6,5 +6,5 @@ import config from './config';
 export default combineReducers({
   group,
   user,
-  config,
+  config
 });

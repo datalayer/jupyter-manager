@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   SegmentedControl,
   RelativeTime,
   PageLayout,
   Label,
   Text,
-  Pagination,
-  Link
+  Pagination
 } from '@primer/react';
 import { PageHeader, Table, DataTable } from '@primer/react/drafts';
 import {
@@ -143,7 +143,15 @@ const Servers = (): JSX.Element => {
                 field: 'user',
                 sortBy: 'alphanumeric',
                 renderCell: row => {
-                  return <Link href={`/hub/user/${row.user}`}>{row.user}</Link>;
+                  return (
+                    <Text
+                      color="accent.fg"
+                      as={Link}
+                      to={`/hub/user/${row.user}`}
+                    >
+                      {row.user}
+                    </Text>
+                  );
                 }
               },
               {

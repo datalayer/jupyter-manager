@@ -1,6 +1,7 @@
 export const userInitialState = {
   loading: true,
-  error: "A user error",
+  error: null,
+  success: null,
   user: null,
   users: [],
   user_page: { offset: 0, limit: 10 },
@@ -9,7 +10,8 @@ export const userInitialState = {
 
 export type UserState = {
   loading: boolean;
-  error: any;
+  error: string | null;
+  success: string | null;
   user: User | null;
   users: User[];
   user_page: { offset: number; limit: number; total?: number; next?: any };

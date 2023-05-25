@@ -10,7 +10,9 @@ import {
   CREATE_GROUP,
   DELETE_GROUP,
   GET_GROUP,
-  GROUP_ERROR
+  GROUP_ERROR,
+  GROUP_ERROR_CLEAR,
+  GROUP_SUCCESS_CLEAR
 } from './index';
 
 export const setGroupOffset = (offset: number) => async (
@@ -29,62 +31,74 @@ export const setGroupOffset = (offset: number) => async (
   }
 };
 
-// Get current group.
 export const getCurrentGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await (
-      await jhapiRequest('/groups/' + groupname, 'GET')
-    ).json();
-
+    const res = await jhapiRequest('/groups/' + groupname, 'GET');
+    if (res.status >= 400) {
+      if (res.status === 404) {
+        throw new Error("Group doesn't exist");
+      } else {
+        throw new Error('Error fetching group: ' + res.statusText);
+      }
+    }
+    const payload = await res.json();
     dispatch({
       type: GET_GROUP,
-      payload: res
+      payload
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
 
-// Get all groups.
 export const getGroupsPagination = (offset: number, limit: number) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await (
-      await jhapiRequest(`/groups?offset=${offset}&limit=${limit}`, 'GET')
-    ).json();
-
+    const res = await jhapiRequest(
+      `/groups?offset=${offset}&limit=${limit}`,
+      'GET'
+    );
+    if (res.status >= 400) {
+      throw new Error('Error fetching groups: ' + res.statusText);
+    }
+    const payload = await res.json();
     dispatch({
       type: GROUP_PAGINATION,
-      payload: res
+      payload
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
 
-// Create group.
 export const createGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    await jhapiRequest('/groups/' + groupname, 'POST');
-
+    const res = await jhapiRequest('/groups/' + groupname, 'POST');
+    if (res.status >= 400) {
+      if (res.status === 409) {
+        throw new Error('Group already exists');
+      } else {
+        throw new Error('Error creating group: ' + res.statusText);
+      }
+    }
     dispatch({
       type: CREATE_GROUP
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
@@ -93,15 +107,17 @@ export const deleteGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    await jhapiRequest('/groups/' + groupname, 'DELETE');
-
+    const res = await jhapiRequest('/groups/' + groupname, 'DELETE');
+    if (res.status >= 400) {
+      throw new Error('Error deleting group: ' + res.statusText);
+    }
     dispatch({
       type: DELETE_GROUP
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
@@ -111,22 +127,23 @@ export const updateGroupProps = (
   propobject: Record<string, string>
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    const res = await (
-      await jhapiRequest(
-        '/groups/' + groupname + '/properties',
-        'PUT',
-        propobject
-      )
-    ).json();
-
+    const res = await jhapiRequest(
+      '/groups/' + groupname + '/properties',
+      'PUT',
+      propobject
+    );
+    if (res.status >= 400) {
+      throw new Error('Error updating group properties: ' + res.statusText);
+    }
+    const payload = await res.json();
     dispatch({
       type: UPDATE_GROUP_PROPS,
-      payload: res
+      payload
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
@@ -135,16 +152,19 @@ export const refreshGroups = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await (await jhapiRequest('/groups', 'GET')).json();
-
+    const res = await jhapiRequest('/groups', 'GET');
+    if (res.status >= 400) {
+      throw new Error('Error refreshing groups: ' + res.statusText);
+    }
+    const payload = await res.json();
     dispatch({
       type: REFRESH_GROUPS,
-      payload: res
+      payload
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
@@ -153,18 +173,23 @@ export const removeFromGroup = (groupname: string, users: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await (
-      await jhapiRequest('/groups/' + groupname + '/users', 'DELETE', { users })
-    ).json();
-
+    const res = await jhapiRequest(
+      '/groups/' + groupname + '/users',
+      'DELETE',
+      { users }
+    );
+    if (res.status >= 400) {
+      throw new Error('Error removing users: ' + res.statusText);
+    }
+    const payload = await res.json();
     dispatch({
       type: REMOVE_FROM_GROUP,
-      payload: res
+      payload
     });
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
 };
@@ -174,24 +199,47 @@ export const addUserToGroup = (groupname: string, username: string) => async (
 ): Promise<void> => {
   try {
     const resStatus = (await jhapiRequest('/users/' + username, 'GET')).status;
-    if (resStatus <= 200) {
-      const res = await (
-        await jhapiRequest('/groups/' + groupname + '/users', 'POST', {
+    if (resStatus === 200) {
+      const res = await jhapiRequest(
+        '/groups/' + groupname + '/users',
+        'POST',
+        {
           users: [username]
-        })
-      ).json();
-
+        }
+      );
+      if (res.status >= 400) {
+        throw new Error(
+          `Error adding user ${username} to group ${res.statusText}`
+        );
+      }
+      const payload = await res.json();
       dispatch({
         type: ADD_TO_GROUP,
-        payload: res
+        payload
       });
     } else {
-      throw new Error('User does not exist');
+      throw new Error('User does not exist.');
     }
   } catch (err: any) {
     dispatch({
       type: GROUP_ERROR,
-      payload: { msg: err }
+      payload: { msg: err.message }
     });
   }
+};
+
+export const clearGroupError = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  dispatch({
+    type: GROUP_ERROR_CLEAR
+  });
+};
+
+export const clearGroupSuccess = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  dispatch({
+    type: GROUP_SUCCESS_CLEAR
+  });
 };

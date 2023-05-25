@@ -33,7 +33,6 @@ const HubManager = (props: {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const base_url = window.location.origin || '/';
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   const user = useSelector<MainState, UserState>(state => state.user);
@@ -283,7 +282,7 @@ const HubManager = (props: {
                         />
                         <Button
                           onClick={() =>
-                            (window.location.href = row.serverURL as string)
+                            navigate(`/hub${row.serverURL as string}`)
                           }
                         >
                           Access Server
@@ -300,9 +299,11 @@ const HubManager = (props: {
                         />
                         <Button
                           onClick={() =>
-                            (window.location.href = `${base_url}spawn/${
-                              row.name
-                            }${row.serverName ? '/' + row.serverName : ''}`)
+                            navigate(
+                              `/spawn/${row.name}${
+                                row.serverName ? '/' + row.serverName : ''
+                              }`
+                            )
                           }
                         >
                           Spawn Page

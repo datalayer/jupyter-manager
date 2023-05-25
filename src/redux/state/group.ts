@@ -1,6 +1,7 @@
 export const groupInitialState = {
   loading: true,
-  error: "A group error",
+  error: null,
+  success: null,
   group: null,
   groups: [],
   group_page: { offset: 0, limit: 10 }
@@ -8,7 +9,8 @@ export const groupInitialState = {
 
 export type GroupState = {
   loading: boolean;
-  error: any;
+  error: string | null;
+  success: string | null;
   group: Group | null;
   groups: Group[];
   group_page: { offset: number; limit: number; total?: number; next?: any };

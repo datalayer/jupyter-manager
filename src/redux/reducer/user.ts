@@ -1,4 +1,4 @@
-import { userInitialState, UserState } from "./../state/user"
+import { userInitialState, UserState } from './../state/user';
 import {
   USER_PAGINATION,
   SET_USER_OFFSET,
@@ -12,7 +12,9 @@ import {
   EDIT_USER,
   DELETE_USER,
   GET_USER,
-  USER_ERROR
+  USER_ERROR,
+  USER_ERROR_CLEAR,
+  USER_SUCCESS_CLEAR
 } from './../actions';
 
 function userReducer(
@@ -60,14 +62,21 @@ function userReducer(
       };
     // make sure you go redirect after these:
     case ADD_USERS:
-      return state;
+      return {
+        ...state,
+        success: 'User(s) added successfully!'
+      };
     case EDIT_USER:
       return {
         ...state,
+        success: 'User edited successfully!',
         user: payload
       };
     case DELETE_USER:
-      return state;
+      return {
+        ...state,
+        success: 'User deleted successfully!'
+      };
     // make sure you call user pagination after these:
     case START_SERVER:
     case STOP_SERVER:
@@ -78,7 +87,19 @@ function userReducer(
     case USER_ERROR:
       return {
         ...state,
-        error: payload,
+        error: payload.msg,
+        loading: false
+      };
+    case USER_ERROR_CLEAR:
+      return {
+        ...state,
+        error: null,
+        loading: false
+      };
+    case USER_SUCCESS_CLEAR:
+      return {
+        ...state,
+        success: null,
         loading: false
       };
     default:

@@ -12,6 +12,8 @@ export const GET_USER = 'GET_USER';
 export const DELETE_USER = 'DELETE_USER';
 export const VALIDATE_USER = 'VALIDATE_USER';
 export const USER_ERROR = 'USER_ERROR';
+export const USER_ERROR_CLEAR = 'USER_ERROR_CLEAR';
+export const USER_SUCCESS_CLEAR = 'USER_SUCCESS_CLEAR';
 
 export const GROUP_PAGINATION = 'GROUP_PAGINATION';
 export const SET_GROUP_OFFSET = 'SET_GROUP_OFFSET';
@@ -23,6 +25,8 @@ export const GET_GROUP = 'GET_GROUP';
 export const CREATE_GROUP = 'CREATE_GROUP';
 export const DELETE_GROUP = 'DELETE_GROUP';
 export const GROUP_ERROR = 'GROUP_ERROR';
+export const GROUP_ERROR_CLEAR = 'GROUP_ERROR_CLEAR';
+export const GROUP_SUCCESS_CLEAR = 'GROUP_SUCCESS_CLEAR';
 
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const SET_CONFIG_SCHEMA = 'SET_CONFIG_SCHEMA';

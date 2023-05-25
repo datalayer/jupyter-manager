@@ -12,7 +12,6 @@ import {
 } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PencilIcon } from '@primer/octicons-react';
-import PropTypes from 'prop-types';
 import ObjectTableViewer from '../../../../components/ObjectTableViewer';
 import type { MainState } from '../../../../redux/store';
 import type { UserState } from '../../../../redux/state/user';
@@ -56,7 +55,7 @@ const UserEdit = (): JSX.Element => {
   }
 
   const { server } = user_data;
-  const { servers: _, ...filteredUser } = user_data;
+  const { servers: _, ...filteredUser } = user_data; //eslint-disable-line
   const { name: username, admin: has_admin } = user_data;
 
   const onDeleteUser = () => {
@@ -64,14 +63,21 @@ const UserEdit = (): JSX.Element => {
     navigate('/hub/users');
   };
 
-  const onApplyChanges = () => {
-    dispatch(
+  const onApplyChanges = async () => {
+    const success = await dispatch(
       editUser(
         username,
         updatedUsername !== '' ? updatedUsername : username,
         admin
       )
     );
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (success) {
+      navigate(`/hub/user/${updatedUsername}`);
+      setUpdatedUsername('');
+    }
+    console.log(success);
   };
 
   return (
@@ -145,22 +151,6 @@ const UserEdit = (): JSX.Element => {
       </PageLayout.Content>
     </>
   );
-};
-
-UserEdit.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      username: PropTypes.string,
-      has_admin: PropTypes.bool
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
-  UserEdit: PropTypes.func,
-  deleteUser: PropTypes.func,
-  noChangeEvent: PropTypes.func,
-  updateUsers: PropTypes.func
 };
 
 export default UserEdit;
