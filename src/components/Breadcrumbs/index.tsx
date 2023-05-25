@@ -20,7 +20,7 @@ const Breadcrumbs = (): JSX.Element => {
       {paths.map((path, index) => (
         <Breadcrumb.Item
           as={Link}
-          to={`/${paths.slice(0, index + 1).join(' / ')}`}
+          to={`/${paths.slice(0, index + 1).join('/')}`}
           key={index}
           selected={index === paths.length - 1}
         >
