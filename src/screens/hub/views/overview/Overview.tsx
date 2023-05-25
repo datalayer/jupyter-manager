@@ -33,7 +33,6 @@ const HubManager = (props: {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const base_url = window.location.origin || '/';
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   const user = useSelector<MainState, UserState>(state => state.user);

@@ -50,7 +50,6 @@ export const setNameFilter = (namefilter: string) => async (
   }
 };
 
-// Get current user
 export const getCurrentUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
@@ -60,7 +59,7 @@ export const getCurrentUser = (username: string) => async (
       if (res.status === 404) {
         throw new Error("User doesn't exist");
       } else {
-        throw new Error(res.statusText);
+        throw new Error('Error fetching user: ' + res.statusText);
       }
     }
     const payload = await res.json();
@@ -76,14 +75,11 @@ export const getCurrentUser = (username: string) => async (
   }
 };
 
-// Get all users
 export const getUsersPagination = (
   offset: number,
   limit: number,
   name_filter: string
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
-  //dispatch({ type: CLEAR_USERS });
-
   try {
     const res = await jhapiRequest(
       `/users?include_stopped_servers&offset=${offset}&limit=${limit}&name_filter=${
@@ -92,7 +88,7 @@ export const getUsersPagination = (
       'GET'
     );
     if (res.status >= 400) {
-      throw new Error(res.statusText);
+      throw new Error('Error fetching users: ' + res.statusText);
     }
     const payload = await res.json();
     dispatch({
@@ -107,7 +103,6 @@ export const getUsersPagination = (
   }
 };
 
-// Adds users
 export const addUsers = (usernames: string[], admin: boolean) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
@@ -117,7 +112,7 @@ export const addUsers = (usernames: string[], admin: boolean) => async (
       if (res.status === 409) {
         throw new Error('User already exists');
       } else {
-        throw new Error(res.statusText);
+        throw new Error('Error creating user: ' + res.statusText);
       }
     }
     dispatch({
@@ -137,7 +132,7 @@ export const deleteUser = (username: string) => async (
   try {
     const res = await jhapiRequest('/users/' + username, 'DELETE');
     if (res.status >= 400) {
-      throw new Error(res.statusText);
+      throw new Error('Error deleting user: ' + res.statusText);
     }
     dispatch({
       type: DELETE_USER
@@ -164,7 +159,7 @@ export const editUser = (
       if (res.status === 400) {
         throw new Error('Username is taken.');
       } else {
-        throw new Error(res.statusText);
+        throw new Error('Error editing user: ' + res.statusText);
       }
     }
     const payload = await res.json();
@@ -188,7 +183,7 @@ export const refreshUsers = () => async (
   try {
     const res = await jhapiRequest('/users', 'GET');
     if (res.status >= 400) {
-      throw new Error(res.statusText);
+      throw new Error('Error refreshing users: ' + res.statusText);
     }
     const payload = await res.json();
     dispatch({
@@ -212,7 +207,7 @@ export const startServer = (name: string, serverName: string) => async (
       'POST'
     );
     if (res.status >= 400) {
-      throw new Error(res.statusText);
+      throw new Error('Error starting user: ' + res.statusText);
     }
     dispatch({
       type: START_SERVER
@@ -234,7 +229,7 @@ export const stopServer = (name: string, serverName: string) => async (
       'DELETE'
     );
     if (res.status >= 400) {
-      throw new Error(res.statusText);
+      throw new Error('Error stopping server: ' + res.statusText);
     }
     dispatch({
       type: STOP_SERVER
