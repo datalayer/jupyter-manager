@@ -1,4 +1,4 @@
-import { groupInitialState, GroupState } from "./../state/group"
+import { groupInitialState, GroupState } from './../state/group';
 import {
   GROUP_PAGINATION,
   SET_GROUP_OFFSET,
@@ -9,7 +9,9 @@ import {
   CREATE_GROUP,
   DELETE_GROUP,
   GET_GROUP,
-  GROUP_ERROR
+  GROUP_ERROR,
+  GROUP_ERROR_CLEAR,
+  GROUP_SUCCESS_CLEAR
 } from './../actions';
 
 function groupReducer(
@@ -72,6 +74,18 @@ function groupReducer(
       return {
         ...state,
         error: payload.msg,
+        loading: false
+      };
+    case GROUP_ERROR_CLEAR:
+      return {
+        ...state,
+        error: null,
+        loading: false
+      };
+    case GROUP_SUCCESS_CLEAR:
+      return {
+        ...state,
+        success: null,
         loading: false
       };
     default:

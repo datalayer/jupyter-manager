@@ -72,7 +72,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
             <Router>
               <Navbar />
               {data && <ConfigUpdater data={data} />}
-              {/* <Messages /> */}
+              <Messages />
               <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="/hub/*" element={<HubManager />} />

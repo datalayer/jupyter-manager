@@ -10,7 +10,9 @@ import {
   CREATE_GROUP,
   DELETE_GROUP,
   GET_GROUP,
-  GROUP_ERROR
+  GROUP_ERROR,
+  GROUP_ERROR_CLEAR,
+  GROUP_SUCCESS_CLEAR
 } from './index';
 
 export const setGroupOffset = (offset: number) => async (
@@ -194,4 +196,20 @@ export const addUserToGroup = (groupname: string, username: string) => async (
       payload: { msg: err }
     });
   }
+};
+
+export const clearGroupError = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  dispatch({
+    type: GROUP_ERROR_CLEAR
+  });
+};
+
+export const clearGroupSuccess = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  dispatch({
+    type: GROUP_SUCCESS_CLEAR
+  });
 };
