@@ -8,10 +8,10 @@ import GroupEdit from './views/group/GroupEdit';
 import Users from './views/user/Users';
 import UserEdit from './views/user/UserEdit';
 import Servers from './views/server/Servers';
-import withAPI from '../../api/withAPI';
+import withHubAPI from '../../api/withHubAPI';
 import { Box, PageLayout } from '@primer/react';
 
-const OverviewCompose = compose(withAPI)(Overview);
+const OverviewCompose = compose(withHubAPI)(Overview);
 
 const HubManager = (): JSX.Element => {
   return (

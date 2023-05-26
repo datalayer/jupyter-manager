@@ -1,6 +1,6 @@
 const xsrfToken = '';
 
-export const jhapiRequest = (
+export const jupyterHuAPIRequest = (
   endpoint: string,
   method: string,
   data?: Record<string, any>

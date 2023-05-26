@@ -108,7 +108,7 @@ const UserEdit = (): JSX.Element => {
           </Flash>
         )}
         <FormControl sx={{ mt: 3 }}>
-          <FormControl.Label>New Username</FormControl.Label>
+          <FormControl.Label>Update Username</FormControl.Label>
           <TextInput
             block
             placeholder="Updated username"

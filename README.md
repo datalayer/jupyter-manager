@@ -14,6 +14,8 @@ You can `configure`, `monitor` and `operate` your Jupyter platform.
   <img alt="Jupyter Manager" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-manager-1.png?v=1" />
 </div>
 
+The JupyterHub REST API has a [Swagger definition](http://petstore.swagger.io?url=https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/source/_static/rest-api.yml#/default).
+
 ## Contribute
 
 [Setup your environment](https://jupyter-manager.datalayer.tech/docs/welcome/develop) and start developing.
