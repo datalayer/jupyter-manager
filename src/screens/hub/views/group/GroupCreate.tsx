@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Button,
-  Flash,
-  PageLayout,
-  FormControl,
-  TextInput
-} from '@primer/react';
+import { Button, PageLayout, FormControl, TextInput } from '@primer/react';
 import { PageHeader } from '@primer/react/drafts';
 import { PlusIcon } from '@primer/octicons-react';
 import {
@@ -22,8 +16,6 @@ const GroupCreate = ({
   limit: number;
 }): JSX.Element => {
   const [groupName, setGroupName] = useState('');
-  const [errorAlert] = useState<string | null>(null);
-  const [successMessage] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
@@ -55,16 +47,6 @@ const GroupCreate = ({
             <PageHeader.Title>Create Group</PageHeader.Title>
           </PageHeader.TitleArea>
         </PageHeader>
-        {errorAlert && (
-          <Flash sx={{ mt: 4 }} variant="danger">
-            {errorAlert}
-          </Flash>
-        )}
-        {successMessage && (
-          <Flash sx={{ mt: 4 }} variant="success">
-            {successMessage}
-          </Flash>
-        )}
         <FormControl sx={{ mt: 4 }}>
           <FormControl.Label>Name</FormControl.Label>
           <TextInput

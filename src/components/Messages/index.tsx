@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { CloseableFlash } from '@datalayer/primer-addons';
 import { Box, Flash, StyledOcticon, Text } from '@primer/react';
 import {
   CheckCircleIcon,
@@ -26,64 +27,36 @@ const Messages = (): JSX.Element => {
   return (
     <Box sx={{ mx: 2 }}>
       {groupSuccess && (
-        <Flash
-          sx={{ my: 2 }}
+        <CloseableFlash
           variant="success"
-          onClick={() => dispatch(clearGroupSuccess())}
+          onClose={() => dispatch(clearGroupSuccess())}
         >
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <StyledOcticon icon={CheckCircleIcon} />
-              <Text color="success.fg">{groupSuccess}</Text>
-            </Box>
-            <StyledOcticon icon={XIcon} />
-          </Box>
-        </Flash>
+          {groupSuccess}
+        </CloseableFlash>
       )}
       {groupError && (
-        <Flash
-          sx={{ my: 2 }}
+        <CloseableFlash
           variant="danger"
-          onClick={() => dispatch(clearGroupError())}
+          onClose={() => dispatch(clearGroupError())}
         >
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <StyledOcticon icon={CircleSlashIcon} />
-              <Text color="danger.fg">{groupError}</Text>
-            </Box>
-            <StyledOcticon icon={XIcon} />
-          </Box>
-        </Flash>
+          {groupError}
+        </CloseableFlash>
       )}
       {userSuccess && (
-        <Flash
-          sx={{ my: 2 }}
+        <CloseableFlash
           variant="success"
-          onClick={() => dispatch(clearUserSuccess())}
+          onClose={() => dispatch(clearUserSuccess())}
         >
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <StyledOcticon icon={CheckCircleIcon} />
-              <Text color="success.fg">{userSuccess}</Text>
-            </Box>
-            <StyledOcticon icon={XIcon} />
-          </Box>
-        </Flash>
+          {userSuccess}
+        </CloseableFlash>
       )}
       {userError && (
-        <Flash
-          sx={{ my: 2 }}
+        <CloseableFlash
           variant="danger"
-          onClick={() => dispatch(clearUserError())}
+          onClose={() => dispatch(clearUserError())}
         >
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <StyledOcticon icon={CircleSlashIcon} />
-              <Text color="danger.fg">{userError}</Text>
-            </Box>
-            <StyledOcticon icon={XIcon} />
-          </Box>
-        </Flash>
+          {userError}
+        </CloseableFlash>
       )}
     </Box>
   );
