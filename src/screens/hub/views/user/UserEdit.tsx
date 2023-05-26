@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Flash,
   PageLayout,
   FormControl,
   TextInput
@@ -34,7 +33,6 @@ const UserEdit = (): JSX.Element => {
   const user = useSelector<MainState, UserState>(state => state.user);
   const { user: user_data, loading } = user;
 
-  const [errorAlert] = useState<string | null>(null);
   const [updatedUsername, setUpdatedUsername] = useState('');
   const [admin, setAdmin] = useState<boolean>(false);
 
@@ -102,11 +100,6 @@ const UserEdit = (): JSX.Element => {
             <PageHeader.Title>Editing {username}</PageHeader.Title>
           </PageHeader.TitleArea>
         </PageHeader>
-        {errorAlert && (
-          <Flash sx={{ mt: 4 }} variant="danger">
-            {errorAlert}
-          </Flash>
-        )}
         <FormControl sx={{ mt: 3 }}>
           <FormControl.Label>Update Username</FormControl.Label>
           <TextInput

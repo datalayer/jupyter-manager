@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import {
   Button,
   Checkbox,
-  Flash,
   PageLayout,
   FormControl,
   TextInputWithTokens
@@ -26,7 +25,6 @@ const UserAdd = ({
     { text: string; id: number }[]
   >([]);
   const [admin, setAdmin] = useState(false);
-  const [errorAlert] = useState<string | null>(null);
 
   const dispatch = useDispatch();
 
@@ -90,11 +88,6 @@ const UserAdd = ({
             <PageHeader.Title>Add Users</PageHeader.Title>
           </PageHeader.TitleArea>
         </PageHeader>
-        {errorAlert && (
-          <Flash sx={{ mt: 4 }} variant="danger">
-            {errorAlert}
-          </Flash>
-        )}
         <FormControl sx={{ mt: 4 }}>
           <FormControl.Label>New User(s)</FormControl.Label>
           <TextInputWithTokens

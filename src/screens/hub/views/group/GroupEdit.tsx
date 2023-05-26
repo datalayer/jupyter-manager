@@ -9,7 +9,6 @@ import {
   Heading,
   FormControl,
   TextInput,
-  Flash,
   IconButton
 } from '@primer/react';
 import {
@@ -43,8 +42,6 @@ const GroupEdit = (): JSX.Element => {
   const { group: group_data, loading } = group;
 
   const [username, setUsername] = useState('');
-  const [errorAlert, setErrorAlert] = useState<string | null>(null);
-  const [successMessage, _] = useState<string | null>(null);
   const [groupUsers, setGroupUsers] = useState(group_data?.users || []);
   const [groupProps, setGroupProps] = useState(group_data?.properties || {});
   const [newPropKey, setNewPropKey] = useState('');
@@ -190,16 +187,6 @@ const GroupEdit = (): JSX.Element => {
             <PageHeader.Title>Editing {group_data.name}</PageHeader.Title>
           </PageHeader.TitleArea>
         </PageHeader>
-        {errorAlert && (
-          <Flash sx={{ mt: 4 }} variant="danger">
-            {errorAlert}
-          </Flash>
-        )}
-        {successMessage && (
-          <Flash sx={{ mt: 4 }} variant="success">
-            {successMessage}
-          </Flash>
-        )}
         <Box sx={{ display: 'flex', flexDirection: ['column', 'row'] }}>
           <Box sx={{ flexGrow: 1 / 4 }}>
             <Heading sx={{ fontSize: 1, mt: 4 }}>Manage group members</Heading>
@@ -367,13 +354,6 @@ const GroupEdit = (): JSX.Element => {
                       });
                       setNewPropKey('');
                       setNewPropValue('');
-                    } else {
-                      setErrorAlert(
-                        'Property already exists, you can Update it instead.'
-                      );
-                      setTimeout(() => {
-                        setErrorAlert(null);
-                      }, 2000);
                     }
                   }}
                 >

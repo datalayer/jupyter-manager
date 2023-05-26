@@ -6,7 +6,6 @@ import {
   Button,
   ButtonGroup,
   IconButton,
-  Flash,
   Label,
   PageLayout,
   Pagination,
@@ -33,8 +32,6 @@ const Overview = (props: {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [errorAlert, setErrorAlert] = useState<string | null>(null);
-
   const user = useSelector<MainState, UserState>(state => state.user);
   const { users, user_page, name_filter } = user;
 
@@ -59,45 +56,24 @@ const Overview = (props: {
   const startAllServers = () => {
     Promise.all(startAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
-        const failedServers = res.filter(e => !e.ok);
-        if (failedServers.length > 0) {
-          setErrorAlert(
-            `Failed to start ${failedServers.length} ${
-              failedServers.length > 1 ? 'servers' : 'server'
-            }. ${
-              failedServers.length > 1 ? 'Are they ' : 'Is it '
-            } already running?`
-          );
-        }
         return res;
       })
       .then(res => {
         dispatch(getUsersPagination(offset, limit, name_filter));
         return res;
-      })
-      .catch(() => setErrorAlert('Failed to start servers.'));
+      });
   };
 
   const stopAllServers = () => {
     Promise.all(stopAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
-        const failedServers = res.filter(e => !e.ok);
-        if (failedServers.length > 0) {
-          setErrorAlert(
-            `Failed to stop ${failedServers.length} ${
-              failedServers.length > 1 ? 'servers' : 'server'
-            }. ${
-              failedServers.length > 1 ? 'Are they ' : 'Is it '
-            } already stopped?`
-          );
-        }
+        res.filter(e => !e.ok);
         return res;
       })
       .then(res => {
         dispatch(getUsersPagination(offset, limit, name_filter));
         return res;
-      })
-      .catch(() => setErrorAlert('Failed to stop servers.'));
+      });
   };
 
   const StopServerButton = ({
@@ -119,13 +95,11 @@ const Overview = (props: {
               if (res.status < 300) {
                 dispatch(getUsersPagination(offset, limit, name_filter));
               } else {
-                setErrorAlert('Failed to stop server.');
                 setIsDisabled(false);
               }
               return res;
             })
             .catch(() => {
-              setErrorAlert('Failed to stop server.');
               setIsDisabled(false);
             });
         }}
@@ -154,13 +128,11 @@ const Overview = (props: {
               if (res.status < 300) {
                 dispatch(getUsersPagination(offset, limit, name_filter));
               } else {
-                setErrorAlert('Failed to start server.');
                 setIsDisabled(false);
               }
               return res;
             })
             .catch(() => {
-              setErrorAlert('Failed to start server.');
               setIsDisabled(false);
             });
         }}
@@ -202,11 +174,6 @@ const Overview = (props: {
   return (
     <>
       <PageLayout.Content>
-        {errorAlert && (
-          <Flash sx={{ mt: 4 }} variant="danger">
-            {errorAlert}
-          </Flash>
-        )}
         <Table.Container>
           <Table.Title as="h2" id="repositories">
             Users
