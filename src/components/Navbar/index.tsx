@@ -38,22 +38,22 @@ const Navbar = (): JSX.Element => {
           <UnderlineNavItem to="/" icon={() => <DatalayerGreenIcon colored />}>
             Home
           </UnderlineNavItem>
-          <UnderlineNavItem to="/hub" icon={() => <JupyterHubIcon colored />}>
+          <UnderlineNavItem to="/hub" icon={() => <JupyterHubIcon />}>
             Hub
           </UnderlineNavItem>
           <UnderlineNavItem
             to="/servers"
-            icon={() => <JupyterServerIcon colored />}
+            icon={() => <JupyterServerIcon />}
           >
             Servers
           </UnderlineNavItem>
           <UnderlineNavItem
             to="/kernels"
-            icon={() => <JupyterKernelIcon colored />}
+            icon={() => <JupyterKernelIcon />}
           >
             Kernels
           </UnderlineNavItem>
-          <UnderlineNavItem to="/content" icon={() => <JupyterIcon colored />}>
+          <UnderlineNavItem to="/content" icon={() => <JupyterIcon />}>
             Content
           </UnderlineNavItem>
           <UnderlineNavItem to="/apps" icon={AppsIcon}>
