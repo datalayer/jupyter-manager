@@ -10,7 +10,7 @@ import {
   setGroupOffset,
   getGroupsPagination
 } from '../../../../redux/actions/group';
-import { MainState } from 'src/redux/store';
+import { MainState } from '../../../../redux/store';
 
 const Groups = (): JSX.Element => {
   const dispatch = useDispatch();

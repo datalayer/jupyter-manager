@@ -1,6 +1,6 @@
 const xsrfToken = '';
 
-export const jupyterHuAPIRequest = (
+export const jupyterHubAPIRequest = (
   endpoint: string,
   method: string,
   data?: Record<string, any>
@@ -26,4 +26,4 @@ export const jupyterHuAPIRequest = (
     },
     body: data ? JSON.stringify(data) : null
   });
-};
+}

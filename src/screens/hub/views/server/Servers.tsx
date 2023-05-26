@@ -20,7 +20,7 @@ import {
   setUserOffset,
   getUsersPagination
 } from '../../../../redux/actions/user';
-import { MainState } from 'src/redux/store';
+import { MainState } from '../../../../redux/store';
 
 const Servers = (): JSX.Element => {
   const dispatch = useDispatch();

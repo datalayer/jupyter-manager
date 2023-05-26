@@ -1,5 +1,5 @@
 import { Dispatch, AnyAction } from 'redux';
-import { jupyterHuAPIRequest } from '../../api/hubHandler';
+import { jupyterHubAPIRequest } from '../../api/hubHandler';
 import {
   GROUP_PAGINATION,
   SET_GROUP_OFFSET,
@@ -35,7 +35,7 @@ export const getCurrentGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/groups/' + groupname, 'GET');
+    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'GET');
     if (res.status >= 400) {
       if (res.status === 404) {
         throw new Error("Group doesn't exist");
@@ -60,7 +60,7 @@ export const getGroupsPagination = (offset: number, limit: number) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       `/groups?offset=${offset}&limit=${limit}`,
       'GET'
     );
@@ -84,7 +84,7 @@ export const createGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/groups/' + groupname, 'POST');
+    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'POST');
     if (res.status >= 400) {
       if (res.status === 409) {
         throw new Error('Group already exists');
@@ -107,7 +107,7 @@ export const deleteGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/groups/' + groupname, 'DELETE');
+    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'DELETE');
     if (res.status >= 400) {
       throw new Error('Error deleting group: ' + res.statusText);
     }
@@ -127,7 +127,7 @@ export const updateGroupProps = (
   propobject: Record<string, string>
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       '/groups/' + groupname + '/properties',
       'PUT',
       propobject
@@ -152,7 +152,7 @@ export const refreshGroups = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/groups', 'GET');
+    const res = await jupyterHubAPIRequest('/groups', 'GET');
     if (res.status >= 400) {
       throw new Error('Error refreshing groups: ' + res.statusText);
     }
@@ -173,7 +173,7 @@ export const removeFromGroup = (groupname: string, users: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       '/groups/' + groupname + '/users',
       'DELETE',
       { users }
@@ -198,9 +198,9 @@ export const addUserToGroup = (groupname: string, username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const resStatus = (await jupyterHuAPIRequest('/users/' + username, 'GET')).status;
+    const resStatus = (await jupyterHubAPIRequest('/users/' + username, 'GET')).status;
     if (resStatus === 200) {
-      const res = await jupyterHuAPIRequest(
+      const res = await jupyterHubAPIRequest(
         '/groups/' + groupname + '/users',
         'POST',
         {

@@ -15,7 +15,7 @@ import {
 } from '@primer/react';
 import { Table, DataTable } from '@primer/react/drafts';
 import { PencilIcon, SearchIcon } from '@primer/octicons-react';
-import { MainState } from 'src/redux/store';
+import { MainState } from '../../../../redux/store';
 import {
   setUserOffset,
   setNameFilter,
@@ -23,7 +23,7 @@ import {
 } from '../../../../redux/actions/user';
 import { UserState } from '../../../../redux/state/user';
 
-const HubManager = (props: {
+const Overview = (props: {
   shutdownHub: any;
   startServer: any;
   stopServer: any;
@@ -56,7 +56,7 @@ const HubManager = (props: {
     dispatch(setNameFilter(event.target.value));
   }, 300);
 
-  const StartAllServers = () => {
+  const startAllServers = () => {
     Promise.all(startAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
         const failedServers = res.filter(e => !e.ok);
@@ -78,7 +78,7 @@ const HubManager = (props: {
       .catch(() => setErrorAlert('Failed to start servers.'));
   };
 
-  const StopAllServers = () => {
+  const stopAllServers = () => {
     Promise.all(stopAll(users.map((e: { name: any }) => e.name)))
       .then(res => {
         const failedServers = res.filter(e => !e.ok);
@@ -368,11 +368,11 @@ const HubManager = (props: {
           block
           sx={{ mb: 3 }}
           variant="primary"
-          onClick={StartAllServers}
+          onClick={startAllServers}
         >
           Start All Servers
         </Button>
-        <Button block sx={{ mb: 3 }} variant="danger" onClick={StopAllServers}>
+        <Button block sx={{ mb: 3 }} variant="danger" onClick={stopAllServers}>
           Stop All Servers
         </Button>
         <Button
@@ -389,4 +389,4 @@ const HubManager = (props: {
   );
 };
 
-export default HubManager;
+export default Overview;

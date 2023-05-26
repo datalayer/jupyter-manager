@@ -1,5 +1,5 @@
 import { Dispatch, AnyAction } from 'redux';
-import { jupyterHuAPIRequest } from '../../api/hubHandler';
+import { jupyterHubAPIRequest } from '../../api/hubHandler';
 import {
   USER_PAGINATION,
   SET_USER_OFFSET,
@@ -54,7 +54,7 @@ export const getCurrentUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/users/' + username, 'GET');
+    const res = await jupyterHubAPIRequest('/users/' + username, 'GET');
     if (res.status >= 400) {
       if (res.status === 404) {
         throw new Error("User doesn't exist");
@@ -81,7 +81,7 @@ export const getUsersPagination = (
   name_filter: string
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       `/users?include_stopped_servers&offset=${offset}&limit=${limit}&name_filter=${
         name_filter || ''
       }`,
@@ -107,7 +107,7 @@ export const addUsers = (usernames: string[], admin: boolean) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/users', 'POST', { usernames, admin });
+    const res = await jupyterHubAPIRequest('/users', 'POST', { usernames, admin });
     if (res.status >= 400) {
       if (res.status === 409) {
         throw new Error('User already exists');
@@ -130,7 +130,7 @@ export const deleteUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/users/' + username, 'DELETE');
+    const res = await jupyterHubAPIRequest('/users/' + username, 'DELETE');
     if (res.status >= 400) {
       throw new Error('Error deleting user: ' + res.statusText);
     }
@@ -151,7 +151,7 @@ export const editUser = (
   admin: boolean
 ) => async (dispatch: Dispatch<AnyAction>): Promise<boolean> => {
   try {
-    const res = await jupyterHuAPIRequest('/users/' + username, 'PATCH', {
+    const res = await jupyterHubAPIRequest('/users/' + username, 'PATCH', {
       name: updated_username,
       admin
     });
@@ -181,7 +181,7 @@ export const refreshUsers = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest('/users', 'GET');
+    const res = await jupyterHubAPIRequest('/users', 'GET');
     if (res.status >= 400) {
       throw new Error('Error refreshing users: ' + res.statusText);
     }
@@ -202,7 +202,7 @@ export const startServer = (name: string, serverName: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       '/users/' + name + '/servers/' + (serverName || ''),
       'POST'
     );
@@ -224,7 +224,7 @@ export const stopServer = (name: string, serverName: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHuAPIRequest(
+    const res = await jupyterHubAPIRequest(
       '/users/' + name + '/servers/' + (serverName || ''),
       'DELETE'
     );
@@ -247,7 +247,7 @@ export const startAllServers = (names: string[]) => async (
 ): Promise<void> => {
   try {
     names.map(async (e: string) => {
-      const res = await jupyterHuAPIRequest('/users/' + e + '/server', 'POST');
+      const res = await jupyterHubAPIRequest('/users/' + e + '/server', 'POST');
       if (res.status >= 400) {
         throw new Error('Error starting servers: ' + res.statusText);
       }
@@ -269,7 +269,7 @@ export const stopAllServers = (names: string[]) => async (
 ): Promise<void> => {
   try {
     names.map(async (e: string) => {
-      const res = await jupyterHuAPIRequest('/users/' + e + '/server', 'DELETE');
+      const res = await jupyterHubAPIRequest('/users/' + e + '/server', 'DELETE');
       if (res.status >= 400) {
         throw new Error('Error stopping servers: ' + res.statusText);
       }

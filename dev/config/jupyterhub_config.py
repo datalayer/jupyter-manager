@@ -71,6 +71,7 @@ c.JupyterHub.load_roles = [
             "admin:servers",
             "admin:users",
             "admin:groups",
+            "list:services",
             "proxy"
         ],
     }

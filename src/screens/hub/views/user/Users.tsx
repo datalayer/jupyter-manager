@@ -20,13 +20,13 @@ import {
   SquareFillIcon
 } from '@primer/octicons-react';
 import UserAdd from './UserAdd';
-import { UserState } from '../../../../redux/state/user';
 import {
   setUserOffset,
   setNameFilter,
   getUsersPagination
 } from '../../../../redux/actions/user';
-import { MainState } from 'src/redux/store';
+import { UserState } from '../../../../redux/state/user';
+import { MainState } from '../../../../redux/store';
 
 const Users = (): JSX.Element => {
   const dispatch = useDispatch();
