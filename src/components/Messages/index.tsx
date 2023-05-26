@@ -1,11 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseableFlash } from '@datalayer/primer-addons';
-import { Box, Flash, StyledOcticon, Text } from '@primer/react';
-import {
-  CheckCircleIcon,
-  CircleSlashIcon,
-  XIcon
-} from '@primer/octicons-react';
+import { Box } from '@primer/react';
 import { MainState } from '../../redux/store';
 import { clearGroupError, clearGroupSuccess } from '../../redux/actions/group';
 import { clearUserError, clearUserSuccess } from '../../redux/actions/user';
