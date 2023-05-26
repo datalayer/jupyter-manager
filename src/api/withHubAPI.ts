@@ -3,6 +3,10 @@ import { jupyterHubAPIRequest } from './hubHandler';
 
 const withHubAPI = withProps(() => ({
   //
+  // INFO.
+  info: () =>
+    jupyterHubAPIRequest('/info', 'GET')
+    .then(data => data.json()),
   // USER.
   createUser: (names: string[], admin: boolean) =>
     jupyterHubAPIRequest('/users', 'POST', { names, admin }),
