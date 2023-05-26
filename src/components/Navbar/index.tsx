@@ -10,9 +10,9 @@ import {
 import {
   DatalayerGreenIcon,
   JupyterHubIcon,
+  JupyterContentIcon,
   JupyterServerIcon,
   JupyterKernelIcon,
-  JupyterIcon
 } from '@datalayer/icons-react/solid';
 import { UnderlineNav } from '@primer/react/drafts';
 
@@ -53,7 +53,7 @@ const Navbar = (): JSX.Element => {
           >
             Kernels
           </UnderlineNavItem>
-          <UnderlineNavItem to="/content" icon={() => <JupyterIcon />}>
+          <UnderlineNavItem to="/content" icon={() => <JupyterContentIcon />}>
             Content
           </UnderlineNavItem>
           <UnderlineNavItem to="/apps" icon={AppsIcon}>

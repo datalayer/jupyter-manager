@@ -12,9 +12,9 @@ import {
 import { PageHeader, Table, DataTable } from '@primer/react/drafts';
 import {
   DotFillIcon,
-  ServerIcon,
   SquareFillIcon
 } from '@primer/octicons-react';
+import { JupyterServerIcon } from '@datalayer/icons-react/solid';
 import { Server, UserState } from '../../../../redux/state/user';
 import {
   setUserOffset,
@@ -98,7 +98,7 @@ const Servers = (): JSX.Element => {
             <PageHeader>
               <PageHeader.TitleArea>
                 <PageHeader.LeadingVisual>
-                  <ServerIcon />
+                  <JupyterServerIcon />
                 </PageHeader.LeadingVisual>
                 <PageHeader.Title>Servers</PageHeader.Title>
               </PageHeader.TitleArea>
