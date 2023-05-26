@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { ThemeProvider, BaseStyles } from '@primer/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider as BrandThemeProvider } from '@primer/react-brand';
 import store from './redux/store';
 import {
   loadDatalayerConfig,
@@ -26,8 +25,6 @@ import Navbar from './components/Navbar';
 import Messages from './components/Messages';
 
 import { setConfigSchema, updateConfig } from './redux/actions/config';
-
-import '@primer/react-brand/lib/css/main.css';
 
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
@@ -66,30 +63,28 @@ const Manager = (props: ManagerProps): JSX.Element => {
   }, []);
   return (
     <ReduxProvider store={store}>
-      <BrandThemeProvider>
-        <ThemeProvider>
-          <BaseStyles>
-            <Router>
-              <Navbar />
-              {data && <ConfigUpdater data={data} />}
-              <Messages />
-              <Routes>
-                <Route path="/" element={<Overview />} />
-                <Route path="/hub/*" element={<HubManager />} />
-                <Route path="/servers" element={<ServersManager />} />
-                <Route path="/content" element={<ContentManager />} />
-                <Route path="/apps" element={<AppsManager />} />
-                <Route path="/kernels" element={<KernelsManager />} />
-                <Route path="/nodes" element={<NodesManager />} />
-                <Route path="/volumes" element={<VolumesManager />} />
-                <Route path="/events" element={<EventsManager />} />
-                <Route path="/settings" element={<SettingsManager />} />
-                <Route path="/about" element={<AboutManager />} />
-              </Routes>
-            </Router>
-          </BaseStyles>
-        </ThemeProvider>
-      </BrandThemeProvider>
+      <ThemeProvider>
+        <BaseStyles>
+          <Router>
+            <Navbar />
+            {data && <ConfigUpdater data={data} />}
+            <Messages />
+            <Routes>
+              <Route path="/" element={<Overview />} />
+              <Route path="/hub/*" element={<HubManager />} />
+              <Route path="/servers" element={<ServersManager />} />
+              <Route path="/content" element={<ContentManager />} />
+              <Route path="/apps" element={<AppsManager />} />
+              <Route path="/kernels" element={<KernelsManager />} />
+              <Route path="/nodes" element={<NodesManager />} />
+              <Route path="/volumes" element={<VolumesManager />} />
+              <Route path="/events" element={<EventsManager />} />
+              <Route path="/settings" element={<SettingsManager />} />
+              <Route path="/about" element={<AboutManager />} />
+            </Routes>
+          </Router>
+        </BaseStyles>
+      </ThemeProvider>
     </ReduxProvider>
   );
 };
