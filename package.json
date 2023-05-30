@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@datalayer/icons-react": "0.0.8",
-    "@datalayer/primer-addons": "^0.0.10",
+    "@datalayer/primer-addons": "0.0.11",
     "@datalayer/primer-rjsf": "0.0.7",
     "@jupyterlab/application": "4.0.0",
     "@jupyterlab/coreutils": "6.0.0",
