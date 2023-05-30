@@ -14,7 +14,7 @@ import {
   DotFillIcon,
   SquareFillIcon
 } from '@primer/octicons-react';
-import { JupyterServerIcon } from '@datalayer/icons-react/solid';
+import { JupyterServerIcon } from '@datalayer/icons-react';
 import { Server, UserState } from '../../../../redux/state/user';
 import {
   setUserOffset,

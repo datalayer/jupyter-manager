@@ -1,5 +1,5 @@
 import { Box, Link, Pagehead } from '@primer/react';
-import { DatalayerGreenIcon, JupyterIcon } from '@datalayer/icons-react/solid';
+import { DatalayerGreenIcon, JupyterIcon } from '@datalayer/icons-react';
 
 const AboutManager = (): JSX.Element => {
   return (
