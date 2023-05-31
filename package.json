@@ -87,7 +87,6 @@
     "lodash.isequal": "^4.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-recompose": "0.33.0",
     "react-redux": "7.2.4",
     "react-router-dom": "6.6.0",
     "redux": "4.0.5",

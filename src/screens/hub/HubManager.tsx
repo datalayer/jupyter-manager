@@ -1,4 +1,3 @@
-import { compose } from 'react-recompose';
 import { Routes, Route } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import HubSidebar from '../../components/HubSidebar';
@@ -8,10 +7,7 @@ import GroupEdit from './views/group/GroupEdit';
 import Users from './views/user/Users';
 import UserEdit from './views/user/UserEdit';
 import Servers from './views/server/Servers';
-import withHubAPI from '../../api/withHubAPI';
 import { Box, PageLayout } from '@primer/react';
-
-const OverviewCompose = compose(withHubAPI)(Overview);
 
 const HubManager = (): JSX.Element => {
   return (
@@ -23,7 +19,7 @@ const HubManager = (): JSX.Element => {
             <Breadcrumbs />
           </PageLayout.Header>
           <Routes>
-            <Route path="/" element={<OverviewCompose />} />
+            <Route path="/" element={<Overview />} />
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/:name" element={<GroupEdit />} />
             <Route path="/users" element={<Users />} />

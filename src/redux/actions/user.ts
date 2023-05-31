@@ -15,7 +15,8 @@ import {
   GET_USER,
   USER_ERROR,
   USER_ERROR_CLEAR,
-  USER_SUCCESS_CLEAR
+  USER_SUCCESS_CLEAR,
+  SHUTDOWN_HUB
 } from './index';
 
 export const setUserOffset = (offset: number) => async (
@@ -107,7 +108,10 @@ export const addUsers = (usernames: string[], admin: boolean) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/users', 'POST', { usernames, admin });
+    const res = await jupyterHubAPIRequest('/users', 'POST', {
+      usernames,
+      admin
+    });
     if (res.status >= 400) {
       if (res.status === 409) {
         throw new Error('User already exists');
@@ -210,7 +214,8 @@ export const startServer = (name: string, serverName: string) => async (
       throw new Error('Error starting user: ' + res.statusText);
     }
     dispatch({
-      type: START_SERVER
+      type: START_SERVER,
+      payload: { name, serverName }
     });
   } catch (err: any) {
     dispatch({
@@ -232,7 +237,8 @@ export const stopServer = (name: string, serverName: string) => async (
       throw new Error('Error stopping server: ' + res.statusText);
     }
     dispatch({
-      type: STOP_SERVER
+      type: STOP_SERVER,
+      payload: { name, serverName }
     });
   } catch (err: any) {
     dispatch({
@@ -254,7 +260,8 @@ export const startAllServers = (names: string[]) => async (
       return;
     });
     dispatch({
-      type: START_ALL_SERVERS
+      type: START_ALL_SERVERS,
+      payload: names
     });
   } catch (err: any) {
     dispatch({
@@ -269,14 +276,37 @@ export const stopAllServers = (names: string[]) => async (
 ): Promise<void> => {
   try {
     names.map(async (e: string) => {
-      const res = await jupyterHubAPIRequest('/users/' + e + '/server', 'DELETE');
+      const res = await jupyterHubAPIRequest(
+        '/users/' + e + '/server',
+        'DELETE'
+      );
       if (res.status >= 400) {
         throw new Error('Error stopping servers: ' + res.statusText);
       }
       return;
     });
     dispatch({
-      type: STOP_ALL_SERVERS
+      type: STOP_ALL_SERVERS,
+      payload: names
+    });
+  } catch (err: any) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.message }
+    });
+  }
+};
+
+export const shutdownHub = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    const res = await jupyterHubAPIRequest('/shutdown', 'POST');
+    if (res.status >= 400) {
+      throw new Error('Error shutting down hub: ' + res.statusText);
+    }
+    dispatch({
+      type: SHUTDOWN_HUB
     });
   } catch (err: any) {
     dispatch({
