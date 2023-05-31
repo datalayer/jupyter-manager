@@ -6,15 +6,18 @@
 
 > User interface to manage your Jupyter platform.
 
-You can `configure`, `monitor` and `operate` your Jupyter platform.
-
-`Jupyter Manager` can be deployed as a service on any JupyterHub.
+`Configure`, `monitor` and `operate` your Jupyter platform.
 
 <div align="center" style="text-align: center">
   <img alt="Jupyter Manager" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-manager-1.png?v=1" />
 </div>
 
-The JupyterHub REST API has a [Swagger definition](http://petstore.swagger.io?url=https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/source/_static/rest-api.yml#/default).
+## Deployments
+
+`Jupyter Manager` can be deployed:
+
+- As a JupyterLab extension, in that case it allows you the manage the local extensions deployed on that Jupyter Server instance.
+- As a service on any JupyterHub, in that case it uses the JupyterHub REST API (see the [Swagger definition](http://petstore.swagger.io?url=https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/source/_static/rest-api.yml#/default)).
 
 ## Contribute
 

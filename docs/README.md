@@ -4,7 +4,7 @@
 
 # Jupyter Manager Docs
 
-> 📚 Source code for the [Jupyter Manager](https://github.com/datalayer/jupyter-manager), built with [Docusaurus](https://docusaurus.io).
+> Source code for the [Jupyter Manager](https://github.com/datalayer/jupyter-manager), built with [Docusaurus](https://docusaurus.io).
 
 ```bash
 # Install the dependencies.
