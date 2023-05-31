@@ -18,17 +18,16 @@ import { MainState } from '../../../../redux/store';
 import {
   setUserOffset,
   setNameFilter,
-  getUsersPagination
+  getUsersPagination,
+  shutdownHub,
+  startServer,
+  stopServer,
+  startAllServers,
+  stopAllServers
 } from '../../../../redux/actions/user';
 import { UserState } from '../../../../redux/state/user';
 
-const Overview = (props: {
-  shutdownHub: any;
-  startServer: any;
-  stopServer: any;
-  startAll: any;
-  stopAll: any;
-}): JSX.Element => {
+const Overview = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,8 +38,7 @@ const Overview = (props: {
   const limit = user_page ? user_page.limit : 10;
   const total = user_page ? user_page.total : undefined;
 
-  const { shutdownHub, startServer, stopServer, startAll, stopAll } = props;
-
+  console.log(users);
   useEffect(() => {
     dispatch(getUsersPagination(offset, limit, name_filter));
   }, [getUsersPagination, offset, limit, name_filter]);
@@ -52,29 +50,6 @@ const Overview = (props: {
   const handleSearch = debounce(async (event: { target: { value: any } }) => {
     dispatch(setNameFilter(event.target.value));
   }, 300);
-
-  const startAllServers = () => {
-    Promise.all(startAll(users.map((e: { name: any }) => e.name)))
-      .then(res => {
-        return res;
-      })
-      .then(res => {
-        dispatch(getUsersPagination(offset, limit, name_filter));
-        return res;
-      });
-  };
-
-  const stopAllServers = () => {
-    Promise.all(stopAll(users.map((e: { name: any }) => e.name)))
-      .then(res => {
-        res.filter(e => !e.ok);
-        return res;
-      })
-      .then(res => {
-        dispatch(getUsersPagination(offset, limit, name_filter));
-        return res;
-      });
-  };
 
   const StopServerButton = ({
     serverName,
@@ -90,18 +65,7 @@ const Overview = (props: {
         disabled={isDisabled}
         onClick={() => {
           setIsDisabled(true);
-          stopServer(userName, serverName)
-            .then((res: { status: number }) => {
-              if (res.status < 300) {
-                dispatch(getUsersPagination(offset, limit, name_filter));
-              } else {
-                setIsDisabled(false);
-              }
-              return res;
-            })
-            .catch(() => {
-              setIsDisabled(false);
-            });
+          dispatch(stopServer(userName, serverName));
         }}
       >
         Stop Server
@@ -123,18 +87,7 @@ const Overview = (props: {
         disabled={isDisabled}
         onClick={() => {
           setIsDisabled(true);
-          startServer(userName, serverName)
-            .then((res: { status: number }) => {
-              if (res.status < 300) {
-                dispatch(getUsersPagination(offset, limit, name_filter));
-              } else {
-                setIsDisabled(false);
-              }
-              return res;
-            })
-            .catch(() => {
-              setIsDisabled(false);
-            });
+          dispatch(startServer(userName, serverName));
         }}
       >
         Start Server
@@ -335,11 +288,20 @@ const Overview = (props: {
           block
           sx={{ mb: 3 }}
           variant="primary"
-          onClick={startAllServers}
+          onClick={() => {
+            dispatch(startAllServers(users.map((e: { name: any }) => e.name)));
+          }}
         >
           Start All Servers
         </Button>
-        <Button block sx={{ mb: 3 }} variant="danger" onClick={stopAllServers}>
+        <Button
+          block
+          sx={{ mb: 3 }}
+          variant="danger"
+          onClick={() => {
+            dispatch(stopAllServers(users.map((e: { name: any }) => e.name)));
+          }}
+        >
           Stop All Servers
         </Button>
         <Button
@@ -347,7 +309,9 @@ const Overview = (props: {
           sx={{ mb: 3 }}
           variant="danger"
           id="shutdown-button"
-          onClick={shutdownHub}
+          onClick={() => {
+            dispatch(shutdownHub());
+          }}
         >
           Shutdown Hub
         </Button>

@@ -1,7 +1,5 @@
 /// <reference types="react" />
 
-declare module 'react-recompose';
-
 declare module "*.jpg" {
     const value: any;
     export default value;

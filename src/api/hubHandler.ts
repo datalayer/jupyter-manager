@@ -26,4 +26,4 @@ export const jupyterHubAPIRequest = (
     },
     body: data ? JSON.stringify(data) : null
   });
-}
+};

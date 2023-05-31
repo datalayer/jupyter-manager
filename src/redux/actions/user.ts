@@ -1,5 +1,5 @@
 import { Dispatch, AnyAction } from 'redux';
-import { jupyterHubAPIRequest } from '../../api/hubHandler';
+import jupyterHubApi from '../../api/jupyterHubAPI';
 import {
   USER_PAGINATION,
   SET_USER_OFFSET,
@@ -15,7 +15,8 @@ import {
   GET_USER,
   USER_ERROR,
   USER_ERROR_CLEAR,
-  USER_SUCCESS_CLEAR
+  USER_SUCCESS_CLEAR,
+  SHUTDOWN_HUB
 } from './index';
 
 export const setUserOffset = (offset: number) => async (
@@ -54,15 +55,7 @@ export const getCurrentUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/users/' + username, 'GET');
-    if (res.status >= 400) {
-      if (res.status === 404) {
-        throw new Error("User doesn't exist");
-      } else {
-        throw new Error('Error fetching user: ' + res.statusText);
-      }
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.getUser(username);
     dispatch({
       type: GET_USER,
       payload
@@ -81,16 +74,7 @@ export const getUsersPagination = (
   name_filter: string
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      `/users?include_stopped_servers&offset=${offset}&limit=${limit}&name_filter=${
-        name_filter || ''
-      }`,
-      'GET'
-    );
-    if (res.status >= 400) {
-      throw new Error('Error fetching users: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.getUsers(offset, limit, name_filter);
     dispatch({
       type: USER_PAGINATION,
       payload
@@ -107,14 +91,7 @@ export const addUsers = (usernames: string[], admin: boolean) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/users', 'POST', { usernames, admin });
-    if (res.status >= 400) {
-      if (res.status === 409) {
-        throw new Error('User already exists');
-      } else {
-        throw new Error('Error creating user: ' + res.statusText);
-      }
-    }
+    await jupyterHubApi.addUsers(usernames, admin);
     dispatch({
       type: ADD_USERS
     });
@@ -130,10 +107,7 @@ export const deleteUser = (username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/users/' + username, 'DELETE');
-    if (res.status >= 400) {
-      throw new Error('Error deleting user: ' + res.statusText);
-    }
+    await jupyterHubApi.deleteUser(username);
     dispatch({
       type: DELETE_USER
     });
@@ -151,18 +125,11 @@ export const editUser = (
   admin: boolean
 ) => async (dispatch: Dispatch<AnyAction>): Promise<boolean> => {
   try {
-    const res = await jupyterHubAPIRequest('/users/' + username, 'PATCH', {
-      name: updated_username,
+    const payload = await jupyterHubApi.updateUser(
+      username,
+      updated_username,
       admin
-    });
-    if (res.status >= 400) {
-      if (res.status === 400) {
-        throw new Error('Username is taken.');
-      } else {
-        throw new Error('Error editing user: ' + res.statusText);
-      }
-    }
-    const payload = await res.json();
+    );
     dispatch({
       type: EDIT_USER,
       payload
@@ -181,11 +148,7 @@ export const refreshUsers = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/users', 'GET');
-    if (res.status >= 400) {
-      throw new Error('Error refreshing users: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.refreshUsers();
     dispatch({
       type: REFRESH_USERS,
       payload
@@ -202,15 +165,10 @@ export const startServer = (name: string, serverName: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      '/users/' + name + '/servers/' + (serverName || ''),
-      'POST'
-    );
-    if (res.status >= 400) {
-      throw new Error('Error starting user: ' + res.statusText);
-    }
+    await jupyterHubApi.startServer(name, serverName);
     dispatch({
-      type: START_SERVER
+      type: START_SERVER,
+      payload: { name, serverName }
     });
   } catch (err: any) {
     dispatch({
@@ -224,15 +182,10 @@ export const stopServer = (name: string, serverName: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      '/users/' + name + '/servers/' + (serverName || ''),
-      'DELETE'
-    );
-    if (res.status >= 400) {
-      throw new Error('Error stopping server: ' + res.statusText);
-    }
+    await jupyterHubApi.stopServer(name, serverName);
     dispatch({
-      type: STOP_SERVER
+      type: STOP_SERVER,
+      payload: { name, serverName }
     });
   } catch (err: any) {
     dispatch({
@@ -246,15 +199,10 @@ export const startAllServers = (names: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    names.map(async (e: string) => {
-      const res = await jupyterHubAPIRequest('/users/' + e + '/server', 'POST');
-      if (res.status >= 400) {
-        throw new Error('Error starting servers: ' + res.statusText);
-      }
-      return;
-    });
+    await jupyterHubApi.startAllServers(names);
     dispatch({
-      type: START_ALL_SERVERS
+      type: START_ALL_SERVERS,
+      payload: names
     });
   } catch (err: any) {
     dispatch({
@@ -268,15 +216,26 @@ export const stopAllServers = (names: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    names.map(async (e: string) => {
-      const res = await jupyterHubAPIRequest('/users/' + e + '/server', 'DELETE');
-      if (res.status >= 400) {
-        throw new Error('Error stopping servers: ' + res.statusText);
-      }
-      return;
-    });
+    await jupyterHubApi.stopAllServers(names);
     dispatch({
-      type: STOP_ALL_SERVERS
+      type: STOP_ALL_SERVERS,
+      payload: names
+    });
+  } catch (err: any) {
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.message }
+    });
+  }
+};
+
+export const shutdownHub = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    await jupyterHubApi.shutdownHub();
+    dispatch({
+      type: SHUTDOWN_HUB
     });
   } catch (err: any) {
     dispatch({

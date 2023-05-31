@@ -14,7 +14,8 @@ import {
   GET_USER,
   USER_ERROR,
   USER_ERROR_CLEAR,
-  USER_SUCCESS_CLEAR
+  USER_SUCCESS_CLEAR,
+  SHUTDOWN_HUB
 } from './../actions';
 
 function userReducer(
@@ -58,7 +59,8 @@ function userReducer(
     case REFRESH_USERS:
       return {
         ...state,
-        users: payload
+        users: payload.items,
+        user_page: payload._pagination
       };
     // make sure you go redirect after these:
     case ADD_USERS:
@@ -77,12 +79,102 @@ function userReducer(
         ...state,
         success: 'User deleted successfully!'
       };
+    case SHUTDOWN_HUB:
+      return {
+        ...state,
+        success: 'Jupyterhub shutdown successful!'
+      };
     // make sure you call user pagination after these:
-    case START_SERVER:
-    case STOP_SERVER:
-    case START_ALL_SERVERS:
-    case STOP_ALL_SERVERS:
-      return state;
+    case START_SERVER: {
+      const updatedUsers = state.users.map(user => {
+        if (user.name === payload.name) {
+          return {
+            ...user,
+            servers: {
+              ...user.servers,
+              [payload.serverName]: {
+                ...user.servers[payload.serverName],
+                ready: true,
+                stopped: false
+              }
+            }
+          };
+        }
+        return user;
+      });
+      return {
+        ...state,
+        users: updatedUsers,
+        success: 'Server started successfully!'
+      };
+    }
+    case STOP_SERVER: {
+      const updatedUsers = state.users.map(user => {
+        if (user.name === payload.name) {
+          return {
+            ...user,
+            servers: {
+              ...user.servers,
+              [payload.serverName]: {
+                ...user.servers[payload.serverName],
+                ready: false,
+                stopped: true
+              }
+            }
+          };
+        }
+        return user;
+      });
+      return {
+        ...state,
+        users: updatedUsers,
+        success: 'Server stopped successfully!'
+      };
+    }
+    case START_ALL_SERVERS: {
+      const updatedUsers = state.users.map(user => {
+        if (payload.includes(user.name)) {
+          return {
+            ...user,
+            servers: {
+              '': {
+                ...user.servers[''],
+                ready: true,
+                stopped: false
+              }
+            }
+          };
+        }
+        return user;
+      });
+      return {
+        ...state,
+        users: updatedUsers,
+        success: 'Servers started successfully!'
+      };
+    }
+    case STOP_ALL_SERVERS: {
+      const updatedUsers = state.users.map(user => {
+        if (payload.includes(user.name)) {
+          return {
+            ...user,
+            servers: {
+              '': {
+                ...user.servers[''],
+                ready: false,
+                stopped: true
+              }
+            }
+          };
+        }
+        return user;
+      });
+      return {
+        ...state,
+        users: updatedUsers,
+        success: 'Servers stopped successfully!'
+      };
+    }
     // error
     case USER_ERROR:
       return {

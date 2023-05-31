@@ -42,5 +42,5 @@ export type User = {
   pending: boolean | null;
   roles: string[];
   server: Server | null;
-  servers: Server[];
+  servers: Record<string, Server>;
 };
