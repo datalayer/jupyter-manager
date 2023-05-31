@@ -1,5 +1,5 @@
 import { Dispatch, AnyAction } from 'redux';
-import { jupyterHubAPIRequest } from '../../api/hubHandler';
+import jupyterHubApi from '../../api/jupyterHubAPI';
 import {
   GROUP_PAGINATION,
   SET_GROUP_OFFSET,
@@ -35,15 +35,7 @@ export const getCurrentGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'GET');
-    if (res.status >= 400) {
-      if (res.status === 404) {
-        throw new Error("Group doesn't exist");
-      } else {
-        throw new Error('Error fetching group: ' + res.statusText);
-      }
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.getGroup(groupname);
     dispatch({
       type: GET_GROUP,
       payload
@@ -60,14 +52,7 @@ export const getGroupsPagination = (offset: number, limit: number) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      `/groups?offset=${offset}&limit=${limit}`,
-      'GET'
-    );
-    if (res.status >= 400) {
-      throw new Error('Error fetching groups: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.updateGroups(offset, limit);
     dispatch({
       type: GROUP_PAGINATION,
       payload
@@ -84,14 +69,7 @@ export const createGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'POST');
-    if (res.status >= 400) {
-      if (res.status === 409) {
-        throw new Error('Group already exists');
-      } else {
-        throw new Error('Error creating group: ' + res.statusText);
-      }
-    }
+    await jupyterHubApi.createGroup(groupname);
     dispatch({
       type: CREATE_GROUP
     });
@@ -107,10 +85,7 @@ export const deleteGroup = (groupname: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/groups/' + groupname, 'DELETE');
-    if (res.status >= 400) {
-      throw new Error('Error deleting group: ' + res.statusText);
-    }
+    await jupyterHubApi.deleteGroup(groupname);
     dispatch({
       type: DELETE_GROUP
     });
@@ -127,15 +102,7 @@ export const updateGroupProps = (
   propobject: Record<string, string>
 ) => async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      '/groups/' + groupname + '/properties',
-      'PUT',
-      propobject
-    );
-    if (res.status >= 400) {
-      throw new Error('Error updating group properties: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.updateGroup(propobject, groupname);
     dispatch({
       type: UPDATE_GROUP_PROPS,
       payload
@@ -152,11 +119,7 @@ export const refreshGroups = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest('/groups', 'GET');
-    if (res.status >= 400) {
-      throw new Error('Error refreshing groups: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.refreshGroups();
     dispatch({
       type: REFRESH_GROUPS,
       payload
@@ -173,15 +136,7 @@ export const removeFromGroup = (groupname: string, users: string[]) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const res = await jupyterHubAPIRequest(
-      '/groups/' + groupname + '/users',
-      'DELETE',
-      { users }
-    );
-    if (res.status >= 400) {
-      throw new Error('Error removing users: ' + res.statusText);
-    }
-    const payload = await res.json();
+    const payload = await jupyterHubApi.removeUsersFromGroup(users, groupname);
     dispatch({
       type: REMOVE_FROM_GROUP,
       payload
@@ -198,21 +153,12 @@ export const addUserToGroup = (groupname: string, username: string) => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    const resStatus = (await jupyterHubAPIRequest('/users/' + username, 'GET')).status;
-    if (resStatus === 200) {
-      const res = await jupyterHubAPIRequest(
-        '/groups/' + groupname + '/users',
-        'POST',
-        {
-          users: [username]
-        }
+    const userExists = await jupyterHubApi.validateUser(username);
+    if (userExists) {
+      const payload = await jupyterHubApi.addUsersToGroup(
+        [username],
+        groupname
       );
-      if (res.status >= 400) {
-        throw new Error(
-          `Error adding user ${username} to group ${res.statusText}`
-        );
-      }
-      const payload = await res.json();
       dispatch({
         type: ADD_TO_GROUP,
         payload
