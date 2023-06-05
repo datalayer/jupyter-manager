@@ -1,5 +1,5 @@
 {
-  "name": "@datalayer/docs-jupyter-manager",
+  "name": "@datalayer/jupyter-manager-docs",
   "version": "0.0.1",
   "private": true,
   "scripts": {
