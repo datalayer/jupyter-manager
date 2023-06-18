@@ -37,7 +37,7 @@ const HubSidebar = (): JSX.Element => {
         <NavItem to="/hub/users">Users</NavItem>
         <NavItem to="/hub/groups">Groups</NavItem>
         <NavList.Item>
-          Authorisation
+          Authorization
           <NavList.SubNav>
             <NavItem to="/be/decided">Permissions</NavItem>
             <NavItem to="/be/decided">Scopes</NavItem>
