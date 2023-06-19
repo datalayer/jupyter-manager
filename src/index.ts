@@ -1,7 +1,4 @@
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
+import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { MainAreaWidget, ICommandPalette } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
@@ -12,7 +9,7 @@ import datalayerSvg from '../style/svg/datalayer-green.svg';
 import '../style/index.css';
 
 /**
- * The command IDs used by the react-widget plugin.
+ * The command IDs used by the plugin.
  */
 namespace CommandIDs {
   export const create = 'create-jupyter-manager-widget';
