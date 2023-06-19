@@ -27,9 +27,9 @@ class JupyterManagerApp(ExtensionAppJinjaMixin, ExtensionApp):
     static_paths = [DEFAULT_STATIC_FILES_PATH]
     template_paths = [DEFAULT_TEMPLATE_FILES_PATH]
 
-    configA = Unicode("", config=True, help="Config A example.")
-    configB = Unicode("", config=True, help="Config B example.")
-    configC = Unicode("", config=True, help="Config C example.")
+    config_a = Unicode("", config=True, help="Config A example.")
+    config_b = Unicode("", config=True, help="Config B example.")
+    config_c = Unicode("", config=True, help="Config C example.")
 
     def initialize_settings(self):
         self.log.info("Jupyter Manager Config {}".format(self.config))

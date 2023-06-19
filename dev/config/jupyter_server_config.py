@@ -104,4 +104,4 @@ c.LabApp.collaborative = False
 # JupyterManager
 #################
 
-c.JupyterManagerApp.configA = "A value for configA taken from a config file."
+c.JupyterManagerApp.config_a = "A value for config_a taken from a config file."

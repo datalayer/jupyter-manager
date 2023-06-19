@@ -39,8 +39,8 @@ class ConfigHandler(ExtensionHandlerMixin, APIHandler):
             app = None
             for ea in extension_app:
                 app = ea
-    #       getattr(app.traits()["configA"], "help")
-    #       getattr(app, "configA")
+    #       getattr(app.traits()["config_a"], "help")
+    #       getattr(app, "config_a")
     #       app_config = getattr(app, "jupyter_manager_config")
     #        for trait_name in app.trait_names():
     #            trait_val = getattr(app, trait_name)
