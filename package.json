@@ -79,7 +79,7 @@
     "@jupyterlab/services": "7.0.0",
     "@jupyterlab/settingregistry": "4.0.0",
     "@primer/octicons-react": "18.2.0",
-    "@primer/react": "35.25.1",
+    "@primer/react": "35.26.0",
     "@rjsf/core": "5.3.0",
     "@rjsf/utils": "5.3.0",
     "@rjsf/validator-ajv8": "5.3.0",
