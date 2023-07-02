@@ -29,7 +29,7 @@ class JupyterManagerBuildHook(BuildHookInterface):
     def initialize(self, version, build_data):
         if self.target_name == 'editable':
             build_javascript()
-        if self.target_name == 'wheel':
+        elif self.target_name == 'wheel':
             build_javascript()
         elif self.target_name == 'sdist':
             build_javascript()

@@ -71,14 +71,12 @@
     "kill": "make kill || true"
   },
   "dependencies": {
-    "@datalayer/icons-react": "0.0.13",
-    "@datalayer/primer-addons": "0.0.14",
+    "@datalayer/primer-addons": "0.0.16",
     "@datalayer/primer-rjsf": "0.0.7",
     "@jupyterlab/application": "4.0.0",
     "@jupyterlab/coreutils": "6.0.0",
     "@jupyterlab/services": "7.0.0",
     "@jupyterlab/settingregistry": "4.0.0",
-    "@primer/octicons-react": "18.2.0",
     "@rjsf/core": "5.3.0",
     "@rjsf/utils": "5.3.0",
     "@rjsf/validator-ajv8": "5.3.0",
