@@ -102,7 +102,7 @@
     "@jupyterlab/testutils": "4.0.0",
     "@types/jest": "29.4.0",
     "@types/lodash": "^4.14.194",
-    "@types/node": "18.11.9",
+    "@types/node": "18.15.3",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
     "@typescript-eslint/eslint-plugin": "4.8.1",
