@@ -15,5 +15,5 @@ dependencies:
     - build
     - hatch
     - jupyter-packaging
-    - jupyterlab==4.0.0
-    - jupyterhub==4.0.0
+    - jupyterlab==4.0.3
+    - jupyterhub==4.0.3
