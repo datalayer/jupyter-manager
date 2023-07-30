@@ -5,7 +5,7 @@ const AboutManager = (): JSX.Element => {
   return (
     <Box p={3}>
       <Pagehead as="h1">
-          🪐 🧞‍♂️ Jupyter Manager
+        🪐 🎛️ Jupyter Manager
       </Pagehead>
       <Box>
         <Box>

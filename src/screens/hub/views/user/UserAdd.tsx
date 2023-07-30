@@ -74,11 +74,13 @@ const UserAdd = ({
           regular: 'line',
           wide: 'line'
         }}
+        /*
         position={{
           narrow: 'start',
           regular: 'start',
           wide: 'start'
         }}
+        */
       >
         <PageHeader>
           <PageHeader.TitleArea>

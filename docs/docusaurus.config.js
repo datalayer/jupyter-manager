@@ -3,7 +3,7 @@
 // const path = require('path');
 
 module.exports = {
-  title: '🪐 🧞‍♂️ Jupyter Manager',
+  title: '🪐 🎛️ Jupyter Manager',
   tagline: 'User interface to manage your Jupyter platform.',
   url: 'https://jupyter-manager.datalayer.tech',
   baseUrl: '/',
@@ -36,9 +36,15 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: '/category/welcome',
+          docId: 'welcome/about/index',
           position: 'left',
           label: 'Welcome',
+        },
+        {
+          href: 'https://twitter.com/DatalayerIO',
+          position: 'right',
+          className: 'header-twitter-link',
+          'aria-label': 'Twitter',
         },
         {
           href: 'https://github.com/datalayer/jupyter-manager',
@@ -46,17 +52,32 @@ module.exports = {
           className: 'header-github-link',
           'aria-label': 'GitHub repository',
         },
+        {
+          href: 'https://datalayer.io',
+          position: 'right',
+          className: 'header-datalayer-io-link',
+          'aria-label': 'Datalayer IO',
+        },
       ],
     },
     footer: {
       style: 'dark',
       links: [
         {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Jupyter Manager',
+              to: '/docs/welcome/about/',
+            },
+          ],
+        },
+        {
           title: 'Community',
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/datalayer/jupyter-manager',
+              href: 'https://github.com/datalayer',
             },
             {
               label: 'Twitter',
@@ -72,12 +93,28 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: 'Datalayer',
-              to: 'https://datalayer.io',
+              label: 'Datalayer IO',
+              href: 'https://datalayer.io',
             },
             {
-              label: 'Blog',
-              to: 'https://datalayer.blog',
+              label: 'Datalayer App',
+              href: 'https://datalayer.app',
+            },
+            {
+              label: 'Datalayer Run',
+              href: 'https://datalayer.run',
+            },
+            {
+              label: 'Datalayer Tech',
+              href: 'https://datalayer.tech',
+            },
+            {
+              label: 'Clouder',
+              href: 'https://clouder.sh',
+            },
+            {
+              label: 'Datalayer Blog',
+              href: 'https://datalayer.blog',
             },
           ],
         },

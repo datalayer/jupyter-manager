@@ -1,7 +1,7 @@
 {
   "name": "@datalayer/jupyter-manager",
   "version": "0.0.4",
-  "description": "🪐 🧞‍♂️ User interface to manage your Jupyter platform.",
+  "description": "🪐 🎛️ User interface to manage your Jupyter platform.",
   "keywords": [
     "jupyter",
     "jupyterhub",

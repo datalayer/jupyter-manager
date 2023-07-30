@@ -13,7 +13,7 @@
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
-  jupyterReactSidebar: [
+  jupyterManagerSidebar: [
     {
       type: 'category',
       label: 'Welcome',
