@@ -71,7 +71,7 @@
     "kill": "make kill || true"
   },
   "dependencies": {
-    "@datalayer/primer-addons": "0.0.20",
+    "@datalayer/primer-addons": "0.0.21",
     "@datalayer/primer-rjsf": "0.0.8",
     "@jupyterlab/application": "4.0.3",
     "@jupyterlab/coreutils": "6.0.3",
