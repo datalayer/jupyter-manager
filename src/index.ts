@@ -2,9 +2,8 @@ import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application'
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { MainAreaWidget, ICommandPalette } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
-import { LabIcon } from '@jupyterlab/ui-components';
 import { ManagerWidget } from './widget';
-import datalayerSvg from '../style/svg/datalayer-green.svg';
+import icon from '@datalayer/icons-react/data2/ControlKnobsIconLabIcon';
 
 import '../style/index.css';
 
@@ -31,19 +30,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const command = CommandIDs.create;
-    const datalayerIcon = new LabIcon({
-      name: 'datalayer:icon',
-      svgstr: datalayerSvg
-    });
     commands.addCommand(command, {
       caption: 'Show Jupyter Manager',
       label: 'Jupyter Manager',
-      icon: (args: any) => datalayerIcon,
+      icon,
       execute: () => {
         const content = new ManagerWidget();
         const widget = new MainAreaWidget<ManagerWidget>({ content });
         widget.title.label = 'Jupyter Manager';
-        widget.title.icon = datalayerIcon;
+        widget.title.icon = icon;
         app.shell.add(widget, 'main');
       }
     });
