@@ -32,7 +32,7 @@ class JupyterManagerApp(ExtensionAppJinjaMixin, ExtensionApp):
     config_c = Unicode("", config=True, help="Config C example.")
 
     def initialize_settings(self):
-        self.log.info("Jupyter Manager Config {}".format(self.config))
+        self.log.debug("Jupyter Manager Config {}".format(self.config))
 
     def initialize_handlers(self):
         handlers = [
