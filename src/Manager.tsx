@@ -57,7 +57,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
       })
       .catch(reason => {
         console.error(
-          `Error while accessing the Jupyter Server extension.\n${reason}`
+          `Error while accessing the jupyter server extension.\n${reason}`
         );
       });
   }, []);
