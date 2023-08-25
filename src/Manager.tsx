@@ -57,7 +57,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
       })
       .catch(reason => {
         console.error(
-          `The Jupyter Server extension appears to be missing.\n${reason}`
+          `Error while accessing the Jupyter Server extension..\n${reason}`
         );
       });
   }, []);
