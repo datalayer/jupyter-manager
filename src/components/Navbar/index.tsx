@@ -14,7 +14,7 @@ import {
   JupyterServerIcon,
   JupyterKernelIcon,
 } from '@datalayer/icons-react';
-import { UnderlineNav } from '@primer/react/drafts';
+import { UnderlineNav } from '@primer/react';
 
 function UnderlineNavItem({ to, children, ...rest }: any) {
   const resolved = useResolvedPath(to);
