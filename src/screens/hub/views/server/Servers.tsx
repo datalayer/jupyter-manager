@@ -39,7 +39,7 @@ const Servers = (): JSX.Element => {
   const total = user_page ? user_page.total : undefined;
 
   useEffect(() => {
-    dispatch(getUsersPagination(offset, limit, name_filter));
+    getUsersPagination(offset, limit, name_filter)(dispatch);
   }, [getUsersPagination, offset, limit, name_filter]);
 
   if (!users || !user_page) {
@@ -204,7 +204,7 @@ const Servers = (): JSX.Element => {
               const el = e.target as HTMLAnchorElement;
               const targetPage = parseInt(el.href.split('#').pop() as string);
               const currPage = Math.floor(offset / limit) + 1;
-              dispatch(setUserOffset(offset + limit * (targetPage - currPage)));
+              setUserOffset(offset + limit * (targetPage - currPage))(dispatch);
             }}
           />
         )}

@@ -23,7 +23,7 @@ const Groups = (): JSX.Element => {
   const total = group_page ? group_page.total : undefined;
 
   useEffect(() => {
-    dispatch(getGroupsPagination(group_page.offset, group_page.limit));
+    getGroupsPagination(group_page.offset, group_page.limit)(dispatch);
   }, [getGroupsPagination, offset, limit]);
 
   if (!groups || !group_page) {
@@ -70,9 +70,7 @@ const Groups = (): JSX.Element => {
               const el = e.target as HTMLAnchorElement;
               const targetPage = parseInt(el.href.split('#').pop() as string);
               const currPage = Math.floor(offset / limit) + 1;
-              dispatch(
-                setGroupOffset(offset + limit * (targetPage - currPage))
-              );
+              setGroupOffset(offset + limit * (targetPage - currPage))(dispatch);
             }}
           />
         )}

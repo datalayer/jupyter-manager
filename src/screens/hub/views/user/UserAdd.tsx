@@ -60,8 +60,8 @@ const UserAdd = ({
 
   const onAddUsers = () => {
     const users: string[] = newUsers.map(user => user.text);
-    dispatch(addUsers(users, admin));
-    dispatch(getUsersPagination(offset, limit, name_filter));
+    addUsers(users, admin)(dispatch);
+    getUsersPagination(offset, limit, name_filter)(dispatch);
     setNewUsers([]);
     setCurrUser('');
   };

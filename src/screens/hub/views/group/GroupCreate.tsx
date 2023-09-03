@@ -20,8 +20,8 @@ const GroupCreate = ({
   const dispatch = useDispatch();
 
   const onCreateGroup = async () => {
-    dispatch(createGroup(groupName));
-    dispatch(getGroupsPagination(offset, limit));
+    createGroup(groupName)(dispatch);
+    getGroupsPagination(offset, limit)(dispatch);
     setGroupName('');
   };
 

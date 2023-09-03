@@ -24,7 +24,7 @@ const Messages = (): JSX.Element => {
       {groupSuccess && (
         <CloseableFlash
           variant="success"
-          onClose={() => dispatch(clearGroupSuccess())}
+          onClose={() => clearGroupSuccess()(dispatch)}
         >
           {groupSuccess}
         </CloseableFlash>
@@ -32,7 +32,7 @@ const Messages = (): JSX.Element => {
       {groupError && (
         <CloseableFlash
           variant="danger"
-          onClose={() => dispatch(clearGroupError())}
+          onClose={() => clearGroupError()(dispatch)}
         >
           {groupError}
         </CloseableFlash>
@@ -40,7 +40,7 @@ const Messages = (): JSX.Element => {
       {userSuccess && (
         <CloseableFlash
           variant="success"
-          onClose={() => dispatch(clearUserSuccess())}
+          onClose={() => clearUserSuccess()(dispatch)}
         >
           {userSuccess}
         </CloseableFlash>
@@ -48,7 +48,7 @@ const Messages = (): JSX.Element => {
       {userError && (
         <CloseableFlash
           variant="danger"
-          onClose={() => dispatch(clearUserError())}
+          onClose={() => clearUserError()(dispatch)}
         >
           {userError}
         </CloseableFlash>

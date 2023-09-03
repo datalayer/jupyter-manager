@@ -39,7 +39,7 @@ const Users = (): JSX.Element => {
   const total = user_page ? user_page.total : undefined;
 
   useEffect(() => {
-    dispatch(getUsersPagination(offset, limit, name_filter));
+    getUsersPagination(offset, limit, name_filter)(dispatch);
   }, [getUsersPagination, offset, limit, name_filter]);
 
   if (!users || !user_page) {
@@ -47,7 +47,7 @@ const Users = (): JSX.Element => {
   }
 
   const handleSearch = debounce(async (event: { target: { value: any } }) => {
-    dispatch(setNameFilter(event.target.value));
+    setNameFilter(event.target.value)(dispatch);
   }, 300);
 
   const servers = users.flatMap((user: { server: any; servers: any }) => {
@@ -203,7 +203,7 @@ const Users = (): JSX.Element => {
               const el = e.target as HTMLAnchorElement;
               const targetPage = parseInt(el.href.split('#').pop() as string);
               const currPage = Math.floor(offset / limit) + 1;
-              dispatch(setUserOffset(offset + limit * (targetPage - currPage)));
+              setUserOffset(offset + limit * (targetPage - currPage))(dispatch);
             }}
           />
         )}

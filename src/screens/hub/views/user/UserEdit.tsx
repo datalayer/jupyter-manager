@@ -37,7 +37,7 @@ const UserEdit = (): JSX.Element => {
   const [admin, setAdmin] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(getCurrentUser(name));
+    getCurrentUser(name)(dispatch);
   }, [getCurrentUser, name]);
 
   useEffect(() => {
@@ -57,18 +57,17 @@ const UserEdit = (): JSX.Element => {
   const { name: username, admin: has_admin } = user_data;
 
   const onDeleteUser = () => {
-    dispatch(deleteUser(username));
+    deleteUser(username)(dispatch);
     navigate('/hub/users');
   };
 
   const onApplyChanges = async () => {
-    const success = await dispatch(
-      editUser(
+    const success = await editUser(
         username,
         updatedUsername !== '' ? updatedUsername : username,
         admin
-      )
-    );
+      )(dispatch)
+    ;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (success) {

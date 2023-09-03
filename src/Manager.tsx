@@ -3,12 +3,8 @@ import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { ThemeProvider, BaseStyles } from '@primer/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import store from './redux/store';
-import {
-  loadDatalayerConfig,
-  loadJupyterConfig
-} from './api/connectionConfigs';
+import { loadDatalayerConfig, loadJupyterConfig } from './api/connectionConfigs';
 import { requestAPI } from './api/serverHandler';
-
 import Overview from './screens/overview/Overview';
 import HubManager from './screens/hub/HubManager';
 import ServersManager from './screens/servers/ServersManager';
@@ -34,8 +30,8 @@ const ConfigUpdater = (props: { data: any }) => {
   const { data } = props;
   const dispatch = useDispatch();
   const updateConfigs = (data: any) => {
-    dispatch(updateConfig(data.config));
-    dispatch(setConfigSchema(data.config_schema));
+    updateConfig(data.config)(dispatch);
+    setConfigSchema(data.config_schema)(dispatch);
   };
   useEffect(() => {
     updateConfigs(data);

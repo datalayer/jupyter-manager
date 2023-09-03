@@ -48,7 +48,7 @@ const GroupEdit = (): JSX.Element => {
   const [newPropValue, setNewPropValue] = useState('');
 
   useEffect(() => {
-    dispatch(getCurrentGroup(name));
+    getCurrentGroup(name)(dispatch);
   }, [getCurrentGroup, name]);
 
   useEffect(() => {
@@ -65,16 +65,16 @@ const GroupEdit = (): JSX.Element => {
   }
 
   const onUserAdd = () => {
-    dispatch(addUserToGroup(group_data.name, username));
+    addUserToGroup(group_data.name, username)(dispatch);
     setUsername('');
   };
 
   const onRemoveUser = (username: string) => {
-    dispatch(removeFromGroup(group_data.name, [username]));
+    removeFromGroup(group_data.name, [username])(dispatch);
   };
 
   const onPropUpdate = () => {
-    dispatch(updateGroupProps(group_data.name, groupProps));
+    updateGroupProps(group_data.name, groupProps)(dispatch);
   };
 
   const Cell = (props: {
@@ -261,7 +261,7 @@ const GroupEdit = (): JSX.Element => {
                 block
                 variant="danger"
                 onClick={() => {
-                  dispatch(deleteGroup(group_data.name));
+                  deleteGroup(group_data.name)(dispatch);
                   navigate('/hub/groups');
                 }}
               >

@@ -40,7 +40,7 @@ const Overview = (): JSX.Element => {
 
   console.log(users);
   useEffect(() => {
-    dispatch(getUsersPagination(offset, limit, name_filter));
+    getUsersPagination(offset, limit, name_filter)(dispatch);
   }, [getUsersPagination, offset, limit, name_filter]);
 
   if (!users || !user_page) {
@@ -48,7 +48,7 @@ const Overview = (): JSX.Element => {
   }
 
   const handleSearch = debounce(async (event: { target: { value: any } }) => {
-    dispatch(setNameFilter(event.target.value));
+    setNameFilter(event.target.value)(dispatch);
   }, 300);
 
   const StopServerButton = ({
@@ -65,7 +65,7 @@ const Overview = (): JSX.Element => {
         disabled={isDisabled}
         onClick={() => {
           setIsDisabled(true);
-          dispatch(stopServer(userName, serverName));
+          stopServer(userName, serverName)(dispatch);
         }}
       >
         Stop Server
@@ -87,7 +87,7 @@ const Overview = (): JSX.Element => {
         disabled={isDisabled}
         onClick={() => {
           setIsDisabled(true);
-          dispatch(startServer(userName, serverName));
+          startServer(userName, serverName)(dispatch);
         }}
       >
         Start Server
@@ -262,7 +262,7 @@ const Overview = (): JSX.Element => {
               const el = e.target as HTMLAnchorElement;
               const targetPage = parseInt(el.href.split('#').pop() as string);
               const currPage = Math.floor(offset / limit) + 1;
-              dispatch(setUserOffset(offset + limit * (targetPage - currPage)));
+              setUserOffset(offset + limit * (targetPage - currPage))(dispatch);
             }}
           />
         )}
@@ -289,7 +289,7 @@ const Overview = (): JSX.Element => {
           sx={{ mb: 3 }}
           variant="primary"
           onClick={() => {
-            dispatch(startAllServers(users.map((e: { name: any }) => e.name)));
+            startAllServers(users.map((e: { name: any }) => e.name))(dispatch);
           }}
         >
           Start All Servers
@@ -299,7 +299,7 @@ const Overview = (): JSX.Element => {
           sx={{ mb: 3 }}
           variant="danger"
           onClick={() => {
-            dispatch(stopAllServers(users.map((e: { name: any }) => e.name)));
+            stopAllServers(users.map((e: { name: any }) => e.name))(dispatch);
           }}
         >
           Stop All Servers
@@ -310,7 +310,7 @@ const Overview = (): JSX.Element => {
           variant="danger"
           id="shutdown-button"
           onClick={() => {
-            dispatch(shutdownHub());
+            shutdownHub()(dispatch);
           }}
         >
           Shutdown Hub
