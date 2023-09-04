@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseableFlash } from '@datalayer/primer-addons';
 import { Box } from '@primer/react';
-import { MainState } from '../../redux/store';
-import { clearGroupError, clearGroupSuccess } from '../../redux/actions/group';
-import { clearUserError, clearUserSuccess } from '../../redux/actions/user';
+import { MainState } from '../redux/store';
+import { clearGroupError, clearGroupSuccess } from '../redux/actions/group';
+import { clearUserError, clearUserSuccess } from '../redux/actions/user';
 
 const Messages = (): JSX.Element => {
   const dispatch = useDispatch();

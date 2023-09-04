@@ -4,7 +4,7 @@ import { DatalayerGreenIcon, JupyterIcon } from '@datalayer/icons-react';
 const AboutManager = (): JSX.Element => {
   return (
     <Box p={3}>
-      <Pagehead as="h1">
+      <Pagehead>
         🪐 🎛️ Jupyter Manager
       </Pagehead>
       <Box>

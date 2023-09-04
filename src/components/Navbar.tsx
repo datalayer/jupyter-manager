@@ -34,41 +34,35 @@ const Navbar = (): JSX.Element => {
   return (
     <Box>
       <Box mb={1}>
-        <UnderlineNav>
-          <UnderlineNavItem to="/" icon={() => <DatalayerGreenIcon colored />}>
+        <UnderlineNav aria-label="jupyter-manager">
+          <UnderlineNavItem to="/" icon={() => <DatalayerGreenIcon colored />} aria-label="jupyter-manager-home">
             Home
           </UnderlineNavItem>
-          <UnderlineNavItem to="/hub" icon={() => <JupyterHubIcon />}>
+          <UnderlineNavItem to="/hub" icon={() => <JupyterHubIcon />} aria-label="jupyter-manager-hub">
             Hub
           </UnderlineNavItem>
-          <UnderlineNavItem
-            to="/servers"
-            icon={() => <JupyterServerIcon />}
-          >
+          <UnderlineNavItem to="/servers" icon={() => <JupyterServerIcon />} aria-label="jupyter-manager-servers">
             Servers
           </UnderlineNavItem>
-          <UnderlineNavItem
-            to="/kernels"
-            icon={() => <JupyterKernelIcon />}
-          >
+          <UnderlineNavItem to="/kernels" icon={() => <JupyterKernelIcon />} aria-label="jupyter-manager-kernels">
             Kernels
           </UnderlineNavItem>
-          <UnderlineNavItem to="/content" icon={() => <JupyterContentIcon />}>
+          <UnderlineNavItem to="/content" icon={() => <JupyterContentIcon />} aria-label="jupyter-manager-content">
             Content
           </UnderlineNavItem>
-          <UnderlineNavItem to="/apps" icon={AppsIcon}>
+          <UnderlineNavItem to="/apps" icon={AppsIcon} aria-label="jupyter-manager-apps">
             Applications
           </UnderlineNavItem>
-          <UnderlineNavItem to="/nodes" icon={CpuIcon}>
+          <UnderlineNavItem to="/nodes" icon={CpuIcon} aria-label="jupyter-manager-nodes">
             Nodes
           </UnderlineNavItem>
-          <UnderlineNavItem to="/events" icon={EyeIcon}>
+          <UnderlineNavItem to="/events" icon={EyeIcon} aria-label="jupyter-manager-events">
             Events
           </UnderlineNavItem>
-          <UnderlineNavItem to="/settings" icon={GearIcon}>
+          <UnderlineNavItem to="/settings" icon={GearIcon} aria-label="jupyter-manager-settings">
             Settings
           </UnderlineNavItem>
-          <UnderlineNavItem to="/about" icon={InfoIcon}>
+          <UnderlineNavItem to="/about" icon={InfoIcon} aria-label="jupyter-manager-about">
             About
           </UnderlineNavItem>
         </UnderlineNav>
