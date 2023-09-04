@@ -31,18 +31,18 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
     const command = CommandIDs.create;
     commands.addCommand(command, {
-      caption: 'Show Jupyter Manager',
-      label: 'Jupyter Manager',
+      caption: 'Show Manager',
+      label: 'Manager',
       icon,
       execute: () => {
         const content = new ManagerWidget();
         const widget = new MainAreaWidget<ManagerWidget>({ content });
-        widget.title.label = 'Jupyter Manager';
+        widget.title.label = 'Manager';
         widget.title.icon = icon;
         app.shell.add(widget, 'main');
       }
     });
-    const category = 'Jupyter Manager';
+    const category = 'Manager';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
     if (launcher) {
       launcher.add({
