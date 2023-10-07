@@ -20,8 +20,8 @@ def build_javascript():
         cwd=here,
     )
     shutil.copyfile(
-        './dist/main.jupyterManager.js',
-        './jupyter_manager/static/main.jupyterManager.js'
+        './dist/main.jupyter-manager.js',
+        './jupyter_manager/static/main.jupyter-manager.js'
     )
 
 

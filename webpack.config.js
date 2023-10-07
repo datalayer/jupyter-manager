@@ -40,8 +40,8 @@ module.exports = {
   },
   output: {
     publicPath: "http://localhost:3063/",
-//    filename: '[name].[contenthash].jupyterManager.js',
-    filename: '[name].jupyterManager.js',
+//    filename: '[name].[contenthash].jupyter-manager.js',
+    filename: '[name].jupyter-manager.js',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
