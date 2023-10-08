@@ -3,15 +3,16 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const JUPYTER_HOST = 'http://localhost:8686';
+const JUPYTER_HOST = 'http://localhost:8888';
 
 const IS_PRODUCTION = process.argv.indexOf('--mode=production') > -1;
 const mode = IS_PRODUCTION ? "production" : "development";
 const devtool = IS_PRODUCTION ? false : "inline-cheap-source-map";
 const minimize = IS_PRODUCTION ? true : false;
+const publicPath = IS_PRODUCTION ? "/static/jupyter_manager/" : "http://localhost:3063/";
 
 module.exports = {
-  entry: "./src/App",
+  entry: "./src/ManagerApp",
   mode: mode,
   devServer: {
     port: 3063,
@@ -39,7 +40,7 @@ module.exports = {
 //    usedExports: true,
   },
   output: {
-    publicPath: "http://localhost:3063/",
+    publicPath,
 //    filename: '[name].[contenthash].jupyter-manager.js',
     filename: '[name].jupyter-manager.js',
   },

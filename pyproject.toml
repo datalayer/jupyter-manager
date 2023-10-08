@@ -22,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
+    "datalayer",
     "jupyter_server>=2.0,<3",
     "jupyterlab==4.0.3",
     "genson"
@@ -29,7 +30,8 @@ dependencies = [
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
 [project.scripts]
-jupyter-manager = "jupyter_manager.__main__:main"
+jupyter-manager = "jupyter_manager.appplication:main"
+jupyter-manager-server = "jupyter_manager.serverapplication:main"
 
 [project.optional-dependencies]
 test = [

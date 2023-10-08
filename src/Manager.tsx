@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { ThemeProvider, BaseStyles } from '@primer/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { JupyterLabAppAdapter } from '@datalayer/jupyter-react';
 import store from './redux/store';
 import { loadDatalayerConfig, loadJupyterConfig } from './api/connectionConfigs';
 import { requestAPI } from './api/serverHandler';
@@ -24,6 +25,7 @@ import { setConfigSchema, updateConfig } from './redux/actions/config';
 
 type ManagerProps = {
   loadDatalayerConfigFromPage: boolean;
+  adapter: JupyterLabAppAdapter;
 };
 
 const ConfigUpdater = (props: { data: any }) => {
@@ -40,7 +42,7 @@ const ConfigUpdater = (props: { data: any }) => {
 };
 
 const Manager = (props: ManagerProps): JSX.Element => {
-  const { loadDatalayerConfigFromPage: loadDatalayerConfigFromPage } = props;
+  const { loadDatalayerConfigFromPage } = props;
   const [data, setData] = useState();
   useEffect(() => {
     if (loadDatalayerConfigFromPage) {
@@ -52,9 +54,7 @@ const Manager = (props: ManagerProps): JSX.Element => {
         setData(data);
       })
       .catch(reason => {
-        console.error(
-          `Error while accessing the jupyter server extension.\n${reason}`
-        );
+        console.error(`Error while accessing the jupyter server extension.\n${reason}`);
       });
   }, []);
   return (

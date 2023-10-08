@@ -1,3 +1,4 @@
+import glob
 import os
 
 from subprocess import check_call
@@ -19,13 +20,14 @@ def build_javascript():
         ['yarn', 'build:webpack', '--mode=production'],
         cwd=here,
     )
-    shutil.copyfile(
-        './dist/main.jupyter-manager.js',
-        './jupyter_manager/static/main.jupyter-manager.js'
-    )
+    for file in glob.glob(r'./dist/*.js'):
+        shutil.copy(
+            file,
+            './jupyter_manager/static/'
+        )
 
 
-class JupyterManagerBuildHook(BuildHookInterface):
+class JupyterBuildHook(BuildHookInterface):
     def initialize(self, version, build_data):
         if self.target_name == 'editable':
             build_javascript()
