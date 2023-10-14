@@ -3,7 +3,7 @@ import { MainAreaWidget, ICommandPalette, WidgetTracker } from '@jupyterlab/appu
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { ILauncher } from '@jupyterlab/launcher';
 import { ManagerWidget } from './widget';
-import icon from '@datalayer/icons-react/data2/ControlKnobsIconLabIcon';
+import icon from '@datalayer/icons-react/data2/ControlKnobsIconJupyterLab';
 
 import '../../style/index.css';
 
@@ -79,7 +79,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         }
       );
     }
-    console.log('JupyterLab extension @datalayer/jupyter-manager is activated!');
+    console.log('JupyterLab extension @datalayer/jupyter-manager:plugin is activated.');
   }
 };
 
