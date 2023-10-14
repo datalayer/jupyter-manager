@@ -59,7 +59,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       launcher.add({
         command,
         category: 'Datalayer',
-        rank: 7.6,
+        rank: 7.2,
       });
     }
     if (settingRegistry) {
