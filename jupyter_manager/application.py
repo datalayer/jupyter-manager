@@ -11,15 +11,15 @@ from datalayer.application import DatalayerApp, NoStart, base_aliases, base_flag
 HERE = Path(__file__).parent
 
 
-jupyter_docker_aliases = dict(base_aliases)
-jupyter_docker_aliases["cloud"] = "JupyterManagerApp.cloud"
+jupyter_manager_aliases = dict(base_aliases)
+jupyter_manager_aliases["cloud"] = "JupyterManagerApp.cloud"
 
-jupyter_docker_flags = dict(base_flags)
-jupyter_docker_flags["dev-build"] = (
+jupyter_manager_flags = dict(base_flags)
+jupyter_manager_flags["dev-build"] = (
     {"JupyterManagerApp": {"dev_build": True}},
     "Build in development mode.",
 )
-jupyter_docker_flags["no-minimize"] = (
+jupyter_manager_flags["no-minimize"] = (
     {"JupyterManagerApp": {"minimize": False}},
     "Do not minimize a production build.",
 )
@@ -85,7 +85,7 @@ class JupyterManagerShellApp(DatalayerApp):
 
 
 class JupyterManagerApp(DatalayerApp):
-    name = "jupyter_docker"
+    name = "jupyter_manager"
     description = """
     Import or export a JupyterLab workspace or list all the JupyterLab workspaces
 
@@ -93,8 +93,8 @@ class JupyterManagerApp(DatalayerApp):
     """
     version = __version__
 
-    aliases = jupyter_docker_aliases
-    flags = jupyter_docker_flags
+    aliases = jupyter_manager_aliases
+    flags = jupyter_manager_flags
 
     cloud = Unicode("ovh", config=True, help="The app directory to build in")
 

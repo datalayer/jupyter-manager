@@ -18,7 +18,7 @@ class ConfigHandler(ExtensionHandlerMixin, APIHandler):
     def get(self):
         """Returns the configurations of the server extensions."""
         res = json.dumps({
-            "extension": "jupyter_docker",
+            "extension": "jupyter_manager",
             "version": __version__
         })
         self.finish(res)
