@@ -96,13 +96,9 @@ class JupyterManagerApp(DatalayerApp):
     aliases = jupyter_manager_aliases
     flags = jupyter_manager_flags
 
-    cloud = Unicode("ovh", config=True, help="The app directory to build in")
+    cloud = Unicode("ovh", config=True, help="")
 
-    minimize = Bool(
-        True,
-        config=True,
-        help="Whether to minimize a production build (defaults to True).",
-    )
+    minimize = Bool(True, config=True, help="")
 
     subcommands = {
         "config": (JupyterManagerConfigApp, JupyterManagerConfigApp.description.splitlines()[0]),
