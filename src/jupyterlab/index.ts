@@ -41,13 +41,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
       });
     }
     commands.addCommand(command, {
-      caption: 'Show Manager',
-      label: 'Manager',
+      caption: 'Show Jupyter Manager',
+      label: 'Jupyter Manager',
       icon,
       execute: () => {
         const content = new ManagerWidget();
         const widget = new MainAreaWidget<ManagerWidget>({ content });
-        widget.title.label = 'Manager';
+        widget.title.label = 'Jupyter Manager';
         widget.title.icon = icon;
         app.shell.add(widget, 'main');
         tracker.add(widget);
