@@ -6,7 +6,9 @@
 
 > User interface to manage your Jupyter platform.
 
-`Configure`, `monitor` and `operate` your Jupyter platform.
+Jupyter Manager is a user interface to manage the Jupyter platform in a more visual way instead of relying to shell script of configuration files.
+
+You can easily `configure`, `monitor` and `operate` your Jupyter platform.
 
 <div align="center" style="text-align: center">
   <img alt="Jupyter Manager" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-manager-1.png?v=1" />
