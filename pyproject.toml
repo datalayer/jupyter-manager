@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.4.0", "jupyterlab==4.0.10", "hatch-nodejs-version"]
+requires = ["hatchling>=1.4.0", "jupyterlab==4.1.0b0", "hatch-nodejs-version"]
 build-backend = "hatchling.build"
 
 [project]
@@ -26,7 +26,7 @@ classifiers = [
 dependencies = [
     "datalayer",
     "jupyter_server>=2.0,<3",
-    "jupyterlab==4.0.10",
+    "jupyterlab==4.1.0b0",
     "genson"
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
