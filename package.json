@@ -71,7 +71,7 @@
     "kill": "make kill || true"
   },
   "dependencies": {
-    "@datalayer/jupyter-react": "0.9.4",
+    "@datalayer/jupyter-react": "0.9.5",
     "@datalayer/primer-rjsf": "0.0.8",
     "@jupyterlab/application": "4.1.0-beta.0",
     "@jupyterlab/coreutils": "6.1.0-beta.0",
