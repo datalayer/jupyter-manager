@@ -10,25 +10,25 @@ Follow the below steps to develop `Jupyter Manager`.
 
 You need [Miniconda](https://docs.conda.io/en/latest/miniconda.html) up-and-running on your machine.
 
-Clone the `jupyter-manager` repository.
+Clone the `datalayer` repository.
 
 ```bash
-git clone https://github.com/datalayer/jupyter-manager.git && \
-  cd jupyter-manager
+git clone https://github.com/datalayer/jupyter-manager.git
+cd jupyter-manager
 ```
 
 If you already have created a conda environment, please remove it.
 
 ```bash
-conda deactivate && \
-  make env-rm
+conda deactivate
+make env-rm
 ```
 
 Create a new conda environment.
 
 ```bash
-make env && \
-  conda activate datalayer
+make env
+conda activate datalayer
 ```
 
 ## Install and Build

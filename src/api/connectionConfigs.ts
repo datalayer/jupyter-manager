@@ -5,9 +5,8 @@ import { PageConfig } from '@jupyterlab/coreutils';
  * when creating a Jupyter context.
  */
 export type DatalayerProps = {
-  jupyterServerHttpUrl?: string;
-  jupyterServerWsUrl?: string;
-  jupyterToken?: string;
+  jupyterServerUrl?: string;
+  jupyterServerToken?: string;
 };
 
 export type IJupyterConfig = {
@@ -27,54 +26,41 @@ export const getHubPrefix = () => jupyterConfig.hubPrefix;
  * Type of the Jupyter configuration.
  */
 export type IDatalayerConfig = {
-  jupyterServerHttpUrl: string;
-  jupyterServerWsUrl: string;
-  jupyterToken: string;
+  jupyterServerUrl: string;
+  jupyterServerToken: string;
 };
 
 /**
  * The default Jupyter configuration.
  */
 let datalayerConfig: IDatalayerConfig = {
-  jupyterServerHttpUrl: '',
-  jupyterServerWsUrl: '',
-  jupyterToken: ''
+  jupyterServerUrl: '',
+  jupyterServerToken: ''
 };
 
 /**
- * Setter for jupyterServerHttpUrl.
+ * Setter for jupyterServerUrl.
  */
-export const setJupyterServerHttpUrl = (jupyterServerHttpUrl: string) => {
-  datalayerConfig.jupyterServerHttpUrl = jupyterServerHttpUrl;
+export const setJupyterServerUrl = (jupyterServerUrl: string) => {
+  datalayerConfig.jupyterServerUrl = jupyterServerUrl;
 };
 /**
- * Getter for jupyterServerHttpUrl.
+ * Getter for jupyterServerUrl.
  */
-export const getJupyterServerHttpUrl = () =>
-  datalayerConfig.jupyterServerHttpUrl;
+export const getJupyterServerUrl = () =>
+  datalayerConfig.jupyterServerUrl;
 
 /**
- * Setter for jupyterServerWsUrl.
+ * Setter for jupyterServerToken.
  */
-export const setJupyterServerWsUrl = (jupyterServerWsUrl: string) => {
-  datalayerConfig.jupyterServerWsUrl = jupyterServerWsUrl;
-};
-/**
- * Getter for jupyterServerWsUrl.
- */
-export const getJupyterServerWsUrl = () => datalayerConfig.jupyterServerWsUrl;
-
-/**
- * Setter for jupyterToken.
- */
-export const setJupyterToken = (jupyterToken: string) => {
-  datalayerConfig.jupyterToken = jupyterToken;
+export const setJupyterServerToken = (jupyterServerToken: string) => {
+  datalayerConfig.jupyterServerToken = jupyterServerToken;
 };
 
 /**
- * Getter for jupyterToken.
+ * Getter for jupyterServerToken.
  */
-export const getJupyterToken = () => datalayerConfig.jupyterToken;
+export const getJupyterServerToken = () => datalayerConfig.jupyterServerToken;
 
 export const loadJupyterConfig = () => {
   const jupyterHtmlConfig = document.getElementById('jupyter-config-data');
@@ -93,40 +79,29 @@ export const loadJupyterConfig = () => {
  * host HTML page.
  */
 export const loadDatalayerConfig = (props: DatalayerProps) => {
-  const { jupyterServerHttpUrl, jupyterServerWsUrl, jupyterToken } = props;
+  const { jupyterServerUrl, jupyterServerToken } = props;
   const datalayerHtmlConfig = document.getElementById('datalayer-config-data');
   if (datalayerHtmlConfig) {
     datalayerConfig = JSON.parse(
       datalayerHtmlConfig.textContent || ''
     ) as IDatalayerConfig;
   }
-  if (datalayerConfig.jupyterServerHttpUrl) {
-    setJupyterServerHttpUrl(datalayerConfig.jupyterServerHttpUrl);
+  if (datalayerConfig.jupyterServerUrl) {
+    setJupyterServerUrl(datalayerConfig.jupyterServerUrl);
   } else {
-    setJupyterServerHttpUrl(
-      jupyterServerHttpUrl ||
+    setJupyterServerUrl(
+      jupyterServerUrl ||
         location.protocol + '//' + location.host + '/api/jupyter'
     );
   }
-  if (datalayerConfig.jupyterServerWsUrl) {
-    setJupyterServerWsUrl(datalayerConfig.jupyterServerWsUrl);
+  if (datalayerConfig.jupyterServerToken) {
+    setJupyterServerToken(datalayerConfig.jupyterServerToken);
   } else {
-    setJupyterServerWsUrl(
-      jupyterServerWsUrl ||
-        location.protocol.replace('http', 'ws') +
-          '//' +
-          location.host +
-          '/api/jupyter'
-    );
+    setJupyterServerToken(jupyterServerToken || '');
   }
-  if (datalayerConfig.jupyterToken) {
-    setJupyterToken(datalayerConfig.jupyterToken);
-  } else {
-    setJupyterToken(jupyterToken || '');
-  }
-  PageConfig.setOption('baseUrl', getJupyterServerHttpUrl());
-  PageConfig.setOption('wsUrl', getJupyterServerWsUrl());
-  PageConfig.setOption('token', getJupyterToken());
+  PageConfig.setOption('baseUrl', getJupyterServerUrl());
+  PageConfig.setOption('wsUrl', getJupyterServerUrl().replace(/^http/, 'ws'));
+  PageConfig.setOption('token', getJupyterServerToken());
   PageConfig.setOption(
     'mathjaxUrl',
     'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js'
