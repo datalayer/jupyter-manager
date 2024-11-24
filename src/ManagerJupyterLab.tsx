@@ -6,7 +6,7 @@ import * as managerExtension from './jupyterlab/index';
 
 const JupyterLabComponent = () => (
   <JupyterLabApp
-    extensions={[
+    plugins={[
       lightThemeExtension,
       collaborationExtension,
       managerExtension,

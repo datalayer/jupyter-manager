@@ -23,7 +23,7 @@ const JupyterLabHeadless = () => {
     <>
       {jupyterLabAppAdapter && <Manager loadDatalayerConfigFromPage={true} adapter={jupyterLabAppAdapter}/>}
       <JupyterLabApp
-        extensions={[
+        plugins={[
           lightThemeExtension,
           collaborationExtension,
           managerExtension,
