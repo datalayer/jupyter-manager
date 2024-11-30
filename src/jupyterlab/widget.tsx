@@ -4,7 +4,7 @@ import Manager from '../Manager';
 export class ManagerWidget extends ReactWidget {
   constructor() {
     super();
-    this.addClass('dla-Container');
+    this.addClass('dla-container');
   }
 
   render(): JSX.Element {
