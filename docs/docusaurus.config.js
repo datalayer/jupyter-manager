@@ -13,19 +13,20 @@ module.exports = {
   organizationName: 'datalayer',
   projectName: 'Jupyter Manager',
   plugins: [
+    '@docusaurus/theme-live-codeblock',
+    'docusaurus-lunr-search',
     '@datalayer/jupyter-docusaurus-plugin'
   ],
-  /*
-			'docusaurus-plugin-typedoc',
-			{
-        entryPoints: ['../src/index.ts'],
-        tsconfig: '../tsconfig.json',
-			},
-  */
+  themes: [
+    '@docusaurus/theme-mermaid',
+  ],
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
+    },
+    prism: {
+      additionalLanguages: ['bash'],
     },
     navbar: {
       title: 'Jupyter Manager',
@@ -35,28 +36,28 @@ module.exports = {
       },
       items: [
         {
-          type: 'doc',
-          docId: 'welcome/about/index',
-          position: 'left',
-          label: 'Welcome',
-        },
-        {
-          href: 'https://twitter.com/DatalayerIO',
+          href: 'https://www.linkedin.com/company/datalayer',
           position: 'right',
-          className: 'header-twitter-link',
-          'aria-label': 'Twitter',
+          className: 'header-linkedin-link',
+          'aria-label': 'Linkedin',
         },
         {
-          href: 'https://github.com/datalayer/jupyter-manager',
+          href: 'https://x.com/DatalayerIO',
+          position: 'right',
+          className: 'header-x-link',
+          'aria-label': 'X',
+        },
+        {
+          href: 'https://github.com/datalayer',
           position: 'right',
           className: 'header-github-link',
-          'aria-label': 'GitHub repository',
+          'aria-label': 'GitHub',
         },
         {
           href: 'https://datalayer.io',
           position: 'right',
           className: 'header-datalayer-io-link',
-          'aria-label': 'Datalayer IO',
+          'aria-label': 'Datalayer RUN',
         },
       ],
     },
@@ -67,8 +68,8 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Jupyter Manager',
-              to: '/docs/welcome/about/',
+              label: 'Welcom',
+              to: '/docs',
             },
           ],
         },
@@ -80,8 +81,8 @@ module.exports = {
               href: 'https://github.com/datalayer',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/datalayerio',
+              label: 'X',
+              href: 'https://x.com/datalayerio',
             },
             {
               label: 'Linkedin',
@@ -93,16 +94,20 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: 'Datalayer IO',
+              label: 'Datalayer',
               href: 'https://datalayer.io',
+            },
+            {
+              label: 'Datalayer Docs',
+              href: 'https://docs.datalayer.io',
             },
             {
               label: 'Datalayer Tech',
               href: 'https://datalayer.tech',
             },
             {
-              label: 'Clouder',
-              href: 'https://clouder.sh',
+              label: 'Datalayer Guide',
+              href: 'https://datalayer.guide',
             },
             {
               label: 'Datalayer Blog',
