@@ -8,6 +8,23 @@ c.JupyterHub.confirm_no_ssl = False
 c.JupyterHub.log_level = 'DEBUG'
 c.JupyterHub.admin_access = False
 
+def default_url(handler):
+    user = handler.current_user
+    if not user:
+        # not logged in, send to login, no ?next
+        # that way, default_url will be called again after successful login
+        return handler.get_login_url()
+    if "admin-ui" in handler.expanded_scopes:
+        # has permission to view the admin page, send there
+        return handler.base_url + "hub/admin"
+    else:
+        # regular user, send to spawn page
+        # (which redirects to running user if it's running)
+        # this is the default default URL
+        return handler.base_url + "hub/spawn"
+
+c.JupyterHub.default_url = default_url
+
 # --- ConfigurableHTTPProxy ---
 c.ConfigurableHTTPProxy.auth_token = '0bc02bede919e99a26de1e2a7a5aadfaf6228de836ec39a05a6c6942831d8fe5'
 
@@ -45,10 +62,15 @@ c.JupyterHub.authenticator_class = DummyAuthenticator
 
 # --- Spawner ---
 c.JupyterHub.spawner_class = 'jupyterhub.spawner.SimpleLocalProcessSpawner'
+
+# jupyterhub 4.0.1 doesn't load jupyterlab automatically if Spawner.default_url is "/lab"
+# https://github.com/jupyterhub/jupyterhub/issues/4510
+# os.environ["JUPYTERHUB_SINGLEUSER_EXTENSION"] = "0"
+
 c.Spawner.default_url = '/lab'
-c.LocalProcessSpawner.default_url = '/lab'
-# c.Spawner.notebook_dir = '~/notebooks'
+# c.Spawner.cmd = ['jupyter-labhub']
 # c.LocalProcessSpawner.args = ['--ServerApp.default_url=/lab']
+# c.Spawner.notebook_dir = '~/notebooks'
 # c.Spawner.args = ['--debug', '--profile=PHYS131', '--ServerApp.default_url=/notebooks/Welcome.ipynb']
 # c.Spawner.debug = True
 # c.LocalProcessSpawner.debug = True
